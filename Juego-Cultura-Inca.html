@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>El Ayni Inca: Gestión de los Tres Mundos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: #1a1a1a;
+            font-size: 16px;
+        }
+
+        /* Panel de UI - Fijo en la parte superior */
+        .ui-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 8px 5px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .resource {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.95em;
+            font-weight: bold;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 8px;
+            border-radius: 15px;
+        }
+
+        .resource span {
+            font-size: 1.2em;
+        }
+
+        /* Controles de tiempo */
+        .time-controls {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+        }
+
+        .time-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 5px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .time-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .time-btn.active {
+            background: #FFD700;
+            color: #2c3e50;
+            border-color: #FFD700;
+            font-weight: bold;
+        }
+
+        .station-display {
+            background: rgba(255,255,255,0.15);
+            padding: 5px 8px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            white-space: nowrap;
+        }
+
+        /* Contenedor principal */
+        .game-container {
+            margin-top: 60px;
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 60px);
+            position: relative;
+        }
+
+        /* Secciones de los Tres Mundos */
+        .world {
+            flex: 1;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.3s;
+            min-height: 33vh;
+        }
+
+        /* Hanan Pacha - Mundo de Arriba */
+        .hanan-pacha {
+            background: linear-gradient(180deg, #87CEEB 0%, #FFD700 100%);
+            border-bottom: 3px solid #DAA520;
+        }
+
+        /* Kay Pacha - Mundo de Aquí */
+        .kay-pacha {
+            background: linear-gradient(180deg, #90EE90 0%, #8B4513 100%);
+            border-bottom: 3px solid #654321;
+            transition: background 0.5s;
+        }
+
+        .kay-pacha.helada {
+            background: linear-gradient(180deg, #B0C4DE 0%, #708090 100%);
+        }
+
+        /* Uku Pacha - Mundo de Abajo */
+        .uku-pacha {
+            background: linear-gradient(180deg, #4a4a4a 0%, #2c1810 100%);
+            color: #d4af37;
+        }
+
+        .world-title {
+            font-size: 1.5em;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .world-description {
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            text-align: center;
+            max-width: 100%;
+            opacity: 0.9;
+            padding: 0 5px;
+        }
+
+        /* Botones de Acción */
+        .action-btn {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            margin: 3px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .action-btn:active {
+            transform: translateY(0);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .hanan-btn {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #8B4513;
+        }
+
+        .kay-btn {
+            background: linear-gradient(135deg, #228B22, #32CD32);
+            color: white;
+        }
+
+        .uku-btn {
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            color: #FFD700;
+        }
+
+        .victory-btn {
+            background: linear-gradient(135deg, #FFD700, #FF6B6B);
+            color: white;
+            font-size: 1em;
+            padding: 12px 25px;
+            border: 3px solid #fff;
+            animation: pulse-gold 2s infinite;
+        }
+
+        @keyframes pulse-gold {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
+        }
+
+        /* Mita System */
+        .mita-container {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .mita-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            font-size: 0.95em;
+        }
+
+        .mita-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 5px 0;
+        }
+
+        .mita-label {
+            color: #fff;
+            font-size: 0.95em;
+            min-width: 100px;
+        }
+
+        .mita-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .mita-btn {
+            background: rgba(255,255,255,0.3);
+            border: 2px solid rgba(255,255,255,0.5);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .mita-btn:hover {
+            background: rgba(255,255,255,0.5);
+            transform: scale(1.1);
+        }
+
+        .mita-count {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #FFD700;
+            min-width: 25px;
+            text-align: center;
+        }
+
+        .mita-info {
+            font-size: 0.85em;
+            color: rgba(255,255,255,0.8);
+            margin-top: 3px;
+        }
+
+        /* Yachaywasi Panel */
+        .yachaywasi-toggle {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: #FFD700;
+            padding: 10px 8px;
+            border-radius: 10px 0 0 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85em;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            z-index: 900;
+            box-shadow: -2px 2px 10px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        .yachaywasi-toggle:hover {
+            padding-right: 12px;
+        }
+
+        .yachaywasi-panel {
+            position: fixed;
+            right: -280px;
+            top: 60px;
+            width: 260px;
+            background: linear-gradient(180deg, #2c1810 0%, #4a4a4a 100%);
+            color: #FFD700;
+            padding: 15px;
+            border-radius: 10px 0 0 10px;
+            z-index: 900;
+            transition: right 0.3s;
+            box-shadow: -5px 5px 20px rgba(0,0,0,0.5);
+            border: 2px solid #DAA520;
+            max-height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+
+        .yachaywasi-panel.open {
+            right: 0;
+        }
+
+        .yachaywasi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #DAA520;
+            padding-bottom: 10px;
+        }
+
+        .yachaywasi-title {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .yachaywasi-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: #FFD700;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upgrade-card {
+            background: rgba(218, 165, 32, 0.1);
+            border: 2px solid #DAA520;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .upgrade-card h4 {
+            color: #FFD700;
+            margin-bottom: 5px;
+            font-size: 1em;
+        }
+
+        .upgrade-card p {
+            font-size: 0.9em;
+            color: #ddd;
+            margin: 3px 0;
+        }
+
+        .upgrade-btn {
+            width: 100%;
+            padding: 8px;
+            background: linear-gradient(135deg, #DAA520, #FFD700);
+            color: #2c1810;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 8px;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .upgrade-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+        }
+
+        .upgrade-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: #666;
+            color: #999;
+        }
+
+        .upgrade-btn.developed {
+            background: #32CD32;
+            color: #fff;
+        }
+
+        /* Registro de Eventos */
+        .event-log {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 280px;
+            max-height: 250px;
+            background: rgba(0,0,0,0.9);
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            z-index: 1000;
+            border: 2px solid #DAA520;
+            transition: all 0.3s;
+        }
+
+        .event-log.minimized {
+            max-height: 35px;
+            overflow: hidden;
+        }
+
+        .log-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+
+        .log-header h3 {
+            color: #FFD700;
+            margin: 0;
+            font-size: 0.95em;
+        }
+
+        .log-toggle {
+            background: none;
+            border: none;
+            color: #FFD700;
+            cursor: pointer;
+            font-size: 1em;
+            padding: 0 5px;
+        }
+
+        .log-content {
+            max-height: 190px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            margin: 3px 0;
+            padding: 3px;
+            border-left: 3px solid #DAA520;
+            padding-left: 8px;
+            animation: fadeIn 0.5s;
+            font-size: 0.95em;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Modal de Eventos */
+        .modal-evento {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            padding: 20px;
+        }
+
+        .modal-content-evento {
+            background: linear-gradient(135deg, #2c1810, #4a4a4a);
+            color: #FFD700;
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            border: 3px solid #DAA520;
+            box-shadow: 0 0 50px rgba(218, 165, 32, 0.6);
+            text-align: center;
+            animation: slideIn 0.5s;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-content-evento h2 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .modal-content-evento p {
+            font-size: 1em;
+            margin: 10px 0;
+            line-height: 1.5;
+            color: #ddd;
+        }
+
+        .event-choices {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .choice-btn {
+            padding: 10px 20px;
+            font-size: 0.95em;
+            border: 2px solid #DAA520;
+            border-radius: 8px;
+            cursor: pointer;
+            background: rgba(218, 165, 32, 0.2);
+            color: #FFD700;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .choice-btn:hover {
+            background: #DAA520;
+            color: #2c1810;
+            transform: scale(1.05);
+        }
+
+        /* Modal de Game Over y Victoria */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #2c1810, #4a4a4a);
+            color: #FFD700;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            border: 3px solid #DAA520;
+            box-shadow: 0 0 30px rgba(218, 165, 32, 0.5);
+        }
+
+        .modal-content h2 {
+            font-size: 2.2em;
+            margin-bottom: 15px;
+        }
+
+        .modal-content.victory h2 {
+            color: #32CD32;
+            text-shadow: 0 0 20px rgba(50, 205, 50, 0.8);
+        }
+
+        .modal-content p {
+            font-size: 1.05em;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .restart-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            font-size: 1.15em;
+            background: #FFD700;
+            color: #2c1810;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .restart-btn:hover {
+            background: #FFA500;
+        }
+
+        /* Elementos visuales */
+        .visual-element {
+            font-size: 2.5em;
+            margin: 8px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-left: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        .status-good { background: #32CD32; }
+        .status-warning { background: #FFA500; }
+        .status-danger { background: #FF4500; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .buff-indicator {
+            background: rgba(255, 215, 0, 0.3);
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            margin-top: 8px;
+            border: 1px solid #DAA520;
+        }
+
+        .cost-info {
+            font-size: 0.8em;
+            margin-top: 5px;
+            color: #8B4513;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+            
+            .ui-panel {
+                padding: 5px 3px;
+            }
+            
+            .resource {
+                font-size: 0.85em;
+                padding: 4px 6px;
+            }
+            
+            .world {
+                min-height: 33vh;
+                padding: 8px;
+            }
+            
+            .world-title {
+                font-size: 1.3em;
+            }
+            
+            .world-description {
+                font-size: 0.85em;
+            }
+            
+            .action-btn {
+                padding: 8px 15px;
+                font-size: 0.95em;
+            }
+            
+            .visual-element {
+                font-size: 2em;
+            }
+            
+            .yachaywasi-panel {
+                width: 240px;
+                right: -240px;
+                top: 60px;
+            }
+            
+            .event-log {
+                width: 250px;
+                bottom: 10px;
+                right: 10px;
+                font-size: 0.85em;
+            }
+            
+            .modal-content-evento {
+                padding: 20px;
+            }
+            
+            .choice-btn {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .resource {
+                font-size: 0.8em;
+                padding: 3px 5px;
+                gap: 3px;
+            }
+            
+            .resource span {
+                font-size: 1em;
+            }
+            
+            .time-btn {
+                padding: 4px 6px;
+                font-size: 0.9em;
+            }
+            
+            .world-title {
+                font-size: 1.2em;
+            }
+            
+            .action-btn {
+                padding: 7px 12px;
+                font-size: 0.9em;
+            }
+            
+            .victory-btn {
+                padding: 10px 20px;
+                font-size: 0.95em;
+            }
+            
+            .yachaywasi-panel {
+                width: 220px;
+                right: -220px;
+            }
+            
+            .event-log {
+                width: 200px;
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Panel de UI -->
+    <div class="ui-panel">
+        <div class="resource">
+            <span>👥</span>
+            <div>
+                <div>Población</div>
+                <div id="poblacion">15</div>
+            </div>
+        </div>
+        <div class="resource">
+            <span>🌽</span>
+            <div>
+                <div>Alimento</div>
+                <div id="alimento">80</div>
+            </div>
+        </div>
+        <div class="resource">
+            <span>☀️</span>
+            <div>
+                <div>Fe</div>
+                <div id="fe">30</div>
+            </div>
+        </div>
+        <div class="resource">
+            <span>📅</span>
+            <div>
+                <div id="mes-display">Mes 1 (Normal) ☀️</div>
+            </div>
+        </div>
+        
+        <!-- Controles de Tiempo -->
+        <div class="time-controls">
+            <button class="time-btn active" id="btn-normal" onclick="cambiarVelocidad('normal')" title="Normal">▶️</button>
+            <button class="time-btn" id="btn-rapido" onclick="cambiarVelocidad('rapido')" title="Rápido">⏩</button>
+        </div>
+
+        <div style="margin-left: 10px;">
+            <span id="equilibrio" class="status-indicator status-good"></span>
+        </div>
+    </div>
+
+    <!-- Contenedor del Juego -->
+    <div class="game-container">
+        <!-- Hanan Pacha -->
+        <div class="world hanan-pacha" id="hanan">
+            <div class="world-title">☀️ HANAN PACHA</div>
+            <div class="world-description">
+                El mundo de arriba. Aquí reside Inti, el dios Sol.
+            </div>
+            <div class="visual-element">🌞</div>
+            <button class="action-btn hanan-btn" onclick="ofrendarAlSol()" id="btn-hanan">
+                Ofrendar al Sol 🌽→☀️
+            </button>
+            <div class="cost-info">Costo: 10 🌽 | +15 ☀️</div>
+            
+            <!-- Botón de Victoria -->
+            <button class="action-btn victory-btn" onclick="construirCoricancha()" id="btn-coricancha" disabled>
+                🏛️ Construir Coricancha
+            </button>
+            <div class="cost-info">Requiere: 2000 🌽 y 800 ☀️</div>
+        </div>
+
+        <!-- Kay Pacha -->
+        <div class="world kay-pacha" id="kay">
+            <div class="world-title">🌍 KAY PACHA</div>
+            <div class="world-description">
+                El mundo de aquí. Asigna tu pueblo mediante la Mita.
+            </div>
+            <div class="visual-element">🏘️</div>
+            
+            <!-- Mita System -->
+            <div class="mita-container">
+                <div class="mita-title">⚒️ Sistema de Mita</div>
+                
+                <div class="mita-row">
+                    <div class="mita-label">👨‍🌾 Agricultores:</div>
+                    <div class="mita-controls">
+                        <button class="mita-btn" onclick="cambiarMita('agricultor', -1)">-</button>
+                        <span class="mita-count" id="agricultores-count">0</span>
+                        <button class="mita-btn" onclick="cambiarMita('agricultor', 1)">+</button>
+                    </div>
+                </div>
+                <div class="mita-info">Cada uno genera 4 🌽/mes</div>
+                
+                <div class="mita-row">
+                    <div class="mita-label">🙏 Sacerdotes:</div>
+                    <div class="mita-controls">
+                        <button class="mita-btn" onclick="cambiarMita('sacerdote', -1)">-</button>
+                        <span class="mita-count" id="sacerdotes-count">0</span>
+                        <button class="mita-btn" onclick="cambiarMita('sacerdote', 1)">+</button>
+                    </div>
+                </div>
+                <div class="mita-info">Cada uno genera 3 ☀️/mes</div>
+                
+                <div class="mita-info" style="margin-top: 8px; font-weight: bold;">
+                    Disponibles: <span id="poblacion-disponible">15</span> | 
+                    Asignados: <span id="poblacion-asignada">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Uku Pacha -->
+        <div class="world uku-pacha" id="uku">
+            <div class="world-title">💀 UKU PACHA</div>
+            <div class="world-description">
+                El mundo de abajo. Los Mallquis protegen a los vivos.
+            </div>
+            <div class="visual-element">👻</div>
+            <button class="action-btn uku-btn" onclick="honrarAncestros()" id="btn-uku">
+                Honrar Ancestros ☀️→️
+            </button>
+            <div class="cost-info">Costo: 10 ☀️ | -50% consumo x3 meses</div>
+            <div id="buff-ancestros" class="buff-indicator" style="display: none;">
+                🛡️ Bendición: <span id="meses-restantes">0</span> meses
+            </div>
+        </div>
+    </div>
+
+    <!-- Yachaywasi Panel -->
+    <div class="yachaywasi-toggle" onclick="toggleYachaywasi()">📜 Saber</div>
+    <div class="yachaywasi-panel" id="yachaywasiPanel">
+        <div class="yachaywasi-header">
+            <div class="yachaywasi-title">📚 Yachaywasi</div>
+            <button class="yachaywasi-close" onclick="toggleYachaywasi()">✕</button>
+        </div>
+        
+        <div class="upgrade-card">
+            <h4>🔢 Sistema de Quipus</h4>
+            <p>Gestión eficiente de recursos</p>
+            <p><strong>Efecto:</strong> -20% consumo 🌽</p>
+            <p><strong>Costo:</strong> 200 🌽 + 100 ☀️</p>
+            <button class="upgrade-btn" id="btn-quipus" onclick="comprarMejora('quipus')">
+                Desarrollar
+            </button>
+        </div>
+
+        <div class="upgrade-card">
+            <h4>💧 Canales de Riego</h4>
+            <p>Tecnología para las heladas</p>
+            <p><strong>Efecto:</strong> Sin penalidad heladas</p>
+            <p><strong>Costo:</strong> 300 🌽 + 50 ☀️</p>
+            <button class="upgrade-btn" id="btn-canales" onclick="comprarMejora('canales')">
+                Construir
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de Eventos -->
+    <div class="modal-evento" id="modalEvento">
+        <div class="modal-content-evento">
+            <h2 id="evento-titulo">Evento</h2>
+            <p id="evento-descripcion">Descripción del evento</p>
+            <div class="event-choices" id="evento-opciones">
+                <!-- Las opciones se generan dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Registro de Eventos -->
+    <div class="event-log" id="eventLog">
+        <div class="log-header" onclick="toggleLog()">
+            <h3>📜 Registro</h3>
+            <button class="log-toggle" id="logToggleBtn">▼</button>
+        </div>
+        <div class="log-content" id="logContent"></div>
+    </div>
+
+    <!-- Modal de Game Over/Victoria -->
+    <div class="modal" id="gameOverModal">
+        <div class="modal-content" id="modalFinal">
+            <h2 id="tituloFinal">💀 EL AYNI SE HA ROTO 💀</h2>
+            <p id="gameOverReason"></p>
+            <button class="restart-btn" onclick="reiniciarJuego()">Intentar de Nuevo</button>
+        </div>
+    </div>
+
+    <script>
+        // Estado del juego
+        let juego = {
+            poblacion: 15,
+            alimento: 80,
+            fe: 30,
+            mes: 1,
+            bendicionSolar: 100,
+            activo: true,
+            consumoPorPersona: 2,
+            consumoReducido: false,
+            mesesBuffRestantes: 0,
+            velocidad: 'normal',
+            intervaloJuego: null,
+            agricultores: 0,
+            sacerdotes: 0,
+            quipusDesarrollado: false,
+            canalesDesarrollado: false,
+            multiplicadorConsumo: 1
+        };
+
+        // Configuración de velocidades
+        const velocidades = {
+            'normal': 5000,
+            'rapido': 2500
+        };
+
+        // Estaciones
+        const estaciones = {
+            normal: { nombre: 'Normal', emoji: '☀️', clase: '' },
+            helada: { nombre: 'Helada', emoji: '❄️', clase: 'helada' }
+        };
+
+        // Eventos posibles
+        const eventosPosibles = [
+            {
+                id: 'sequia',
+                titulo: '🌵 Sequía Devastadora',
+                descripcion: 'Illapa ha retirado sus bendiciones. Los cultivos se secan. ¿Qué haces?',
+                opciones: [
+                    {
+                        texto: 'Rezar a Illapa (-20 ☀️)',
+                        accion: () => {
+                            if (juego.fe >= 20) {
+                                juego.fe -= 20;
+                                juego.bendicionSolar = 100;
+                                agregarLog('Illapa trae lluvias benditas.');
+                            } else {
+                                agregarLog('No tienes suficiente fe.', 'error');
+                            }
+                        }
+                    },
+                    {
+                        texto: 'Afrontar crisis (-2 👥)',
+                        accion: () => {
+                            juego.poblacion = Math.max(0, juego.poblacion - 2);
+                            ajustarMita();
+                            agregarLog('La sequía cobra 2 vidas.', 'peligro');
+                        }
+                    }
+                ]
+            },
+            {
+                id: 'pueblo_vecino',
+                titulo: '🏘️ Pueblo Vecino Pide Ayuda',
+                descripcion: 'Una aldea cercana sufre una plaga. ¿Ayudas?',
+                opciones: [
+                    {
+                        texto: 'Dar 30 🌽 (+25 ☀️)',
+                        accion: () => {
+                            if (juego.alimento >= 30) {
+                                juego.alimento -= 30;
+                                juego.fe += 25;
+                                agregarLog('Tu generosidad es recompensada. +25 ☀️');
+                            } else {
+                                agregarLog('No tienes suficiente alimento.', 'error');
+                            }
+                        }
+                    },
+                    {
+                        texto: 'Negar ayuda (-15 ☀️)',
+                        accion: () => {
+                            juego.fe = Math.max(0, juego.fe - 15);
+                            agregarLog('Tu egoísmo ofende a los dioses. -15 ☀️', 'error');
+                        }
+                    }
+                ]
+            },
+            {
+                id: 'festividad',
+                titulo: '🎉 Inti Raymi',
+                descripcion: 'Es tiempo de celebrar al Sol. ¿Cómo lo haces?',
+                opciones: [
+                    {
+                        texto: 'Gran festín (-25 🌽, +30 ☀️)',
+                        accion: () => {
+                            if (juego.alimento >= 25) {
+                                juego.alimento -= 25;
+                                juego.fe += 30;
+                                juego.bendicionSolar = 100;
+                                agregarLog('El Inti Raymi es un éxito.');
+                            } else {
+                                agregarLog('No tienes suficiente alimento.', 'error');
+                            }
+                        }
+                    },
+                    {
+                        texto: 'Celebración simple (+10 ☀️)',
+                        accion: () => {
+                            juego.fe += 10;
+                            agregarLog('Celebración sincera. +10 ☀️');
+                        }
+                    }
+                ]
+            }
+        ];
+
+        // Inicialización
+        window.onload = function() {
+            agregarLog("Bienvenido. Mantén el equilibrio entre los tres mundos.");
+            agregarLog("Asigna población en la Mita para generar recursos.");
+            agregarLog("Objetivo: 2000 🌽 y 800 ☀️ para el Coricancha.");
+            actualizarUI();
+            iniciarBucleJuego();
+        };
+
+        // Control de velocidad
+        function cambiarVelocidad(nuevaVelocidad) {
+            juego.velocidad = nuevaVelocidad;
+            
+            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${nuevaVelocidad}`).classList.add('active');
+            
+            if (juego.intervaloJuego) {
+                clearInterval(juego.intervaloJuego);
+            }
+            
+            iniciarBucleJuego();
+            agregarLog(`Velocidad: ${nuevaVelocidad === 'normal' ? 'Normal' : 'Rápida'}`);
+        }
+
+        function iniciarBucleJuego() {
+            if (juego.activo) {
+                juego.intervaloJuego = setInterval(gameTick, velocidades[juego.velocidad]);
+            }
+        }
+
+        // Bucle principal
+        function gameTick() {
+            if (!juego.activo) return;
+
+            juego.mes++;
+
+            // Generación por Mita
+            let gananciaAlimento = juego.agricultores * 4;
+            let gananciaFe = juego.sacerdotes * 3;
+
+            // Penalidad de heladas
+            let esHelada = esEpocaHelada();
+            if (esHelada && !juego.canalesDesarrollado) {
+                gananciaAlimento = Math.floor(gananciaAlimento / 2);
+            }
+
+            juego.alimento += gananciaAlimento;
+            juego.fe += gananciaFe;
+
+            // Consumo
+            let consumoActual = juego.consumoReducido ? juego.consumoPorPersona / 2 : juego.consumoPorPersona;
+            consumoActual *= juego.multiplicadorConsumo;
+            let consumoTotal = Math.ceil(juego.poblacion * consumoActual);
+            juego.alimento -= consumoTotal;
+
+            // Buff ancestros
+            if (juego.mesesBuffRestantes > 0) {
+                juego.mesesBuffRestantes--;
+                if (juego.mesesBuffRestantes === 0) {
+                    juego.consumoReducido = false;
+                    agregarLog('La bendición ancestral se desvaneció.');
+                }
+            }
+
+            // Bendición solar
+            if (juego.bendicionSolar > 0) {
+                juego.bendicionSolar -= 5;
+            }
+
+            // Eventos aleatorios
+            if (Math.random() < 0.1) {
+                activarEventoAleatorio();
+                return;
+            }
+
+            verificarEventos();
+            verificarDerrota();
+            actualizarUI();
+        }
+
+        function esEpocaHelada() {
+            let mesEnAnio = ((juego.mes - 1) % 12) + 1;
+            return mesEnAnio >= 6 && mesEnAnio <= 8;
+        }
+
+        function obtenerEstacion() {
+            return esEpocaHelada() ? estaciones.helada : estaciones.normal;
+        }
+
+        // Mita System
+        function cambiarMita(tipo, cambio) {
+            if (!juego.activo) return;
+
+            if (tipo === 'agricultor') {
+                let nuevoValor = juego.agricultores + cambio;
+                if (nuevoValor >= 0 && nuevoValor + juego.sacerdotes <= juego.poblacion) {
+                    juego.agricultores = nuevoValor;
+                }
+            } else if (tipo === 'sacerdote') {
+                let nuevoValor = juego.sacerdotes + cambio;
+                if (nuevoValor >= 0 && juego.agricultores + nuevoValor <= juego.poblacion) {
+                    juego.sacerdotes = nuevoValor;
+                }
+            }
+            actualizarUI();
+        }
+
+        function ajustarMita() {
+            juego.agricultores = Math.min(juego.agricultores, juego.poblacion - juego.sacerdotes);
+            juego.sacerdotes = Math.min(juego.sacerdotes, juego.poblacion - juego.agricultores);
+        }
+
+        // Evento aleatorio
+        function activarEventoAleatorio() {
+            const velocidadAnterior = juego.velocidad;
+            if (juego.intervaloJuego) {
+                clearInterval(juego.intervaloJuego);
+            }
+            
+            const evento = eventosPosibles[Math.floor(Math.random() * eventosPosibles.length)];
+            
+            document.getElementById('evento-titulo').textContent = evento.titulo;
+            document.getElementById('evento-descripcion').textContent = evento.descripcion;
+            
+            const contenedorOpciones = document.getElementById('evento-opciones');
+            contenedorOpciones.innerHTML = '';
+            
+            evento.opciones.forEach(opcion => {
+                const btn = document.createElement('button');
+                btn.className = 'choice-btn';
+                btn.textContent = opcion.texto;
+                btn.onclick = () => {
+                    opcion.accion();
+                    cerrarModalEvento();
+                    if (juego.activo) {
+                        juego.intervaloJuego = setInterval(gameTick, velocidades[velocidadAnterior]);
+                    }
+                    actualizarUI();
+                };
+                contenedorOpciones.appendChild(btn);
+            });
+            
+            document.getElementById('modalEvento').style.display = 'flex';
+        }
+
+        function cerrarModalEvento() {
+            document.getElementById('modalEvento').style.display = 'none';
+        }
+
+        // Victoria
+        function construirCoricancha() {
+            if (juego.alimento >= 2000 && juego.fe >= 800) {
+                juego.activo = false;
+                clearInterval(juego.intervaloJuego);
+                
+                const modal = document.getElementById('gameOverModal');
+                const modalContent = document.getElementById('modalFinal');
+                const titulo = document.getElementById('tituloFinal');
+                const razon = document.getElementById('gameOverReason');
+                
+                modalContent.classList.add('victory');
+                titulo.textContent = '🏆 ¡VICTORIA! 🏆';
+                razon.innerHTML = `
+                    Has restaurado el equilibrio del Tawantinsuyu.<br><br>
+                    El Gran Coricancha se alza majestuoso.<br>
+                    Tu sabiduría trajo prosperidad eterna.
+                `;
+                
+                modal.style.display = 'flex';
+                agregarLog('¡VICTORIA! Construido el Coricancha.', 'victory');
+            } else {
+                agregarLog('Necesitas 2000 🌽 y 800 ☀️.', 'error');
+            }
+        }
+
+        // Ofrendar al Sol
+        function ofrendarAlSol() {
+            if (!juego.activo) return;
+            
+            if (juego.alimento >= 10) {
+                juego.alimento -= 10;
+                juego.fe += 15;
+                juego.bendicionSolar = Math.min(100, juego.bendicionSolar + 30);
+                agregarLog("Ofrenda a Inti. +15 ☀️");
+                actualizarUI();
+            } else {
+                agregarLog("¡No tienes suficiente alimento!", "error");
+            }
+        }
+
+        // Honrar Ancestros
+        function honrarAncestros() {
+            if (!juego.activo) return;
+            
+            if (juego.fe >= 10) {
+                juego.fe -= 10;
+                juego.mesesBuffRestantes = 3;
+                juego.consumoReducido = true;
+                agregarLog("Mallquis aceptan ofrendas. -50% consumo x3 meses.");
+                actualizarUI();
+            } else {
+                agregarLog("¡No tienes suficiente fe!", "error");
+            }
+        }
+
+        // Comprar mejoras
+        function comprarMejora(tipo) {
+            if (!juego.activo) return;
+
+            if (tipo === 'quipus' && !juego.quipusDesarrollado) {
+                if (juego.alimento >= 200 && juego.fe >= 100) {
+                    juego.alimento -= 200;
+                    juego.fe -= 100;
+                    juego.quipusDesarrollado = true;
+                    juego.multiplicadorConsumo = 0.8;
+                    document.getElementById('btn-quipus').disabled = true;
+                    document.getElementById('btn-quipus').classList.add('developed');
+                    document.getElementById('btn-quipus').textContent = '✓ Desarrollado';
+                    agregarLog('¡Quipus desarrollado! -20% consumo.');
+                } else {
+                    agregarLog('Recursos insuficientes.', 'error');
+                }
+            } else if (tipo === 'canales' && !juego.canalesDesarrollado) {
+                if (juego.alimento >= 300 && juego.fe >= 50) {
+                    juego.alimento -= 300;
+                    juego.fe -= 50;
+                    juego.canalesDesarrollado = true;
+                    document.getElementById('btn-canales').disabled = true;
+                    document.getElementById('btn-canales').classList.add('developed');
+                    document.getElementById('btn-canales').textContent = '✓ Desarrollado';
+                    agregarLog('¡Canales construidos! Sin penalidad heladas.');
+                } else {
+                    agregarLog('Recursos insuficientes.', 'error');
+                }
+            }
+            actualizarUI();
+        }
+
+        // Toggle Yachaywasi
+        function toggleYachaywasi() {
+            const panel = document.getElementById('yachaywasiPanel');
+            panel.classList.toggle('open');
+        }
+
+        // Toggle Log
+        function toggleLog() {
+            const log = document.getElementById('eventLog');
+            const btn = document.getElementById('logToggleBtn');
+            log.classList.toggle('minimized');
+            btn.textContent = log.classList.contains('minimized') ? '▲' : '▼';
+        }
+
+        // Eventos dinámicos
+        function verificarEventos() {
+            let eventos = [];
+
+            if (juego.bendicionSolar <= 0) {
+                if (Math.random() < 0.3) {
+                    let perdida = Math.floor(juego.alimento * 0.3);
+                    juego.alimento -= perdida;
+                    eventos.push(`🌵 Sequía: -${perdida} 🌽`);
+                }
+            }
+
+            if (juego.bendicionSolar > 80 && Math.random() < 0.2) {
+                let bono = 10;
+                juego.alimento += bono;
+                eventos.push(`✨ Bendición: +${bono} 🌽`);
+            }
+
+            if (juego.alimento > juego.poblacion * 5 && Math.random() < 0.3) {
+                juego.poblacion += 1;
+                eventos.push("👶 Nueva vida en la aldea.");
+            }
+
+            eventos.forEach(evento => agregarLog(evento));
+        }
+
+        // Derrota
+        function verificarDerrota() {
+            if (juego.alimento <= 0) {
+                juego.alimento = 0;
+                if (juego.poblacion > 0) {
+                    let muertes = Math.ceil(juego.poblacion * 0.3);
+                    juego.poblacion -= muertes;
+                    ajustarMita();
+                    agregarLog(`💀 HAMBRE: ${muertes} mueren.`, "peligro");
+                }
+            }
+
+            if (juego.poblacion <= 0) {
+                juego.poblacion = 0;
+                juego.activo = false;
+                clearInterval(juego.intervaloJuego);
+                mostrarGameOver("La población pereció. El Ayni se rompió.");
+            }
+        }
+
+        // Actualizar UI
+        function actualizarUI() {
+            document.getElementById('poblacion').textContent = juego.poblacion;
+            document.getElementById('alimento').textContent = juego.alimento;
+            document.getElementById('fe').textContent = juego.fe;
+            
+            let estacion = obtenerEstacion();
+            let mesEnAnio = ((juego.mes - 1) % 12) + 1;
+            document.getElementById('mes-display').textContent = `Mes ${mesEnAnio} (${estacion.nombre}) ${estacion.emoji}`;
+            
+            let kayPacha = document.getElementById('kay');
+            if (estacion.clase === 'helada') {
+                kayPacha.classList.add('helada');
+            } else {
+                kayPacha.classList.remove('helada');
+            }
+
+            document.getElementById('agricultores-count').textContent = juego.agricultores;
+            document.getElementById('sacerdotes-count').textContent = juego.sacerdotes;
+            document.getElementById('poblacion-disponible').textContent = juego.poblacion;
+            document.getElementById('poblacion-asignada').textContent = juego.agricultores + juego.sacerdotes;
+
+            const buffDiv = document.getElementById('buff-ancestros');
+            const mesesSpan = document.getElementById('meses-restantes');
+            if (juego.consumoReducido) {
+                buffDiv.style.display = 'block';
+                mesesSpan.textContent = juego.mesesBuffRestantes;
+            } else {
+                buffDiv.style.display = 'none';
+            }
+
+            let indicador = document.getElementById('equilibrio');
+            if (juego.bendicionSolar < 30 || juego.alimento < juego.poblacion * 3) {
+                indicador.className = 'status-indicator status-danger';
+            } else if (juego.bendicionSolar < 60) {
+                indicador.className = 'status-indicator status-warning';
+            } else {
+                indicador.className = 'status-indicator status-good';
+            }
+
+            document.getElementById('btn-hanan').disabled = juego.alimento < 10;
+            document.getElementById('btn-uku').disabled = juego.fe < 10;
+            
+            const btnCoricancha = document.getElementById('btn-coricancha');
+            if (juego.alimento >= 2000 && juego.fe >= 800) {
+                btnCoricancha.disabled = false;
+                btnCoricancha.title = "¡Clic para ganar!";
+            } else {
+                btnCoricancha.disabled = true;
+                btnCoricancha.title = `Faltan: ${Math.max(0, 2000 - juego.alimento)} 🌽 y ${Math.max(0, 800 - juego.fe)} ☀️`;
+            }
+        }
+
+        // Log
+        function agregarLog(mensaje, tipo = 'normal') {
+            let logContent = document.getElementById('logContent');
+            let entry = document.createElement('div');
+            entry.className = 'log-entry';
+            
+            let color = '#fff';
+            if (tipo === 'error') color = '#ff6b6b';
+            if (tipo === 'peligro') color = '#ff4757';
+            if (tipo === 'victory') color = '#32CD32';
+            
+            entry.style.color = color;
+            entry.textContent = `Mes ${juego.mes}: ${mensaje}`;
+            
+            logContent.insertBefore(entry, logContent.firstChild);
+            
+            while (logContent.children.length > 20) {
+                logContent.removeChild(logContent.lastChild);
+            }
+        }
+
+        // Game Over
+        function mostrarGameOver(razon) {
+            document.getElementById('gameOverReason').textContent = razon;
+            document.getElementById('gameOverModal').style.display = 'flex';
+        }
+
+        // Reiniciar
+        function reiniciarJuego() {
+            juego = {
+                poblacion: 15,
+                alimento: 80,
+                fe: 30,
+                mes: 1,
+                bendicionSolar: 100,
+                activo: true,
+                consumoPorPersona: 2,
+                consumoReducido: false,
+                mesesBuffRestantes: 0,
+                velocidad: 'normal',
+                intervaloJuego: null,
+                agricultores: 0,
+                sacerdotes: 0,
+                quipusDesarrollado: false,
+                canalesDesarrollado: false,
+                multiplicadorConsumo: 1
+            };
+            
+            document.getElementById('logContent').innerHTML = '';
+            document.getElementById('gameOverModal').style.display = 'none';
+            document.getElementById('modalFinal').classList.remove('victory');
+            
+            document.getElementById('btn-quipus').disabled = false;
+            document.getElementById('btn-quipus').classList.remove('developed');
+            document.getElementById('btn-quipus').textContent = 'Desarrollar';
+            document.getElementById('btn-canales').disabled = false;
+            document.getElementById('btn-canales').classList.remove('developed');
+            document.getElementById('btn-canales').textContent = 'Construir';
+            
+            agregarLog("Nueva partida. Que Inti ilumine tu camino.");
+            actualizarUI();
+            iniciarBucleJuego();
+        }
+    </script>
+</body>
+</html>
