@@ -1107,7 +1107,8 @@
             border-radius: 20px;
             width: 100%;
             max-width: 560px;
-            max-height: 88vh;
+            height: 92vh;
+            max-height: 660px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -1116,16 +1117,17 @@
         }
 
         .tutorial-header {
-            padding: 20px 25px 0;
+            padding: 14px 18px 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-shrink: 0;
         }
 
         .tutorial-header-title {
             font-family: 'Cinzel', serif;
             color: #FFD700;
-            font-size: 1.3em;
+            font-size: 1.1em;
             font-weight: 700;
         }
 
@@ -1151,11 +1153,12 @@
 
         /* Progress bar */
         .tutorial-progress-bar {
-            margin: 16px 25px 0;
+            margin: 10px 18px 0;
             background: rgba(255,255,255,0.1);
             border-radius: 10px;
-            height: 6px;
+            height: 5px;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
         .tutorial-progress-fill {
@@ -1168,24 +1171,28 @@
         .tutorial-step-label {
             font-family: 'Inter', sans-serif;
             color: rgba(255,215,0,0.6);
-            font-size: 0.78em;
-            margin: 8px 25px 0;
+            font-size: 0.72em;
+            margin: 5px 18px 0;
             letter-spacing: 0.05em;
+            flex-shrink: 0;
         }
 
         /* Slide content */
         .tutorial-slides {
             flex: 1;
+            min-height: 0; /* CRITICAL: allows flex child to shrink and enable scroll */
             overflow: hidden;
             position: relative;
         }
 
         .tutorial-slide {
             display: none;
-            padding: 20px 25px 10px;
-            animation: fadeInRight 0.4s ease;
+            padding: 12px 18px 8px;
+            animation: fadeInRight 0.35s ease;
             height: 100%;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            box-sizing: border-box;
         }
 
         .tutorial-slide.active {
@@ -1198,29 +1205,29 @@
         }
 
         .tutorial-slide-icon {
-            font-size: 3em;
+            font-size: 2.2em;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             animation: float 3s ease-in-out infinite;
         }
 
         .tutorial-slide-title {
             font-family: 'Cinzel', serif;
             color: #FFD700;
-            font-size: 1.2em;
+            font-size: 1em;
             font-weight: 600;
             text-align: center;
-            margin-bottom: 14px;
+            margin-bottom: 8px;
             text-shadow: 0 0 20px rgba(255,215,0,0.4);
         }
 
         .tutorial-slide-text {
             font-family: 'Inter', sans-serif;
             color: rgba(255,230,180,0.9);
-            font-size: 0.95em;
-            line-height: 1.7;
+            font-size: 0.87em;
+            line-height: 1.55;
             text-align: center;
-            margin-bottom: 16px;
+            margin-bottom: 10px;
         }
 
         .tutorial-tip-box {
@@ -1228,12 +1235,12 @@
             border: 1px solid rgba(218,165,32,0.4);
             border-left: 4px solid #FFD700;
             border-radius: 8px;
-            padding: 12px 15px;
-            margin: 10px 0;
+            padding: 9px 12px;
+            margin: 8px 0;
             font-family: 'Inter', sans-serif;
             color: rgba(255,220,150,0.9);
-            font-size: 0.88em;
-            line-height: 1.6;
+            font-size: 0.82em;
+            line-height: 1.5;
         }
 
         .tutorial-tip-box strong {
@@ -1251,15 +1258,15 @@
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 10px;
-            padding: 12px;
+            padding: 8px;
             text-align: center;
             font-family: 'Inter', sans-serif;
         }
 
         .tutorial-resource-item .ri-icon {
-            font-size: 1.8em;
+            font-size: 1.4em;
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .tutorial-resource-item .ri-name {
@@ -1280,11 +1287,11 @@
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(218,165,32,0.3);
             border-radius: 10px;
-            padding: 12px 15px;
-            margin: 8px 0;
+            padding: 9px 12px;
+            margin: 6px 0;
             display: flex;
             align-items: flex-start;
-            gap: 12px;
+            gap: 10px;
             font-family: 'Inter', sans-serif;
         }
 
@@ -1307,23 +1314,25 @@
 
         /* Footer navigation */
         .tutorial-footer {
-            padding: 16px 25px 22px;
+            padding: 10px 18px 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-top: 1px solid rgba(218,165,32,0.2);
+            flex-shrink: 0;
         }
 
         .tut-nav-btn {
             background: rgba(218,165,32,0.12);
             border: 1.5px solid rgba(218,165,32,0.5);
             color: #FFD700;
-            padding: 10px 24px;
+            padding: 9px 18px;
             border-radius: 30px;
             font-family: 'Cinzel', serif;
-            font-size: 0.88em;
+            font-size: 0.82em;
             cursor: pointer;
             transition: all 0.25s;
+            white-space: nowrap;
         }
 
         .tut-nav-btn:hover {
@@ -1380,6 +1389,208 @@
             to { opacity: 1; }
         }
 
+        /* tap to play intro overlay */
+        #intro-tap-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            cursor: pointer;
+            background: rgba(0,0,0,0.5);
+        }
+
+        #intro-tap-overlay .tap-icon {
+            font-size: 3.5em;
+            margin-bottom: 14px;
+            animation: float 2.5s ease-in-out infinite;
+        }
+
+        #intro-tap-overlay .tap-text {
+            font-family: 'Cinzel', serif;
+            color: rgba(255,255,255,0.9);
+            font-size: clamp(1em, 4vw, 1.4em);
+            letter-spacing: 0.08em;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        #intro-tap-overlay .tap-sub {
+            font-family: 'Inter', sans-serif;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.85em;
+            margin-top: 6px;
+        }
+
+        /* =============================================
+           GLOSARIO CULTURAL MODAL
+        ============================================= */
+        #glosario-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.93);
+            z-index: 20000;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 16px;
+            backdrop-filter: blur(10px);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .glosario-box {
+            background: linear-gradient(160deg, #1c0e04 0%, #2c1810 50%, #0d1424 100%);
+            border: 2px solid #DAA520;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 620px;
+            margin: auto;
+            box-shadow: 0 0 60px rgba(218,165,32,0.4), 0 20px 60px rgba(0,0,0,0.9);
+            overflow: hidden;
+            animation: slideIn 0.4s ease;
+        }
+
+        .glosario-header {
+            padding: 20px 22px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid rgba(218,165,32,0.3);
+            background: rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .glosario-header-title {
+            font-family: 'Cinzel', serif;
+            color: #FFD700;
+            font-size: 1.1em;
+            font-weight: 700;
+        }
+
+        .glosario-close {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.7);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .glosario-close:hover {
+            background: rgba(255,80,80,0.3);
+            color: #fff;
+        }
+
+        .glosario-body {
+            padding: 18px 20px 24px;
+        }
+
+        .glosario-intro {
+            font-family: 'Inter', sans-serif;
+            color: rgba(255,220,150,0.8);
+            font-size: 0.85em;
+            line-height: 1.5;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px 14px;
+            background: rgba(218,165,32,0.07);
+            border-radius: 10px;
+            border: 1px solid rgba(218,165,32,0.2);
+        }
+
+        .glosario-section-title {
+            font-family: 'Cinzel', serif;
+            color: #FFD700;
+            font-size: 0.85em;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin: 20px 0 10px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(218,165,32,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .glosario-entry {
+            display: flex;
+            gap: 11px;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(218,165,32,0.15);
+            border-radius: 10px;
+            transition: background 0.2s;
+        }
+
+        .glosario-entry:hover {
+            background: rgba(218,165,32,0.07);
+        }
+
+        .glosario-entry-icon {
+            font-size: 1.6em;
+            flex-shrink: 0;
+            line-height: 1;
+            margin-top: 1px;
+        }
+
+        .glosario-entry-content {}
+
+        .glosario-entry-name {
+            font-family: 'Cinzel', serif;
+            color: #FFD700;
+            font-size: 0.88em;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .glosario-entry-desc {
+            font-family: 'Inter', sans-serif;
+            color: rgba(255,215,160,0.82);
+            font-size: 0.8em;
+            line-height: 1.55;
+        }
+
+        .btn-glosario {
+            margin-top: 14px;
+            padding: 11px 26px;
+            font-size: 0.95em;
+            background: transparent;
+            color: rgba(255,215,0,0.85);
+            border: 2px solid rgba(255,215,0,0.45);
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            transition: all 0.3s;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-glosario:hover {
+            background: rgba(255,215,0,0.12);
+            border-color: #FFD700;
+            color: #FFD700;
+        }
+
     </style>
 </head>
 
@@ -1389,8 +1600,14 @@
          INTRO VIDEO SCREEN
     =========================================== -->
     <div id="intro-screen">
-        <video id="intro-video" playsinline muted src="Farmers_harvesting_corn_202604202252.mp4"></video>
+        <video id="intro-video" playsinline src="Farmers_harvesting_corn_202604202252.mp4"></video>
         <div id="intro-fade-out"></div>
+        <!-- Tap overlay: always shown first to unlock browser audio -->
+        <div id="intro-tap-overlay" onclick="startIntroVideo()">
+            <div class="tap-icon">▶️</div>
+            <div class="tap-text">Toca para comenzar</div>
+            <div class="tap-sub">Camino a Coricancha</div>
+        </div>
         <button id="skip-intro-btn" onclick="skipIntro()">Omitir intro ›</button>
     </div>
 
@@ -1790,6 +2007,274 @@
             <h2 id="tituloFinal">💀 EL AYNI SE HA ROTO 💀</h2>
             <p id="gameOverReason"></p>
             <button class="restart-btn" onclick="reiniciarJuego()">Intentar de Nuevo</button>
+            <button class="btn-glosario" onclick="abrirGlosario()">📖 Glosario Cultural Inca</button>
+        </div>
+    </div>
+
+    <!-- Modal Glosario Cultural -->
+    <div id="glosario-modal">
+        <div class="glosario-box">
+            <div class="glosario-header">
+                <div class="glosario-header-title">📖 Glosario Cultural Inca</div>
+                <button class="glosario-close" onclick="cerrarGlosario()">✕</button>
+            </div>
+            <div class="glosario-body">
+
+                <p class="glosario-intro">
+                    Cada elemento del juego está basado en la cosmovisión y organización social real del Imperio Inca (Tawantinsuyu). Aquí te contamos qué significaba cada cosa para ellos.
+                </p>
+
+                <!-- LOS TRES MUNDOS -->
+                <div class="glosario-section-title">🌌 Los Tres Mundos — Cosmovisión Andina</div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">☀️</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Hanan Pacha — Mundo de Arriba</span>
+                        <span class="glosario-entry-desc">El plano celestial donde vivían las divinidades solares y estelares. Inti, el Sol, era su deidad principal. Se accedía a él mediante ofrendas y rituales sagrados.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🌍</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Kay Pacha — Mundo de Aquí</span>
+                        <span class="glosario-entry-desc">El mundo de los vivos, donde transcurría la vida cotidiana. Era el espacio de la agricultura, el trabajo colectivo y las relaciones sociales del pueblo inca.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">💀</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Uku Pacha — Mundo de Abajo</span>
+                        <span class="glosario-entry-desc">El inframundo, morada de los muertos y de lo que está por nacer. No era un lugar de castigo; los ancestros momificados (Mallquis) seguían protegiendo a los vivos desde allí.</span>
+                    </div>
+                </div>
+
+                <!-- DIOSES -->
+                <div class="glosario-section-title">⚡ Dioses y Divinidades</div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🌞</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Inti — El Dios Sol</span>
+                        <span class="glosario-entry-desc">Deidad suprema del Imperio Inca. El Sapa Inca era considerado su hijo en la Tierra. Las ofrendas de comida y oro alimentaban su energía para que el ciclo agrícola continuara.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🌙</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Mama Quilla — La Diosa Luna</span>
+                        <span class="glosario-entry-desc">Esposa de Inti y madre del tiempo. Regulaba el calendario lunar, las cosechas y la fertilidad. Era especialmente invocada en momentos de crisis agrícola.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">⚡</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Illapa — El Dios del Rayo</span>
+                        <span class="glosario-entry-desc">Controlaba las lluvias, el trueno y los relámpagos. Era fundamental para los agricultores: sin sus lluvias, no había cosecha. Se le ofrendaba para evitar sequías.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🌋</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Pachacámac — El Hacedor del Mundo</span>
+                        <span class="glosario-entry-desc">Dios del interior de la Tierra, creador de todo ser vivo. Se creía que los terremotos eran su manifestación de poder. Tenía un gran templo oracular en la costa del Perú.</span>
+                    </div>
+                </div>
+
+                <!-- ORGANIZACIÓN SOCIAL -->
+                <div class="glosario-section-title">⚒️ Organización Social y Trabajo</div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🔄</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">El Ayni — Reciprocidad</span>
+                        <span class="glosario-entry-desc">Principio central de la ética inca: todo se da y todo se recibe. El trabajo, la comida y el cuidado se compartían mutuamente entre vecinos y entre el pueblo y sus dioses. Romper el Ayni significaba el caos.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">⚒️</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">La Mita — Trabajo Rotativo</span>
+                        <span class="glosario-entry-desc">Sistema por el cual cada familia aportaba mano de obra al Estado en turnos rotativos. A cambio, el Estado les proveía de comida, ropa y herramientas. No era esclavitud: era reciprocidad organizada.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">👨‍🌾</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Agricultores</span>
+                        <span class="glosario-entry-desc">La base de la sociedad inca. Cultivaban maíz (sara), papa, quinua y otros productos en terrazas (andenes). El Estado almacenaba el excedente en qollqas para épocas de hambruna.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🙏</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Sacerdotes (Villac Umu)</span>
+                        <span class="glosario-entry-desc">El sumo sacerdote y su casta administraban los ritos y el orden religioso del Imperio. Interpretaban señales divinas, supervisaban las ofrendas a Inti y coordinaban las grandes festividades.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">👑</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Curaca</span>
+                        <span class="glosario-entry-desc">Jefe local de una comunidad (ayllu). Mediaba entre el pueblo y el Sapa Inca, organizaba el trabajo de la Mita y garantizaba que su comunidad cumpliera con los rituales sagrados.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">👑</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Sapa Inca</span>
+                        <span class="glosario-entry-desc">El gobernante supremo del Imperio, considerado hijo del Sol. Tomaba todas las decisiones políticas, militares y religiosas. Su palabra era ley divina en todo el Tawantinsuyu.</span>
+                    </div>
+                </div>
+
+                <!-- SABERES Y TECNOLOGÍA -->
+                <div class="glosario-section-title">📚 Saberes y Tecnología</div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">📚</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Yachaywasi — Casa del Saber</span>
+                        <span class="glosario-entry-desc">Institución educativa del Imperio donde los hijos de la nobleza aprendían quechua, astronomía, historia oral, arte de gobernar y los rituales sagrados. Equivalente a una universidad inca.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🔢</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Quipus</span>
+                        <span class="glosario-entry-desc">Sistema de registro con cuerdas anudadas de distintos colores y posiciones. Los quipucamayoc (expertos) podían leer en ellos censos, tributos, calendarios y posiblemente narrativas históricas.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">💧</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Canales de Riego</span>
+                        <span class="glosario-entry-desc">Los incas construyeron miles de kilómetros de canales (acequias) para llevar agua desde los glaciares hasta los valles. Esta tecnología permitía cultivar en épocas de helada y en terrenos áridos.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🧙</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Amauta</span>
+                        <span class="glosario-entry-desc">Sabio y maestro de la sociedad inca. Conservaba y transmitía el conocimiento oral, la poesía, la historia y la filosofía andina. Eran los intelectuales del Imperio.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🦙</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Qhapaq Ñan — El Gran Camino</span>
+                        <span class="glosario-entry-desc">Red de más de 30.000 km de caminos que conectaba todo el Imperio. Por él viajaban el ejército, los chasquis (mensajeros), los comerciantes y los animales de carga. Fue declarado Patrimonio de la Humanidad.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🏃</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Chasqui — El Mensajero</span>
+                        <span class="glosario-entry-desc">Jóvenes atletas que corrían de posta en posta por el Qhapaq Ñan transmitiendo mensajes orales y quipus del Sapa Inca. Podían cubrir más de 400 km en un día entre relevos.</span>
+                    </div>
+                </div>
+
+                <!-- LUGARES Y MONUMENTOS -->
+                <div class="glosario-section-title">🏛️ Lugares Sagrados</div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🏛️</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Coricancha — Templo del Sol</span>
+                        <span class="glosario-entry-desc">El templo más sagrado del Imperio, en el Cusco. Sus muros estaban cubiertos de planchas de oro puro. Albergaba ídolos de Inti, Mama Quilla e Illapa. Los conquistadores españoles construyeron una iglesia sobre sus cimientos.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🌎</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Tawantinsuyu — El Imperio de los Cuatro Suyos</span>
+                        <span class="glosario-entry-desc">El nombre quechua del Imperio Inca, que se extendía desde Colombia hasta el norte de Argentina. "Tawa" significa cuatro y "suyu" región. Era el estado más grande de América precolombina.</span>
+                    </div>
+                </div>
+
+                <!-- EVENTOS -->
+                <div class="glosario-section-title">🎭 Eventos del Juego</div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🎉</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Inti Raymi — Fiesta del Sol</span>
+                        <span class="glosario-entry-desc">La festividad más importante del año inca, celebrada en junio durante el solsticio de invierno. Incluía procesiones, danzas, ofrendas y banquetes colectivos para renovar la alianza con el Sol.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">👻</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Mallquis — Ancestros Momificados</span>
+                        <span class="glosario-entry-desc">Los incas momificaban a sus muertos y los consultaban en rituales. Los Mallquis participaban simbólicamente en celebraciones, recibían ofrendas y "votaban" en decisiones importantes del ayllu.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">✨</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Capacocha — Ofrenda Sagrada</span>
+                        <span class="glosario-entry-desc">El ritual más solemne del Imperio: la consagración de un niño o niña como ofrenda divina en momentos de gran importancia (coronaciones, eclipses, desastres). Era considerado un honor supremo para la familia.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🌑</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Eclipse Solar</span>
+                        <span class="glosario-entry-desc">Los incas interpretaban los eclipses como señales de cólera divina. Se realizaban ceremonias urgentes, gritos rituales y se asustaba a Inti con ruidos para que "regresara". Generaban pánico colectivo real.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🌵</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Sequía</span>
+                        <span class="glosario-entry-desc">Las sequías eran interpretadas como señal de que Illapa había retirado su favor. Los incas respondían con ofrendas, procesiones y penitencias colectivas para restablecer la relación con la divinidad.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">❄️</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Heladas</span>
+                        <span class="glosario-entry-desc">Las heladas (mayo-agosto) eran el mayor peligro para los cultivos andinos. Los incas desarrollaron técnicas como el chuño (papa deshidratada por congelación nocturna) para conservar alimentos en estas épocas.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🌋</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">Terremoto (Pachacámac)</span>
+                        <span class="glosario-entry-desc">Los terremotos eran el movimiento de Pachacámac bajo la Tierra. Su gran templo en Lima era uno de los oráculos más consultados del continente para apaciguarlo y conocer la voluntad divina.</span>
+                    </div>
+                </div>
+
+                <div class="glosario-entry">
+                    <div class="glosario-entry-icon">🌽</div>
+                    <div class="glosario-entry-content">
+                        <span class="glosario-entry-name">El Maíz (Sara)</span>
+                        <span class="glosario-entry-desc">La planta sagrada de los Andes. Se usaba para hacer chicha (bebida ritual), alimentar al pueblo y ofrendar a los dioses. El maíz de colores era símbolo de prosperidad y equilibrio cósmico.</span>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -2139,26 +2624,32 @@
             }
             updateTutorialNav();
 
-            // Start the intro video
+            // Register ended/error handlers only
             const video = document.getElementById('intro-video');
-            video.addEventListener('canplay', function() {
-                video.play();
-                setTimeout(() => video.classList.add('visible'), 100);
-            });
+            video.addEventListener('ended', transitionToTitle);
+            video.addEventListener('error', () => setTimeout(transitionToTitle, 500));
+            // Tap overlay is already visible (display:flex in HTML)
+            // No autoplay attempt — we wait for user tap to unlock audio context
+        };
 
-            video.addEventListener('ended', function() {
+        // Called when user taps the overlay to manually start video
+        // This user gesture unlocks the browser audio context for all subsequent audio
+        function startIntroVideo() {
+            const tapOverlay = document.getElementById('intro-tap-overlay');
+            const video = document.getElementById('intro-video');
+
+            // Hide overlay
+            tapOverlay.style.display = 'none';
+
+            // Fade in video
+            video.classList.add('visible');
+
+            // Play video (with sound - user gesture unlocks audio)
+            video.play().catch(() => {
+                // If still blocked (rare), go to title
                 transitionToTitle();
             });
-
-            // Fallback: if video fails to load, go to title after 3s
-            video.addEventListener('error', function() {
-                setTimeout(transitionToTitle, 1000);
-            });
-
-            setTimeout(() => {
-                if (!video.readyState) transitionToTitle();
-            }, 8000);
-        };
+        }
 
         function skipIntro() {
             transitionToTitle();
@@ -2658,6 +3149,15 @@
         function mostrarGameOver(razon) {
             document.getElementById('gameOverReason').textContent = razon;
             document.getElementById('gameOverModal').style.display = 'flex';
+        }
+
+        // Glosario Cultural
+        function abrirGlosario() {
+            document.getElementById('glosario-modal').style.display = 'flex';
+        }
+
+        function cerrarGlosario() {
+            document.getElementById('glosario-modal').style.display = 'none';
         }
 
         // Reiniciar
