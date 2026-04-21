@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>El Ayni Inca: Gestión de los Tres Mundos</title>
+    <title>Camino a Coricancha</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -791,10 +793,829 @@
                 font-size: 0.85em;
             }
         }
+
+        /* =============================================
+           INTRO VIDEO SCREEN
+        ============================================= */
+        #intro-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #intro-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        #intro-video.visible {
+            opacity: 1;
+        }
+
+        #skip-intro-btn {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.85);
+            padding: 10px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9em;
+            letter-spacing: 0.05em;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        #skip-intro-btn:hover {
+            background: rgba(255,255,255,0.25);
+            color: #fff;
+        }
+
+        #intro-fade-out {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.2s ease;
+        }
+
+        #intro-fade-out.fade {
+            opacity: 1;
+        }
+
+        /* =============================================
+           TITLE SCREEN
+        ============================================= */
+        #title-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(ellipse at center top, #1a0a00 0%, #0d0500 50%, #000 100%);
+            z-index: 9998;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Particle stars background */
+        .title-stars {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .title-stars::before,
+        .title-stars::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image:
+                radial-gradient(1px 1px at 10% 15%, rgba(255,215,0,0.6) 0%, transparent 100%),
+                radial-gradient(1px 1px at 30% 5%, rgba(255,255,255,0.5) 0%, transparent 100%),
+                radial-gradient(1px 1px at 55% 20%, rgba(255,200,100,0.5) 0%, transparent 100%),
+                radial-gradient(1px 1px at 80% 8%, rgba(255,255,255,0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 90% 30%, rgba(255,215,0,0.5) 0%, transparent 100%),
+                radial-gradient(1px 1px at 15% 50%, rgba(255,255,255,0.3) 0%, transparent 100%),
+                radial-gradient(1px 1px at 40% 70%, rgba(255,215,0,0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 70% 60%, rgba(255,200,100,0.3) 0%, transparent 100%),
+                radial-gradient(1px 1px at 5% 80%, rgba(255,255,255,0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 95% 75%, rgba(255,215,0,0.5) 0%, transparent 100%),
+                radial-gradient(2px 2px at 25% 35%, rgba(255,215,0,0.7) 0%, transparent 100%),
+                radial-gradient(2px 2px at 65% 45%, rgba(255,200,100,0.6) 0%, transparent 100%),
+                radial-gradient(2px 2px at 50% 88%, rgba(255,215,0,0.5) 0%, transparent 100%);
+            animation: twinkle 4s ease-in-out infinite alternate;
+        }
+
+        .title-stars::after {
+            background-image:
+                radial-gradient(1px 1px at 20% 25%, rgba(255,215,0,0.5) 0%, transparent 100%),
+                radial-gradient(1px 1px at 45% 12%, rgba(255,255,255,0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 75% 18%, rgba(255,200,100,0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 85% 55%, rgba(255,255,255,0.3) 0%, transparent 100%),
+                radial-gradient(1px 1px at 12% 65%, rgba(255,215,0,0.4) 0%, transparent 100%),
+                radial-gradient(2px 2px at 60% 82%, rgba(255,215,0,0.6) 0%, transparent 100%),
+                radial-gradient(1px 1px at 35% 92%, rgba(255,200,100,0.4) 0%, transparent 100%);
+            animation: twinkle 6s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes twinkle {
+            from { opacity: 0.6; }
+            to { opacity: 1; }
+        }
+
+        .title-sun {
+            font-size: 5em;
+            animation: sun-pulse 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(255,215,0,0.8));
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes sun-pulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 30px rgba(255,215,0,0.8)); }
+            50% { transform: scale(1.08); filter: drop-shadow(0 0 50px rgba(255,215,0,1)); }
+        }
+
+        .title-subtitle-top {
+            font-family: 'Cinzel', serif;
+            color: rgba(255,200,100,0.7);
+            font-size: 0.85em;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInDown 1.2s ease forwards;
+        }
+
+        .title-main {
+            font-family: 'Cinzel Decorative', serif;
+            color: #FFD700;
+            font-size: clamp(2.2em, 7vw, 4.5em);
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.1;
+            text-shadow:
+                0 0 40px rgba(255,215,0,0.9),
+                0 0 80px rgba(255,180,0,0.5),
+                0 4px 8px rgba(0,0,0,0.8);
+            position: relative;
+            z-index: 1;
+            animation: fadeInDown 1s ease forwards;
+            padding: 0 20px;
+        }
+
+        .title-divider {
+            width: 280px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #DAA520, #FFD700, #DAA520, transparent);
+            margin: 18px auto;
+            position: relative;
+            z-index: 1;
+            animation: expandWidth 1.5s ease forwards;
+        }
+
+        .title-divider::before,
+        .title-divider::after {
+            content: '◆';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #FFD700;
+            font-size: 0.7em;
+        }
+
+        .title-divider::before { left: -12px; }
+        .title-divider::after { right: -12px; }
+
+        @keyframes expandWidth {
+            from { width: 0; opacity: 0; }
+            to { width: 280px; opacity: 1; }
+        }
+
+        .title-description {
+            font-family: 'Inter', sans-serif;
+            color: rgba(255,220,150,0.85);
+            font-size: clamp(0.85em, 2.5vw, 1em);
+            text-align: center;
+            max-width: 420px;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+            padding: 0 20px;
+            margin-bottom: 35px;
+            animation: fadeInUp 1.5s ease 0.3s both;
+        }
+
+        .title-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1.5s ease 0.6s both;
+        }
+
+        .btn-play {
+            background: linear-gradient(135deg, #b8860b, #FFD700, #DAA520);
+            color: #1a0800;
+            border: none;
+            padding: 16px 40px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1em;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 30px rgba(255,215,0,0.5), 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .btn-play:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 12px 40px rgba(255,215,0,0.7), 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        .btn-play:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .btn-tutorial-title {
+            background: transparent;
+            color: rgba(255,215,0,0.85);
+            border: 2px solid rgba(255,215,0,0.5);
+            padding: 14px 32px;
+            font-family: 'Cinzel', serif;
+            font-size: 1em;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            background: rgba(255,215,0,0.06);
+        }
+
+        .btn-tutorial-title:hover {
+            background: rgba(255,215,0,0.15);
+            border-color: rgba(255,215,0,0.9);
+            color: #FFD700;
+            transform: translateY(-2px);
+        }
+
+        .title-bottom-ornament {
+            position: absolute;
+            bottom: 20px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75em;
+            color: rgba(255,215,0,0.35);
+            letter-spacing: 0.2em;
+            z-index: 1;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* =============================================
+           TUTORIAL MODAL
+        ============================================= */
+        #tutorial-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            padding: 20px;
+        }
+
+        .tutorial-box {
+            background: linear-gradient(160deg, #1c0e04 0%, #2c1810 40%, #1a1a2e 100%);
+            border: 2px solid #DAA520;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 560px;
+            max-height: 88vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 60px rgba(218,165,32,0.4), 0 20px 60px rgba(0,0,0,0.8);
+            animation: slideIn 0.4s ease;
+        }
+
+        .tutorial-header {
+            padding: 20px 25px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .tutorial-header-title {
+            font-family: 'Cinzel', serif;
+            color: #FFD700;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .tutorial-close {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.7);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .tutorial-close:hover {
+            background: rgba(255,100,100,0.3);
+            color: #fff;
+        }
+
+        /* Progress bar */
+        .tutorial-progress-bar {
+            margin: 16px 25px 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            height: 6px;
+            overflow: hidden;
+        }
+
+        .tutorial-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #b8860b, #FFD700);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .tutorial-step-label {
+            font-family: 'Inter', sans-serif;
+            color: rgba(255,215,0,0.6);
+            font-size: 0.78em;
+            margin: 8px 25px 0;
+            letter-spacing: 0.05em;
+        }
+
+        /* Slide content */
+        .tutorial-slides {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tutorial-slide {
+            display: none;
+            padding: 20px 25px 10px;
+            animation: fadeInRight 0.4s ease;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .tutorial-slide.active {
+            display: block;
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .tutorial-slide-icon {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .tutorial-slide-title {
+            font-family: 'Cinzel', serif;
+            color: #FFD700;
+            font-size: 1.2em;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 14px;
+            text-shadow: 0 0 20px rgba(255,215,0,0.4);
+        }
+
+        .tutorial-slide-text {
+            font-family: 'Inter', sans-serif;
+            color: rgba(255,230,180,0.9);
+            font-size: 0.95em;
+            line-height: 1.7;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .tutorial-tip-box {
+            background: rgba(218,165,32,0.1);
+            border: 1px solid rgba(218,165,32,0.4);
+            border-left: 4px solid #FFD700;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin: 10px 0;
+            font-family: 'Inter', sans-serif;
+            color: rgba(255,220,150,0.9);
+            font-size: 0.88em;
+            line-height: 1.6;
+        }
+
+        .tutorial-tip-box strong {
+            color: #FFD700;
+        }
+
+        .tutorial-resource-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .tutorial-resource-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tutorial-resource-item .ri-icon {
+            font-size: 1.8em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .tutorial-resource-item .ri-name {
+            color: #FFD700;
+            font-weight: 600;
+            font-size: 0.85em;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .tutorial-resource-item .ri-desc {
+            color: rgba(255,210,150,0.75);
+            font-size: 0.78em;
+            line-height: 1.4;
+        }
+
+        .tut-world-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(218,165,32,0.3);
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin: 8px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tut-world-card .wc-icon { font-size: 1.6em; flex-shrink: 0; }
+
+        .tut-world-card .wc-name {
+            color: #FFD700;
+            font-weight: 600;
+            font-size: 0.9em;
+            display: block;
+            margin-bottom: 3px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .tut-world-card .wc-desc {
+            color: rgba(255,210,150,0.8);
+            font-size: 0.82em;
+            line-height: 1.5;
+        }
+
+        /* Footer navigation */
+        .tutorial-footer {
+            padding: 16px 25px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(218,165,32,0.2);
+        }
+
+        .tut-nav-btn {
+            background: rgba(218,165,32,0.12);
+            border: 1.5px solid rgba(218,165,32,0.5);
+            color: #FFD700;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.88em;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .tut-nav-btn:hover {
+            background: rgba(218,165,32,0.25);
+            border-color: #FFD700;
+            transform: translateY(-1px);
+        }
+
+        .tut-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .tut-nav-btn.primary {
+            background: linear-gradient(135deg, #b8860b, #FFD700);
+            color: #1a0800;
+            border-color: transparent;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(255,215,0,0.35);
+        }
+
+        .tut-nav-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,215,0,0.5);
+        }
+
+        .tut-dots {
+            display: flex;
+            gap: 7px;
+        }
+
+        .tut-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,215,0,0.25);
+            transition: all 0.3s;
+        }
+
+        .tut-dot.active {
+            background: #FFD700;
+            transform: scale(1.3);
+        }
+
+        /* Title screen fade-in animation */
+        #title-screen.visible {
+            display: flex;
+            animation: titleFadeIn 1s ease;
+        }
+
+        @keyframes titleFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
     </style>
 </head>
 
 <body>
+
+    <!-- ==========================================
+         INTRO VIDEO SCREEN
+    =========================================== -->
+    <div id="intro-screen">
+        <video id="intro-video" playsinline muted src="Farmers_harvesting_corn_202604202252.mp4"></video>
+        <div id="intro-fade-out"></div>
+        <button id="skip-intro-btn" onclick="skipIntro()">Omitir intro ›</button>
+    </div>
+
+    <!-- Audio elements -->
+    <audio id="audio-titulo" src="The_Stone_Gate.mp3" loop></audio>
+    <audio id="audio-juego" src="The_Terrace_Rite.mp3" loop></audio>
+
+    <!-- Victory Video Overlay -->
+    <div id="victory-video-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:15000; flex-direction:column; justify-content:center; align-items:center;">
+        <video id="victory-video" src="Temple_in_Inca_202604202333.mp4" playsinline style="width:100%; height:100%; object-fit:cover;"></video>
+        <div id="victory-overlay-text" style="position:absolute; bottom:0; left:0; right:0; padding:30px 20px; background:linear-gradient(transparent, rgba(0,0,0,0.92)); text-align:center;">
+            <div style="font-family:'Cinzel Decorative',serif; color:#FFD700; font-size:clamp(1.6em,5vw,3em); text-shadow:0 0 40px rgba(255,215,0,0.9); margin-bottom:12px;">🏆 ¡VICTORIA!</div>
+            <div style="font-family:'Cinzel',serif; color:rgba(255,220,150,0.9); font-size:clamp(0.9em,2.5vw,1.2em); margin-bottom:24px;">Has restaurado el equilibrio del Tawantinsuyu.<br>El Gran Coricancha se alza majestuoso ante Inti.</div>
+            <button onclick="cerrarVictoriaVideo()" style="background:linear-gradient(135deg,#b8860b,#FFD700); color:#1a0800; border:none; padding:14px 40px; border-radius:50px; font-family:'Cinzel',serif; font-size:1.05em; font-weight:700; cursor:pointer; box-shadow:0 6px 30px rgba(255,215,0,0.5);">🏛️ Volver al Inicio</button>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         TITLE SCREEN
+    =========================================== -->
+    <div id="title-screen">
+        <div class="title-stars"></div>
+
+        <div class="title-sun">☀️</div>
+        <div class="title-subtitle-top">El Ayni Inca · Los Tres Mundos</div>
+        <h1 class="title-main">Camino a<br>Coricancha</h1>
+        <div class="title-divider"></div>
+        <p class="title-description">
+            Guía a tu pueblo a través de los tres mundos del cosmos andino.
+            Mantén el equilibrio entre el cielo, la tierra y el inframundo
+            para construir el Gran Templo del Sol.
+        </p>
+
+        <div class="title-buttons">
+            <button class="btn-play" id="btn-jugar" onclick="iniciarJuego()">⚡ Jugar</button>
+            <button class="btn-tutorial-title" id="btn-tutorial" onclick="abrirTutorial(true)">📜 Tutorial</button>
+        </div>
+
+        <div class="title-bottom-ornament">🌽 &nbsp; TAWANTINSUYU &nbsp; 🌽</div>
+    </div>
+
+    <!-- ==========================================
+         TUTORIAL MODAL
+    =========================================== -->
+    <div id="tutorial-modal">
+        <div class="tutorial-box">
+            <div class="tutorial-header">
+                <div class="tutorial-header-title">📜 Tutorial</div>
+                <button class="tutorial-close" id="tutorial-close-btn" onclick="cerrarTutorial()">✕</button>
+            </div>
+
+            <div class="tutorial-progress-bar">
+                <div class="tutorial-progress-fill" id="tut-progress"></div>
+            </div>
+            <div class="tutorial-step-label" id="tut-step-label">Paso 1 de 6</div>
+
+            <div class="tutorial-slides">
+
+                <!-- Slide 0: Bienvenida -->
+                <div class="tutorial-slide active" id="tut-slide-0">
+                    <div class="tutorial-slide-icon">🏔️</div>
+                    <div class="tutorial-slide-title">¡Bienvenido al Tawantinsuyu!</div>
+                    <p class="tutorial-slide-text">
+                        Eres el <strong style="color:#FFD700">Curaca</strong> de una aldea inca.
+                        Tu misión es mantener el equilibrio entre los tres mundos
+                        del cosmos andino y reunir suficientes recursos para construir
+                        el <strong style="color:#FFD700">Gran Coricancha</strong>, el Templo del Sol.
+                    </p>
+                    <div class="tutorial-tip-box">
+                        <strong>🎯 Objetivo:</strong> Acumula <strong>2,000 🌽 Alimento</strong> y
+                        <strong>800 ☀️ Fe</strong> para construir el Coricancha.
+                    </div>
+                </div>
+
+                <!-- Slide 1: Recursos -->
+                <div class="tutorial-slide" id="tut-slide-1">
+                    <div class="tutorial-slide-icon">⚖️</div>
+                    <div class="tutorial-slide-title">Los Recursos</div>
+                    <p class="tutorial-slide-text">Gestionas tres recursos fundamentales:</p>
+                    <div class="tutorial-resource-grid">
+                        <div class="tutorial-resource-item">
+                            <span class="ri-icon">👥</span>
+                            <span class="ri-name">Población</span>
+                            <span class="ri-desc">Tu pueblo. Crece con abundancia de alimento.</span>
+                        </div>
+                        <div class="tutorial-resource-item">
+                            <span class="ri-icon">🌽</span>
+                            <span class="ri-name">Alimento</span>
+                            <span class="ri-desc">Se genera cultivando. Necesario para sobrevivir.</span>
+                        </div>
+                        <div class="tutorial-resource-item" style="grid-column: span 2;">
+                            <span class="ri-icon">☀️</span>
+                            <span class="ri-name">Fe (Bendición Solar)</span>
+                            <span class="ri-desc">El favor de Inti. Es clave para acciones sagradas y la victoria.</span>
+                        </div>
+                    </div>
+                    <div class="tutorial-tip-box">
+                        <strong>⚠️ Atención:</strong> Cada persona consume <strong>2 🌽 por mes</strong>.
+                        Si el alimento llega a 0, tu población comenzará a morir.
+                    </div>
+                </div>
+
+                <!-- Slide 2: La Mita -->
+                <div class="tutorial-slide" id="tut-slide-2">
+                    <div class="tutorial-slide-icon">⚒️</div>
+                    <div class="tutorial-slide-title">El Sistema de Mita</div>
+                    <p class="tutorial-slide-text">
+                        La <strong style="color:#FFD700">Mita</strong> es el sistema de trabajo rotativo inca.
+                        Asigna a tu pueblo entre dos roles usando los botones <strong style="color:#FFD700">+ / −</strong>
+                        en la sección de Kay Pacha:
+                    </p>
+                    <div class="tut-world-card">
+                        <span class="wc-icon">👨‍🌾</span>
+                        <div>
+                            <span class="wc-name">Agricultores</span>
+                            <span class="wc-desc">Producen <strong style="color:#a8e063">4 🌽 por mes</strong> cada uno.
+                            Esencial para alimentar a tu pueblo.</span>
+                        </div>
+                    </div>
+                    <div class="tut-world-card">
+                        <span class="wc-icon">🙏</span>
+                        <div>
+                            <span class="wc-name">Sacerdotes</span>
+                            <span class="wc-desc">Generan <strong style="color:#FFD700">3 ☀️ de Fe por mes</strong> cada uno.
+                            Necesarios para ganar el juego.</span>
+                        </div>
+                    </div>
+                    <div class="tutorial-tip-box">
+                        <strong>💡 Consejo:</strong> Comienza asignando varios agricultores para
+                        tener alimento estable, luego agrega sacerdotes gradualmente.
+                    </div>
+                </div>
+
+                <!-- Slide 3: Los Tres Mundos -->
+                <div class="tutorial-slide" id="tut-slide-3">
+                    <div class="tutorial-slide-icon">🌌</div>
+                    <div class="tutorial-slide-title">Los Tres Mundos</div>
+                    <p class="tutorial-slide-text">Cada sección del juego es un mundo con acciones únicas:</p>
+                    <div class="tut-world-card">
+                        <span class="wc-icon">☀️</span>
+                        <div>
+                            <span class="wc-name">Hanan Pacha — Mundo de Arriba</span>
+                            <span class="wc-desc"><strong>Ofrendar al Sol:</strong> Gasta 10 🌽 para obtener +15 ☀️ Fe.
+                            Aquí también construyes el Coricancha para ganar.</span>
+                        </div>
+                    </div>
+                    <div class="tut-world-card">
+                        <span class="wc-icon">🌍</span>
+                        <div>
+                            <span class="wc-name">Kay Pacha — Mundo de Aquí</span>
+                            <span class="wc-desc">Donde asignas la Mita. El paso del tiempo y las estaciones
+                            (incluyendo épocas de helada) afectan la producción.</span>
+                        </div>
+                    </div>
+                    <div class="tut-world-card">
+                        <span class="wc-icon">💀</span>
+                        <div>
+                            <span class="wc-name">Uku Pacha — Mundo de Abajo</span>
+                            <span class="wc-desc"><strong>Honrar Ancestros:</strong> Gasta 10 ☀️ para obtener
+                            −50% de consumo durante 3 meses. ¡Muy poderoso en crisis!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Eventos y Yachaywasi -->
+                <div class="tutorial-slide" id="tut-slide-4">
+                    <div class="tutorial-slide-icon">📚</div>
+                    <div class="tutorial-slide-title">Eventos y Mejoras</div>
+                    <p class="tutorial-slide-text">
+                        A lo largo del juego ocurrirán <strong style="color:#FFD700">eventos aleatorios</strong>
+                        que requerirán tu decisión. Elige sabiamente, pues cada opción tiene consecuencias.
+                    </p>
+                    <div class="tut-world-card">
+                        <span class="wc-icon">📜</span>
+                        <div>
+                            <span class="wc-name">Yachaywasi (Panel de Saber)</span>
+                            <span class="wc-desc">Abre el panel lateral derecho con el botón <strong style="color:#FFD700">📜 Saber</strong>.
+                            Aquí puedes invertir recursos en tecnología para mejorar tu aldea permanentemente.</span>
+                        </div>
+                    </div>
+                    <div class="tutorial-resource-grid">
+                        <div class="tutorial-resource-item">
+                            <span class="ri-icon">🔢</span>
+                            <span class="ri-name">Quipus</span>
+                            <span class="ri-desc">-20% consumo de alimento. Cuesta 200🌽+100☀️</span>
+                        </div>
+                        <div class="tutorial-resource-item">
+                            <span class="ri-icon">💧</span>
+                            <span class="ri-name">Canales</span>
+                            <span class="ri-desc">Elimina penalidad de heladas. Cuesta 300🌽+50☀️</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 5: ¡A jugar! -->
+                <div class="tutorial-slide" id="tut-slide-5">
+                    <div class="tutorial-slide-icon">🏛️</div>
+                    <div class="tutorial-slide-title">¡Que Inti Ilumine tu Camino!</div>
+                    <p class="tutorial-slide-text">
+                        Ya conoces todo lo necesario para guiar a tu pueblo
+                        a la gloria del Tawantinsuyu.
+                    </p>
+                    <div class="tutorial-tip-box">
+                        <strong>🏆 Estrategia ganadora:</strong><br>
+                        1. Asigna 8-10 agricultores de inicio para estabilizar alimento.<br>
+                        2. Añade sacerdotes progresivamente para acumular Fe.<br>
+                        3. Ofrenda al Sol regularmente para mantener la bendición.<br>
+                        4. Investiga en el Yachaywasi cuando tengas suficientes recursos.<br>
+                        5. ¡Construye el Coricancha cuando alcances 2000🌽 y 800☀️!
+                    </div>
+                    <p class="tutorial-slide-text" style="margin-top:12px; font-size:0.85em; color:rgba(255,200,120,0.7);">
+                        Recuerda: el juego avanza automáticamente mes a mes.
+                        Usa ▶️ y ⏩ para controlar la velocidad.
+                    </p>
+                </div>
+
+            </div><!-- /tutorial-slides -->
+
+            <div class="tutorial-footer">
+                <button class="tut-nav-btn" id="tut-btn-prev" onclick="tutorialNav(-1)" disabled>‹ Anterior</button>
+                <div class="tut-dots" id="tut-dots"></div>
+                <button class="tut-nav-btn primary" id="tut-btn-next" onclick="tutorialNav(1)">Siguiente ›</button>
+            </div>
+        </div>
+    </div>
     <!-- Panel de UI -->
     <div class="ui-panel">
         <div class="resource">
@@ -1086,17 +1907,374 @@
                         }
                     }
                 ]
+            },
+            {
+                id: 'mercaderes',
+                titulo: '🦙 Mercaderes del Qhapaq Ñan',
+                descripcion: 'Comerciantes viajan por el Gran Camino Inca. Ofrecen intercambiar productos de otras regiones.',
+                opciones: [
+                    {
+                        texto: 'Comerciar (-40 🌽, +35 ☀️)',
+                        accion: () => {
+                            if (juego.alimento >= 40) {
+                                juego.alimento -= 40;
+                                juego.fe += 35;
+                                agregarLog('El comercio trae objetos sagrados. +35 ☀️');
+                            } else {
+                                agregarLog('No tienes suficiente alimento para comerciar.', 'error');
+                            }
+                        }
+                    },
+                    {
+                        texto: 'Ignorar paso (-5 ☀️)',
+                        accion: () => {
+                            juego.fe = Math.max(0, juego.fe - 5);
+                            agregarLog('Los mercaderes se van. -5 ☀️ por mala reputación.', 'error');
+                        }
+                    }
+                ]
+            },
+            {
+                id: 'terremoto',
+                titulo: '🌋 Pachacámac Tiembla',
+                descripcion: 'La tierra tiembla. Pachacámac, dios del interior de la tierra, se agita. Las reservas de alimento se dañan.',
+                opciones: [
+                    {
+                        texto: 'Sacrificio urgente (-15 ☀️, salvar reservas)',
+                        accion: () => {
+                            if (juego.fe >= 15) {
+                                juego.fe -= 15;
+                                agregarLog('El sacrificio calma a Pachacámac. Reservas salvadas.');
+                            } else {
+                                juego.alimento = Math.max(0, juego.alimento - 50);
+                                agregarLog('Sin fe suficiente. -50 🌽 dañadas.', 'peligro');
+                            }
+                        }
+                    },
+                    {
+                        texto: 'Aceptar la voluntad divina (-50 🌽)',
+                        accion: () => {
+                            juego.alimento = Math.max(0, juego.alimento - 50);
+                            agregarLog('El terremoto destruye parte de las reservas. -50 🌽.', 'peligro');
+                        }
+                    }
+                ]
+            },
+            {
+                id: 'eclipse',
+                titulo: '🌑 Eclipse Solar',
+                descripcion: 'El Sol desaparece brevemente. El pueblo está aterrorizado. ¿Qué haces como Curaca?',
+                opciones: [
+                    {
+                        texto: 'Gran ceremonia (-30 🌽, -20 ☀️, calmar al pueblo)',
+                        accion: () => {
+                            if (juego.alimento >= 30 && juego.fe >= 20) {
+                                juego.alimento -= 30;
+                                juego.fe -= 20;
+                                juego.bendicionSolar = 100;
+                                agregarLog('La ceremonia calma al pueblo. Inti regresa glorioso.');
+                            } else {
+                                agregarLog('Recursos insuficientes para la ceremonia.', 'error');
+                            }
+                        }
+                    },
+                    {
+                        texto: 'Mantener calma (-1 👥, el miedo hace estragos)',
+                        accion: () => {
+                            juego.poblacion = Math.max(1, juego.poblacion - 1);
+                            juego.bendicionSolar = Math.max(0, juego.bendicionSolar - 20);
+                            ajustarMita();
+                            agregarLog('El pánico lleva a un habitante al exilio. -1 👥.', 'peligro');
+                        }
+                    }
+                ]
+            },
+            {
+                id: 'migracion',
+                titulo: '🚶 Familia Migrante Llega',
+                descripcion: 'Una familia de tierras lejanas llega a tu aldea buscando refugio y trabajo.',
+                opciones: [
+                    {
+                        texto: 'Acoger (+3 👥, -20 🌽)',
+                        accion: () => {
+                            if (juego.alimento >= 20) {
+                                juego.alimento -= 20;
+                                juego.poblacion += 3;
+                                agregarLog('La familia se integra. +3 👥 nuevos trabajadores.');
+                            } else {
+                                agregarLog('No tienes comida para acogerlos.', 'error');
+                            }
+                        }
+                    },
+                    {
+                        texto: 'Rechazar (sin costo)',
+                        accion: () => {
+                            juego.fe = Math.max(0, juego.fe - 8);
+                            agregarLog('Los rechazas. La comunidad lo reprueba. -8 ☀️.', 'error');
+                        }
+                    }
+                ]
+            },
+            {
+                id: 'plaga_maiz',
+                titulo: '🐛 Plaga en los Cultivos',
+                descripcion: 'Una plaga de insectos ataca los campos de maíz. Los agricultores piden instrucciones.',
+                opciones: [
+                    {
+                        texto: 'Quemar los campos afectados (-25 🌽, salvar el resto)',
+                        accion: () => {
+                            juego.alimento = Math.max(0, juego.alimento - 25);
+                            agregarLog('Quemas los campos afectados. La plaga se detiene. -25 🌽.');
+                        }
+                    },
+                    {
+                        texto: 'Rezar a Mama Quilla (-15 ☀️, +10% posibilidad de recuperación)',
+                        accion: () => {
+                            if (juego.fe >= 15) {
+                                juego.fe -= 15;
+                                if (Math.random() < 0.5) {
+                                    agregarLog('Mama Quilla bendice los campos. ¡Plaga erradicada!');
+                                } else {
+                                    juego.alimento = Math.max(0, juego.alimento - 40);
+                                    agregarLog('La plaga continúa. -40 🌽 perdidas.', 'peligro');
+                                }
+                            } else {
+                                juego.alimento = Math.max(0, juego.alimento - 60);
+                                agregarLog('Sin fe suficiente. La plaga se expande. -60 🌽.', 'peligro');
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                id: 'sabio_anciano',
+                titulo: '🧙 El Amautas Llega a tu Aldea',
+                descripcion: 'Un anciano sabio Amauta ofrece su conocimiento a cambio de sustento y hospitalidad.',
+                opciones: [
+                    {
+                        texto: 'Hospedar (-15 🌽, +40 ☀️ sabiduría sagrada)',
+                        accion: () => {
+                            if (juego.alimento >= 15) {
+                                juego.alimento -= 15;
+                                juego.fe += 40;
+                                agregarLog('El Amauta comparte secretos sagrados. +40 ☀️.');
+                            } else {
+                                agregarLog('No tienes alimento para hospedar al Amauta.', 'error');
+                            }
+                        }
+                    },
+                    {
+                        texto: 'Ignorar su visita',
+                        accion: () => {
+                            agregarLog('El Amauta se va decepcionado. Una oportunidad perdida.');
+                        }
+                    }
+                ]
+            },
+            {
+                id: 'sapa_inca',
+                titulo: '👑 Mensaje del Sapa Inca',
+                descripcion: 'Un mensajero chasqui llega con órdenes del Sapa Inca: enviar tributo al Cusco.',
+                opciones: [
+                    {
+                        texto: 'Enviar tributo (-60 🌽, +50 ☀️ favor imperial)',
+                        accion: () => {
+                            if (juego.alimento >= 60) {
+                                juego.alimento -= 60;
+                                juego.fe += 50;
+                                agregarLog('El Sapa Inca queda complacido. +50 ☀️ favor divino.');
+                            } else {
+                                agregarLog('No tienes suficiente para el tributo.', 'error');
+                            }
+                        }
+                    },
+                    {
+                        texto: 'Negociar un plazo (-20 ☀️)',
+                        accion: () => {
+                            juego.fe = Math.max(0, juego.fe - 20);
+                            agregarLog('Negocias un plazo. El Inca acepta pero con recelo. -20 ☀️.', 'error');
+                        }
+                    }
+                ]
+            },
+            {
+                id: 'niño_prodigio',
+                titulo: '✨ Niño Sagrado (Capacocha)',
+                descripcion: 'Un niño de tu aldea es identificado como portador de señales divinas. Los sacerdotes del Cusco llegan.',
+                opciones: [
+                    {
+                        texto: 'Honrar la elección divina (+80 ☀️, -1 👥)',
+                        accion: () => {
+                            juego.fe += 80;
+                            juego.poblacion = Math.max(1, juego.poblacion - 1);
+                            ajustarMita();
+                            agregarLog('La Capacocha fortalece la fe. +80 ☀️. El cosmos lo acepta.');
+                        }
+                    },
+                    {
+                        texto: 'Esconder al niño (-40 ☀️)',
+                        accion: () => {
+                            juego.fe = Math.max(0, juego.fe - 40);
+                            agregarLog('Desafías a los sacerdotes. Gran costo espiritual. -40 ☀️.', 'peligro');
+                        }
+                    }
+                ]
             }
         ];
 
-        // Inicialización
+        // ==========================================
+        // INTRO & TITLE SCREEN LOGIC
+        // ==========================================
+        const TOTAL_TUT_SLIDES = 6;
+        let currentTutSlide = 0;
+        let fromTitleScreen = false;
+
         window.onload = function () {
-            agregarLog("Bienvenido. Mantén el equilibrio entre los tres mundos.");
-            agregarLog("Asigna población en la Mita para generar recursos.");
-            agregarLog("Objetivo: 2000 🌽 y 800 ☀️ para el Coricancha.");
-            actualizarUI();
-            iniciarBucleJuego();
+            // Build tutorial dots
+            const dotsContainer = document.getElementById('tut-dots');
+            for (let i = 0; i < TOTAL_TUT_SLIDES; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'tut-dot' + (i === 0 ? ' active' : '');
+                dotsContainer.appendChild(dot);
+            }
+            updateTutorialNav();
+
+            // Start the intro video
+            const video = document.getElementById('intro-video');
+            video.addEventListener('canplay', function() {
+                video.play();
+                setTimeout(() => video.classList.add('visible'), 100);
+            });
+
+            video.addEventListener('ended', function() {
+                transitionToTitle();
+            });
+
+            // Fallback: if video fails to load, go to title after 3s
+            video.addEventListener('error', function() {
+                setTimeout(transitionToTitle, 1000);
+            });
+
+            setTimeout(() => {
+                if (!video.readyState) transitionToTitle();
+            }, 8000);
         };
+
+        function skipIntro() {
+            transitionToTitle();
+        }
+
+        // ==========================================
+        // AUDIO MANAGEMENT
+        // ==========================================
+        function playAudio(id, volume) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.volume = volume;
+            el.currentTime = 0;
+            el.play().catch(() => {});
+        }
+
+        function stopAudio(id, fadeDuration) {
+            const el = document.getElementById(id);
+            if (!el || el.paused) return;
+            const step = el.volume / (fadeDuration / 100);
+            const fade = setInterval(() => {
+                if (el.volume > step) {
+                    el.volume = Math.max(0, el.volume - step);
+                } else {
+                    el.volume = 0;
+                    el.pause();
+                    clearInterval(fade);
+                }
+            }, 100);
+        }
+
+        function transitionToTitle() {
+            const fadeOut = document.getElementById('intro-fade-out');
+            const introScreen = document.getElementById('intro-screen');
+            // Stop intro video audio (it's muted anyway)
+            const introVid = document.getElementById('intro-video');
+            if (introVid) introVid.pause();
+            fadeOut.classList.add('fade');
+            setTimeout(() => {
+                introScreen.style.display = 'none';
+                const titleScreen = document.getElementById('title-screen');
+                titleScreen.style.display = 'flex';
+                titleScreen.classList.add('visible');
+                // Start title music
+                playAudio('audio-titulo', 0.65);
+            }, 1200);
+        }
+
+        function iniciarJuego() {
+            const titleScreen = document.getElementById('title-screen');
+            titleScreen.style.transition = 'opacity 0.8s ease';
+            titleScreen.style.opacity = '0';
+            // Fade out title music, start gameplay music
+            stopAudio('audio-titulo', 800);
+            setTimeout(() => {
+                titleScreen.style.display = 'none';
+                // Start gameplay music (low volume loop)
+                playAudio('audio-juego', 0.28);
+                agregarLog("Bienvenido. Mantén el equilibrio entre los tres mundos.");
+                agregarLog("Asigna población en la Mita para generar recursos.");
+                agregarLog("Objetivo: 2000 🌽 y 800 ☀️ para el Coricancha.");
+                actualizarUI();
+                iniciarBucleJuego();
+            }, 800);
+        }
+
+        // ==========================================
+        // TUTORIAL LOGIC
+        // ==========================================
+        function abrirTutorial(fromTitle) {
+            fromTitleScreen = !!fromTitle;
+            currentTutSlide = 0;
+            document.getElementById('tutorial-modal').style.display = 'flex';
+            // Show/hide the close button: always show it
+            document.getElementById('tutorial-close-btn').style.display = 'flex';
+            mostrarSlide(0);
+        }
+
+        function cerrarTutorial() {
+            document.getElementById('tutorial-modal').style.display = 'none';
+        }
+
+        function mostrarSlide(idx) {
+            document.querySelectorAll('.tutorial-slide').forEach((s, i) => {
+                s.classList.toggle('active', i === idx);
+            });
+            document.querySelectorAll('.tut-dot').forEach((d, i) => {
+                d.classList.toggle('active', i === idx);
+            });
+            const pct = ((idx + 1) / TOTAL_TUT_SLIDES) * 100;
+            document.getElementById('tut-progress').style.width = pct + '%';
+            document.getElementById('tut-step-label').textContent = `Paso ${idx + 1} de ${TOTAL_TUT_SLIDES}`;
+            updateTutorialNav();
+        }
+
+        function updateTutorialNav() {
+            const prevBtn = document.getElementById('tut-btn-prev');
+            const nextBtn = document.getElementById('tut-btn-next');
+            prevBtn.disabled = currentTutSlide === 0;
+            const isLast = currentTutSlide === TOTAL_TUT_SLIDES - 1;
+            nextBtn.textContent = isLast ? '¡A Jugar! 🏛️' : 'Siguiente ›';
+            nextBtn.classList.toggle('primary', true);
+        }
+
+        function tutorialNav(dir) {
+            const isLast = currentTutSlide === TOTAL_TUT_SLIDES - 1;
+            if (dir === 1 && isLast) {
+                cerrarTutorial();
+                if (fromTitleScreen) {
+                    iniciarJuego();
+                }
+                return;
+            }
+            currentTutSlide = Math.max(0, Math.min(TOTAL_TUT_SLIDES - 1, currentTutSlide + dir));
+            mostrarSlide(currentTutSlide);
+        }
 
         // Control de velocidad
         function cambiarVelocidad(nuevaVelocidad) {
@@ -1243,25 +2421,40 @@
             if (juego.alimento >= 2000 && juego.fe >= 800) {
                 juego.activo = false;
                 clearInterval(juego.intervaloJuego);
-
-                const modal = document.getElementById('gameOverModal');
-                const modalContent = document.getElementById('modalFinal');
-                const titulo = document.getElementById('tituloFinal');
-                const razon = document.getElementById('gameOverReason');
-
-                modalContent.classList.add('victory');
-                titulo.textContent = '🏆 ¡VICTORIA! 🏆';
-                razon.innerHTML = `
-                    Has restaurado el equilibrio del Tawantinsuyu.<br><br>
-                    El Gran Coricancha se alza majestuoso.<br>
-                    Tu sabiduría trajo prosperidad eterna.
-                `;
-
-                modal.style.display = 'flex';
                 agregarLog('¡VICTORIA! Construido el Coricancha.', 'victory');
+
+                // Stop gameplay music
+                stopAudio('audio-juego', 1500);
+
+                // Show victory video overlay
+                const overlay = document.getElementById('victory-video-overlay');
+                overlay.style.display = 'flex';
+                const vid = document.getElementById('victory-video');
+                vid.volume = 1.0;
+                vid.currentTime = 0;
+                vid.play().catch(() => {});
             } else {
                 agregarLog('Necesitas 2000 🌽 y 800 ☀️.', 'error');
             }
+        }
+
+        function cerrarVictoriaVideo() {
+            const vid = document.getElementById('victory-video');
+            vid.pause();
+            document.getElementById('victory-video-overlay').style.display = 'none';
+            // Show the classic victory modal
+            const modal = document.getElementById('gameOverModal');
+            const modalContent = document.getElementById('modalFinal');
+            const titulo = document.getElementById('tituloFinal');
+            const razon = document.getElementById('gameOverReason');
+            modalContent.classList.add('victory');
+            titulo.textContent = '🏆 ¡VICTORIA! 🏆';
+            razon.innerHTML = `
+                Has restaurado el equilibrio del Tawantinsuyu.<br><br>
+                El Gran Coricancha se alza majestuoso.<br>
+                Tu sabiduría trajo prosperidad eterna.
+            `;
+            modal.style.display = 'flex';
         }
 
         // Ofrendar al Sol
@@ -1498,6 +2691,15 @@
             document.getElementById('btn-canales').disabled = false;
             document.getElementById('btn-canales').classList.remove('developed');
             document.getElementById('btn-canales').textContent = 'Construir';
+
+            // Restart gameplay music
+            stopAudio('audio-titulo', 300);
+            const juegoAudio = document.getElementById('audio-juego');
+            if (juegoAudio) {
+                juegoAudio.volume = 0.28;
+                juegoAudio.currentTime = 0;
+                juegoAudio.play().catch(() => {});
+            }
 
             agregarLog("Nueva partida. Que Inti ilumine tu camino.");
             actualizarUI();
