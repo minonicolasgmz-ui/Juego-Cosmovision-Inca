@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Camino a Coricancha</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -496,7 +498,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.85);
-            z-index: 3000;
+            z-index: 11000;
             justify-content: center;
             align-items: center;
             backdrop-filter: blur(5px);
@@ -567,7 +569,7 @@
             transform: scale(1.05);
         }
 
-        /* Modal de Game Over y Victoria */
+        /* Modal de Game Over, Victoria, Registro y Tablero */
         .modal {
             display: none;
             position: fixed;
@@ -576,7 +578,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.9);
-            z-index: 2000;
+            z-index: 12000;
             justify-content: center;
             align-items: center;
             padding: 20px;
@@ -799,8 +801,10 @@
         ============================================= */
         #intro-screen {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: #000;
             z-index: 9999;
             display: flex;
@@ -826,10 +830,10 @@
             position: absolute;
             bottom: 30px;
             right: 30px;
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: rgba(255,255,255,0.85);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.85);
             padding: 10px 22px;
             border-radius: 30px;
             cursor: pointer;
@@ -840,14 +844,16 @@
         }
 
         #skip-intro-btn:hover {
-            background: rgba(255,255,255,0.25);
+            background: rgba(255, 255, 255, 0.25);
             color: #fff;
         }
 
         #intro-fade-out {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: #000;
             opacity: 0;
             pointer-events: none;
@@ -863,8 +869,10 @@
         ============================================= */
         #title-screen {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: radial-gradient(ellipse at center top, #1a0a00 0%, #0d0500 50%, #000 100%);
             z-index: 9998;
             display: none;
@@ -877,8 +885,10 @@
         /* Particle stars background */
         .title-stars {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             overflow: hidden;
         }
@@ -887,59 +897,75 @@
         .title-stars::after {
             content: '';
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image:
-                radial-gradient(1px 1px at 10% 15%, rgba(255,215,0,0.6) 0%, transparent 100%),
-                radial-gradient(1px 1px at 30% 5%, rgba(255,255,255,0.5) 0%, transparent 100%),
-                radial-gradient(1px 1px at 55% 20%, rgba(255,200,100,0.5) 0%, transparent 100%),
-                radial-gradient(1px 1px at 80% 8%, rgba(255,255,255,0.4) 0%, transparent 100%),
-                radial-gradient(1px 1px at 90% 30%, rgba(255,215,0,0.5) 0%, transparent 100%),
-                radial-gradient(1px 1px at 15% 50%, rgba(255,255,255,0.3) 0%, transparent 100%),
-                radial-gradient(1px 1px at 40% 70%, rgba(255,215,0,0.4) 0%, transparent 100%),
-                radial-gradient(1px 1px at 70% 60%, rgba(255,200,100,0.3) 0%, transparent 100%),
-                radial-gradient(1px 1px at 5% 80%, rgba(255,255,255,0.4) 0%, transparent 100%),
-                radial-gradient(1px 1px at 95% 75%, rgba(255,215,0,0.5) 0%, transparent 100%),
-                radial-gradient(2px 2px at 25% 35%, rgba(255,215,0,0.7) 0%, transparent 100%),
-                radial-gradient(2px 2px at 65% 45%, rgba(255,200,100,0.6) 0%, transparent 100%),
-                radial-gradient(2px 2px at 50% 88%, rgba(255,215,0,0.5) 0%, transparent 100%);
+                radial-gradient(1px 1px at 10% 15%, rgba(255, 215, 0, 0.6) 0%, transparent 100%),
+                radial-gradient(1px 1px at 30% 5%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+                radial-gradient(1px 1px at 55% 20%, rgba(255, 200, 100, 0.5) 0%, transparent 100%),
+                radial-gradient(1px 1px at 80% 8%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 90% 30%, rgba(255, 215, 0, 0.5) 0%, transparent 100%),
+                radial-gradient(1px 1px at 15% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 100%),
+                radial-gradient(1px 1px at 40% 70%, rgba(255, 215, 0, 0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 70% 60%, rgba(255, 200, 100, 0.3) 0%, transparent 100%),
+                radial-gradient(1px 1px at 5% 80%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 95% 75%, rgba(255, 215, 0, 0.5) 0%, transparent 100%),
+                radial-gradient(2px 2px at 25% 35%, rgba(255, 215, 0, 0.7) 0%, transparent 100%),
+                radial-gradient(2px 2px at 65% 45%, rgba(255, 200, 100, 0.6) 0%, transparent 100%),
+                radial-gradient(2px 2px at 50% 88%, rgba(255, 215, 0, 0.5) 0%, transparent 100%);
             animation: twinkle 4s ease-in-out infinite alternate;
         }
 
         .title-stars::after {
             background-image:
-                radial-gradient(1px 1px at 20% 25%, rgba(255,215,0,0.5) 0%, transparent 100%),
-                radial-gradient(1px 1px at 45% 12%, rgba(255,255,255,0.4) 0%, transparent 100%),
-                radial-gradient(1px 1px at 75% 18%, rgba(255,200,100,0.4) 0%, transparent 100%),
-                radial-gradient(1px 1px at 85% 55%, rgba(255,255,255,0.3) 0%, transparent 100%),
-                radial-gradient(1px 1px at 12% 65%, rgba(255,215,0,0.4) 0%, transparent 100%),
-                radial-gradient(2px 2px at 60% 82%, rgba(255,215,0,0.6) 0%, transparent 100%),
-                radial-gradient(1px 1px at 35% 92%, rgba(255,200,100,0.4) 0%, transparent 100%);
+                radial-gradient(1px 1px at 20% 25%, rgba(255, 215, 0, 0.5) 0%, transparent 100%),
+                radial-gradient(1px 1px at 45% 12%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 75% 18%, rgba(255, 200, 100, 0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 85% 55%, rgba(255, 255, 255, 0.3) 0%, transparent 100%),
+                radial-gradient(1px 1px at 12% 65%, rgba(255, 215, 0, 0.4) 0%, transparent 100%),
+                radial-gradient(2px 2px at 60% 82%, rgba(255, 215, 0, 0.6) 0%, transparent 100%),
+                radial-gradient(1px 1px at 35% 92%, rgba(255, 200, 100, 0.4) 0%, transparent 100%);
             animation: twinkle 6s ease-in-out infinite alternate-reverse;
         }
 
         @keyframes twinkle {
-            from { opacity: 0.6; }
-            to { opacity: 1; }
+            from {
+                opacity: 0.6;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .title-sun {
             font-size: 5em;
             animation: sun-pulse 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 30px rgba(255,215,0,0.8));
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
             margin-bottom: 10px;
             position: relative;
             z-index: 1;
         }
 
         @keyframes sun-pulse {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 30px rgba(255,215,0,0.8)); }
-            50% { transform: scale(1.08); filter: drop-shadow(0 0 50px rgba(255,215,0,1)); }
+
+            0%,
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
+            }
+
+            50% {
+                transform: scale(1.08);
+                filter: drop-shadow(0 0 50px rgba(255, 215, 0, 1));
+            }
         }
 
         .title-subtitle-top {
             font-family: 'Cinzel', serif;
-            color: rgba(255,200,100,0.7);
+            color: rgba(255, 200, 100, 0.7);
             font-size: 0.85em;
             letter-spacing: 0.4em;
             text-transform: uppercase;
@@ -957,9 +983,9 @@
             text-align: center;
             line-height: 1.1;
             text-shadow:
-                0 0 40px rgba(255,215,0,0.9),
-                0 0 80px rgba(255,180,0,0.5),
-                0 4px 8px rgba(0,0,0,0.8);
+                0 0 40px rgba(255, 215, 0, 0.9),
+                0 0 80px rgba(255, 180, 0, 0.5),
+                0 4px 8px rgba(0, 0, 0, 0.8);
             position: relative;
             z-index: 1;
             animation: fadeInDown 1s ease forwards;
@@ -986,17 +1012,29 @@
             font-size: 0.7em;
         }
 
-        .title-divider::before { left: -12px; }
-        .title-divider::after { right: -12px; }
+        .title-divider::before {
+            left: -12px;
+        }
+
+        .title-divider::after {
+            right: -12px;
+        }
 
         @keyframes expandWidth {
-            from { width: 0; opacity: 0; }
-            to { width: 280px; opacity: 1; }
+            from {
+                width: 0;
+                opacity: 0;
+            }
+
+            to {
+                width: 280px;
+                opacity: 1;
+            }
         }
 
         .title-description {
             font-family: 'Inter', sans-serif;
-            color: rgba(255,220,150,0.85);
+            color: rgba(255, 220, 150, 0.85);
             font-size: clamp(0.85em, 2.5vw, 1em);
             text-align: center;
             max-width: 420px;
@@ -1030,12 +1068,12 @@
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 6px 30px rgba(255,215,0,0.5), 0 2px 8px rgba(0,0,0,0.5);
+            box-shadow: 0 6px 30px rgba(255, 215, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
         .btn-play:hover {
             transform: translateY(-3px) scale(1.04);
-            box-shadow: 0 12px 40px rgba(255,215,0,0.7), 0 4px 12px rgba(0,0,0,0.5);
+            box-shadow: 0 12px 40px rgba(255, 215, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.5);
         }
 
         .btn-play:active {
@@ -1044,8 +1082,8 @@
 
         .btn-tutorial-title {
             background: transparent;
-            color: rgba(255,215,0,0.85);
-            border: 2px solid rgba(255,215,0,0.5);
+            color: rgba(255, 215, 0, 0.85);
+            border: 2px solid rgba(255, 215, 0, 0.5);
             padding: 14px 32px;
             font-family: 'Cinzel', serif;
             font-size: 1em;
@@ -1055,12 +1093,12 @@
             cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(5px);
-            background: rgba(255,215,0,0.06);
+            background: rgba(255, 215, 0, 0.06);
         }
 
         .btn-tutorial-title:hover {
-            background: rgba(255,215,0,0.15);
-            border-color: rgba(255,215,0,0.9);
+            background: rgba(255, 215, 0, 0.15);
+            border-color: rgba(255, 215, 0, 0.9);
             color: #FFD700;
             transform: translateY(-2px);
         }
@@ -1070,19 +1108,33 @@
             bottom: 20px;
             font-family: 'Cinzel', serif;
             font-size: 0.75em;
-            color: rgba(255,215,0,0.35);
+            color: rgba(255, 215, 0, 0.35);
             letter-spacing: 0.2em;
             z-index: 1;
         }
 
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* =============================================
@@ -1091,9 +1143,11 @@
         #tutorial-modal {
             display: none;
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.92);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
             z-index: 10000;
             justify-content: center;
             align-items: center;
@@ -1112,7 +1166,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 0 60px rgba(218,165,32,0.4), 0 20px 60px rgba(0,0,0,0.8);
+            box-shadow: 0 0 60px rgba(218, 165, 32, 0.4), 0 20px 60px rgba(0, 0, 0, 0.8);
             animation: slideIn 0.4s ease;
         }
 
@@ -1132,9 +1186,9 @@
         }
 
         .tutorial-close {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: rgba(255,255,255,0.7);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
             width: 32px;
             height: 32px;
             border-radius: 50%;
@@ -1147,14 +1201,14 @@
         }
 
         .tutorial-close:hover {
-            background: rgba(255,100,100,0.3);
+            background: rgba(255, 100, 100, 0.3);
             color: #fff;
         }
 
         /* Progress bar */
         .tutorial-progress-bar {
             margin: 10px 18px 0;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             height: 5px;
             overflow: hidden;
@@ -1170,7 +1224,7 @@
 
         .tutorial-step-label {
             font-family: 'Inter', sans-serif;
-            color: rgba(255,215,0,0.6);
+            color: rgba(255, 215, 0, 0.6);
             font-size: 0.72em;
             margin: 5px 18px 0;
             letter-spacing: 0.05em;
@@ -1180,7 +1234,8 @@
         /* Slide content */
         .tutorial-slides {
             flex: 1;
-            min-height: 0; /* CRITICAL: allows flex child to shrink and enable scroll */
+            min-height: 0;
+            /* CRITICAL: allows flex child to shrink and enable scroll */
             overflow: hidden;
             position: relative;
         }
@@ -1200,8 +1255,15 @@
         }
 
         @keyframes fadeInRight {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .tutorial-slide-icon {
@@ -1218,12 +1280,12 @@
             font-weight: 600;
             text-align: center;
             margin-bottom: 8px;
-            text-shadow: 0 0 20px rgba(255,215,0,0.4);
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
         }
 
         .tutorial-slide-text {
             font-family: 'Inter', sans-serif;
-            color: rgba(255,230,180,0.9);
+            color: rgba(255, 230, 180, 0.9);
             font-size: 0.87em;
             line-height: 1.55;
             text-align: center;
@@ -1231,14 +1293,14 @@
         }
 
         .tutorial-tip-box {
-            background: rgba(218,165,32,0.1);
-            border: 1px solid rgba(218,165,32,0.4);
+            background: rgba(218, 165, 32, 0.1);
+            border: 1px solid rgba(218, 165, 32, 0.4);
             border-left: 4px solid #FFD700;
             border-radius: 8px;
             padding: 9px 12px;
             margin: 8px 0;
             font-family: 'Inter', sans-serif;
-            color: rgba(255,220,150,0.9);
+            color: rgba(255, 220, 150, 0.9);
             font-size: 0.82em;
             line-height: 1.5;
         }
@@ -1255,8 +1317,8 @@
         }
 
         .tutorial-resource-item {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             padding: 8px;
             text-align: center;
@@ -1278,14 +1340,14 @@
         }
 
         .tutorial-resource-item .ri-desc {
-            color: rgba(255,210,150,0.75);
+            color: rgba(255, 210, 150, 0.75);
             font-size: 0.78em;
             line-height: 1.4;
         }
 
         .tut-world-card {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(218,165,32,0.3);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(218, 165, 32, 0.3);
             border-radius: 10px;
             padding: 9px 12px;
             margin: 6px 0;
@@ -1295,7 +1357,10 @@
             font-family: 'Inter', sans-serif;
         }
 
-        .tut-world-card .wc-icon { font-size: 1.6em; flex-shrink: 0; }
+        .tut-world-card .wc-icon {
+            font-size: 1.6em;
+            flex-shrink: 0;
+        }
 
         .tut-world-card .wc-name {
             color: #FFD700;
@@ -1307,7 +1372,7 @@
         }
 
         .tut-world-card .wc-desc {
-            color: rgba(255,210,150,0.8);
+            color: rgba(255, 210, 150, 0.8);
             font-size: 0.82em;
             line-height: 1.5;
         }
@@ -1318,13 +1383,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid rgba(218,165,32,0.2);
+            border-top: 1px solid rgba(218, 165, 32, 0.2);
             flex-shrink: 0;
         }
 
         .tut-nav-btn {
-            background: rgba(218,165,32,0.12);
-            border: 1.5px solid rgba(218,165,32,0.5);
+            background: rgba(218, 165, 32, 0.12);
+            border: 1.5px solid rgba(218, 165, 32, 0.5);
             color: #FFD700;
             padding: 9px 18px;
             border-radius: 30px;
@@ -1336,7 +1401,7 @@
         }
 
         .tut-nav-btn:hover {
-            background: rgba(218,165,32,0.25);
+            background: rgba(218, 165, 32, 0.25);
             border-color: #FFD700;
             transform: translateY(-1px);
         }
@@ -1352,12 +1417,12 @@
             color: #1a0800;
             border-color: transparent;
             font-weight: 700;
-            box-shadow: 0 4px 15px rgba(255,215,0,0.35);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.35);
         }
 
         .tut-nav-btn.primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255,215,0,0.5);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
         }
 
         .tut-dots {
@@ -1369,7 +1434,7 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: rgba(255,215,0,0.25);
+            background: rgba(255, 215, 0, 0.25);
             transition: all 0.3s;
         }
 
@@ -1385,22 +1450,29 @@
         }
 
         @keyframes titleFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         /* tap to play intro overlay */
         #intro-tap-overlay {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 2;
             cursor: pointer;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
         }
 
         #intro-tap-overlay .tap-icon {
@@ -1411,15 +1483,15 @@
 
         #intro-tap-overlay .tap-text {
             font-family: 'Cinzel', serif;
-            color: rgba(255,255,255,0.9);
+            color: rgba(255, 255, 255, 0.9);
             font-size: clamp(1em, 4vw, 1.4em);
             letter-spacing: 0.08em;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
         }
 
         #intro-tap-overlay .tap-sub {
             font-family: 'Inter', sans-serif;
-            color: rgba(255,255,255,0.6);
+            color: rgba(255, 255, 255, 0.6);
             font-size: 0.85em;
             margin-top: 6px;
         }
@@ -1430,9 +1502,11 @@
         #glosario-modal {
             display: none;
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.93);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.93);
             z-index: 20000;
             justify-content: center;
             align-items: flex-start;
@@ -1449,7 +1523,7 @@
             width: 100%;
             max-width: 620px;
             margin: auto;
-            box-shadow: 0 0 60px rgba(218,165,32,0.4), 0 20px 60px rgba(0,0,0,0.9);
+            box-shadow: 0 0 60px rgba(218, 165, 32, 0.4), 0 20px 60px rgba(0, 0, 0, 0.9);
             overflow: hidden;
             animation: slideIn 0.4s ease;
         }
@@ -1459,8 +1533,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 2px solid rgba(218,165,32,0.3);
-            background: rgba(0,0,0,0.3);
+            border-bottom: 2px solid rgba(218, 165, 32, 0.3);
+            background: rgba(0, 0, 0, 0.3);
             position: sticky;
             top: 0;
             z-index: 1;
@@ -1474,9 +1548,9 @@
         }
 
         .glosario-close {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: rgba(255,255,255,0.7);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
             width: 32px;
             height: 32px;
             border-radius: 50%;
@@ -1490,7 +1564,7 @@
         }
 
         .glosario-close:hover {
-            background: rgba(255,80,80,0.3);
+            background: rgba(255, 80, 80, 0.3);
             color: #fff;
         }
 
@@ -1500,15 +1574,15 @@
 
         .glosario-intro {
             font-family: 'Inter', sans-serif;
-            color: rgba(255,220,150,0.8);
+            color: rgba(255, 220, 150, 0.8);
             font-size: 0.85em;
             line-height: 1.5;
             text-align: center;
             margin-bottom: 20px;
             padding: 10px 14px;
-            background: rgba(218,165,32,0.07);
+            background: rgba(218, 165, 32, 0.07);
             border-radius: 10px;
-            border: 1px solid rgba(218,165,32,0.2);
+            border: 1px solid rgba(218, 165, 32, 0.2);
         }
 
         .glosario-section-title {
@@ -1520,7 +1594,7 @@
             text-transform: uppercase;
             margin: 20px 0 10px;
             padding-bottom: 6px;
-            border-bottom: 1px solid rgba(218,165,32,0.3);
+            border-bottom: 1px solid rgba(218, 165, 32, 0.3);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1532,14 +1606,14 @@
             align-items: flex-start;
             margin-bottom: 10px;
             padding: 10px 12px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(218,165,32,0.15);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(218, 165, 32, 0.15);
             border-radius: 10px;
             transition: background 0.2s;
         }
 
         .glosario-entry:hover {
-            background: rgba(218,165,32,0.07);
+            background: rgba(218, 165, 32, 0.07);
         }
 
         .glosario-entry-icon {
@@ -1562,7 +1636,7 @@
 
         .glosario-entry-desc {
             font-family: 'Inter', sans-serif;
-            color: rgba(255,215,160,0.82);
+            color: rgba(255, 215, 160, 0.82);
             font-size: 0.8em;
             line-height: 1.55;
         }
@@ -1572,8 +1646,8 @@
             padding: 11px 26px;
             font-size: 0.95em;
             background: transparent;
-            color: rgba(255,215,0,0.85);
-            border: 2px solid rgba(255,215,0,0.45);
+            color: rgba(255, 215, 0, 0.85);
+            border: 2px solid rgba(255, 215, 0, 0.45);
             border-radius: 30px;
             cursor: pointer;
             font-family: 'Cinzel', serif;
@@ -1586,11 +1660,226 @@
         }
 
         .btn-glosario:hover {
-            background: rgba(255,215,0,0.12);
+            background: rgba(255, 215, 0, 0.12);
             border-color: #FFD700;
             color: #FFD700;
         }
 
+        /* =============================================
+           REGISTRO DE JUGADOR & TABLERO DE PUNTAJES CSS
+        ============================================= */
+        .title-player-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(26, 26, 38, 0.8);
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            padding: 8px 18px;
+            border-radius: 30px;
+            color: #FFD700;
+            font-family: 'Cinzel', serif;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 215, 0, 0.1);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .title-player-badge:hover {
+            transform: scale(1.05);
+            border-color: #FFD700;
+            background: rgba(40, 35, 25, 0.9);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .title-player-badge .badge-icon {
+            font-size: 1.2em;
+        }
+
+        .title-player-badge .badge-edit {
+            font-size: 0.85em;
+            opacity: 0.7;
+            margin-left: 4px;
+        }
+
+        .inca-input {
+            width: 100%;
+            background: rgba(15, 15, 25, 0.9);
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            color: #ffffff;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+            box-sizing: border-box;
+        }
+
+        .inca-input:focus {
+            border-color: #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            background: rgba(20, 20, 35, 0.95);
+        }
+
+        .inca-select {
+            background: rgba(15, 15, 25, 0.9);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            color: #FFD700;
+            padding: 7px 12px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .btn-action-small {
+            background: linear-gradient(135deg, #b8860b, #FFD700);
+            color: #1a0800;
+            border: none;
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-action-small:hover {
+            transform: scale(1.04);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-action-gold {
+            background: linear-gradient(135deg, #b8860b, #FFD700);
+            color: #1a0800;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-family: 'Cinzel', serif;
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-action-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Score Summary Box in Game Over / Victory */
+        .score-summary-box {
+            background: rgba(15, 15, 25, 0.7);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .score-main-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.78rem;
+            letter-spacing: 0.15em;
+            color: rgba(255, 215, 0, 0.8);
+            margin-bottom: 4px;
+        }
+
+        .score-main-val {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #FFD700;
+            text-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+            line-height: 1.1;
+        }
+
+        .score-player-name {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9em;
+            color: rgba(255, 220, 150, 0.9);
+            margin-bottom: 12px;
+        }
+
+        .score-breakdown-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+            text-align: left;
+            font-size: 0.82rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .score-item {
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .score-item strong {
+            color: #a8e063;
+        }
+
+        .cloud-sync-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: rgba(255, 215, 0, 0.08);
+            border: 1px dashed rgba(255, 215, 0, 0.3);
+            color: #FFD700;
+        }
+
+        /* Leaderboard Modal Table */
+        .modal-table-container {
+            max-height: 340px;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 8px;
+            background: rgba(10, 10, 15, 0.6);
+        }
+
+        .modal-ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        .modal-ranking-table th {
+            background: rgba(184, 134, 11, 0.3);
+            color: #FFD700;
+            font-family: 'Cinzel', serif;
+            padding: 8px 10px;
+            font-size: 0.78rem;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        .modal-ranking-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #f0ebe1;
+        }
+
+        .modal-ranking-table tr:hover {
+            background: rgba(255, 215, 0, 0.08);
+        }
     </style>
 </head>
 
@@ -1616,12 +1905,21 @@
     <audio id="audio-juego" src="The_Terrace_Rite.mp3" loop></audio>
 
     <!-- Victory Video Overlay -->
-    <div id="victory-video-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:15000; flex-direction:column; justify-content:center; align-items:center;">
-        <video id="victory-video" src="Temple_in_Inca_202604202333.mp4" playsinline style="width:100%; height:100%; object-fit:cover;"></video>
-        <div id="victory-overlay-text" style="position:absolute; bottom:0; left:0; right:0; padding:30px 20px; background:linear-gradient(transparent, rgba(0,0,0,0.92)); text-align:center;">
-            <div style="font-family:'Cinzel Decorative',serif; color:#FFD700; font-size:clamp(1.6em,5vw,3em); text-shadow:0 0 40px rgba(255,215,0,0.9); margin-bottom:12px;">🏆 ¡VICTORIA!</div>
-            <div style="font-family:'Cinzel',serif; color:rgba(255,220,150,0.9); font-size:clamp(0.9em,2.5vw,1.2em); margin-bottom:24px;">Has restaurado el equilibrio del Tawantinsuyu.<br>El Gran Coricancha se alza majestuoso ante Inti.</div>
-            <button onclick="cerrarVictoriaVideo()" style="background:linear-gradient(135deg,#b8860b,#FFD700); color:#1a0800; border:none; padding:14px 40px; border-radius:50px; font-family:'Cinzel',serif; font-size:1.05em; font-weight:700; cursor:pointer; box-shadow:0 6px 30px rgba(255,215,0,0.5);">🏛️ Volver al Inicio</button>
+    <div id="victory-video-overlay"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:15000; flex-direction:column; justify-content:center; align-items:center;">
+        <video id="victory-video" src="Temple_in_Inca_202604202333.mp4" playsinline
+            style="width:100%; height:100%; object-fit:cover;"></video>
+        <div id="victory-overlay-text"
+            style="position:absolute; bottom:0; left:0; right:0; padding:30px 20px; background:linear-gradient(transparent, rgba(0,0,0,0.92)); text-align:center;">
+            <div
+                style="font-family:'Cinzel Decorative',serif; color:#FFD700; font-size:clamp(1.6em,5vw,3em); text-shadow:0 0 40px rgba(255,215,0,0.9); margin-bottom:12px;">
+                🏆 ¡VICTORIA!</div>
+            <div
+                style="font-family:'Cinzel',serif; color:rgba(255,220,150,0.9); font-size:clamp(0.9em,2.5vw,1.2em); margin-bottom:24px;">
+                Has restaurado el equilibrio del Tawantinsuyu.<br>El Gran Coricancha se alza majestuoso ante Inti.</div>
+            <button onclick="cerrarVictoriaVideo()"
+                style="background:linear-gradient(135deg,#b8860b,#FFD700); color:#1a0800; border:none; padding:14px 40px; border-radius:50px; font-family:'Cinzel',serif; font-size:1.05em; font-weight:700; cursor:pointer; box-shadow:0 6px 30px rgba(255,215,0,0.5);">🏛️
+                Ver Puntuación Final</button>
         </div>
     </div>
 
@@ -1641,8 +1939,20 @@
             para construir el Gran Templo del Sol.
         </p>
 
+        <!-- Badge de Identificación del Curaca / Colegio -->
+        <div id="title-player-badge" class="title-player-badge" onclick="abrirRegistroJugador(false)"
+            title="Haz clic para cambiar tu nombre y colegio">
+            <span class="badge-icon">👑</span>
+            <span id="title-player-text">Curaca: Sin registrar</span>
+            <span class="badge-edit">✏️</span>
+        </div>
+
         <div class="title-buttons">
-            <button class="btn-play" id="btn-jugar" onclick="iniciarJuego()">⚡ Jugar</button>
+            <button class="btn-play" id="btn-jugar" onclick="iniciarJuegoClick()">⚡ Jugar</button>
+            <button class="btn-tutorial-title" id="btn-registro-title" onclick="abrirRegistroJugador(false)">👤
+                Registrar Curaca</button>
+            <button class="btn-tutorial-title" id="btn-ranking-title" onclick="abrirTableroPuntajes()">🏆
+                Tablero</button>
             <button class="btn-tutorial-title" id="btn-tutorial" onclick="abrirTutorial(true)">📜 Tutorial</button>
         </div>
 
@@ -1701,7 +2011,8 @@
                         <div class="tutorial-resource-item" style="grid-column: span 2;">
                             <span class="ri-icon">☀️</span>
                             <span class="ri-name">Fe (Bendición Solar)</span>
-                            <span class="ri-desc">El favor de Inti. Es clave para acciones sagradas y la victoria.</span>
+                            <span class="ri-desc">El favor de Inti. Es clave para acciones sagradas y la
+                                victoria.</span>
                         </div>
                     </div>
                     <div class="tutorial-tip-box">
@@ -1716,7 +2027,8 @@
                     <div class="tutorial-slide-title">El Sistema de Mita</div>
                     <p class="tutorial-slide-text">
                         La <strong style="color:#FFD700">Mita</strong> es el sistema de trabajo rotativo inca.
-                        Asigna a tu pueblo entre dos roles usando los botones <strong style="color:#FFD700">+ / −</strong>
+                        Asigna a tu pueblo entre dos roles usando los botones <strong style="color:#FFD700">+ /
+                            −</strong>
                         en la sección de Kay Pacha:
                     </p>
                     <div class="tut-world-card">
@@ -1724,15 +2036,16 @@
                         <div>
                             <span class="wc-name">Agricultores</span>
                             <span class="wc-desc">Producen <strong style="color:#a8e063">4 🌽 por mes</strong> cada uno.
-                            Esencial para alimentar a tu pueblo.</span>
+                                Esencial para alimentar a tu pueblo.</span>
                         </div>
                     </div>
                     <div class="tut-world-card">
                         <span class="wc-icon">🙏</span>
                         <div>
                             <span class="wc-name">Sacerdotes</span>
-                            <span class="wc-desc">Generan <strong style="color:#FFD700">3 ☀️ de Fe por mes</strong> cada uno.
-                            Necesarios para ganar el juego.</span>
+                            <span class="wc-desc">Generan <strong style="color:#FFD700">3 ☀️ de Fe por mes</strong> cada
+                                uno.
+                                Necesarios para ganar el juego.</span>
                         </div>
                     </div>
                     <div class="tutorial-tip-box">
@@ -1751,7 +2064,7 @@
                         <div>
                             <span class="wc-name">Hanan Pacha — Mundo de Arriba</span>
                             <span class="wc-desc"><strong>Ofrendar al Sol:</strong> Gasta 10 🌽 para obtener +15 ☀️ Fe.
-                            Aquí también construyes el Coricancha para ganar.</span>
+                                Aquí también construyes el Coricancha para ganar.</span>
                         </div>
                     </div>
                     <div class="tut-world-card">
@@ -1759,7 +2072,7 @@
                         <div>
                             <span class="wc-name">Kay Pacha — Mundo de Aquí</span>
                             <span class="wc-desc">Donde asignas la Mita. El paso del tiempo y las estaciones
-                            (incluyendo épocas de helada) afectan la producción.</span>
+                                (incluyendo épocas de helada) afectan la producción.</span>
                         </div>
                     </div>
                     <div class="tut-world-card">
@@ -1767,7 +2080,7 @@
                         <div>
                             <span class="wc-name">Uku Pacha — Mundo de Abajo</span>
                             <span class="wc-desc"><strong>Honrar Ancestros:</strong> Gasta 10 ☀️ para obtener
-                            −50% de consumo durante 3 meses. ¡Muy poderoso en crisis!</span>
+                                −50% de consumo durante 3 meses. ¡Muy poderoso en crisis!</span>
                         </div>
                     </div>
                 </div>
@@ -1784,8 +2097,10 @@
                         <span class="wc-icon">📜</span>
                         <div>
                             <span class="wc-name">Yachaywasi (Panel de Saber)</span>
-                            <span class="wc-desc">Abre el panel lateral derecho con el botón <strong style="color:#FFD700">📜 Saber</strong>.
-                            Aquí puedes invertir recursos en tecnología para mejorar tu aldea permanentemente.</span>
+                            <span class="wc-desc">Abre el panel lateral derecho con el botón <strong
+                                    style="color:#FFD700">📜 Saber</strong>.
+                                Aquí puedes invertir recursos en tecnología para mejorar tu aldea
+                                permanentemente.</span>
                         </div>
                     </div>
                     <div class="tutorial-resource-grid">
@@ -1818,7 +2133,8 @@
                         4. Investiga en el Yachaywasi cuando tengas suficientes recursos.<br>
                         5. ¡Construye el Coricancha cuando alcances 2000🌽 y 800☀️!
                     </div>
-                    <p class="tutorial-slide-text" style="margin-top:12px; font-size:0.85em; color:rgba(255,200,120,0.7);">
+                    <p class="tutorial-slide-text"
+                        style="margin-top:12px; font-size:0.85em; color:rgba(255,200,120,0.7);">
                         Recuerda: el juego avanza automáticamente mes a mes.
                         Usa ▶️ y ⏩ para controlar la velocidad.
                     </p>
@@ -1835,6 +2151,20 @@
     </div>
     <!-- Panel de UI -->
     <div class="ui-panel">
+        <!-- Curaca info / botón rápido -->
+        <div class="resource"
+            style="cursor: pointer; background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.4);"
+            onclick="abrirRegistroJugador(false)" title="Clic para cambiar nombre/colegio">
+            <span>👑</span>
+            <div>
+                <div style="font-size: 0.7em; color: #FFD700; text-transform: uppercase; letter-spacing: 0.05em;">Curaca
+                </div>
+                <div id="top-player-name"
+                    style="font-size: 0.85em; font-weight: bold; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    Anónimo</div>
+            </div>
+        </div>
+
         <div class="resource">
             <span>👥</span>
             <div>
@@ -1868,6 +2198,10 @@
             <button class="time-btn active" id="btn-normal" onclick="cambiarVelocidad('normal')"
                 title="Normal">▶️</button>
             <button class="time-btn" id="btn-rapido" onclick="cambiarVelocidad('rapido')" title="Rápido">⏩</button>
+            <button class="time-btn" onclick="abrirTableroPuntajes()" title="Ver Tablero de Puntajes"
+                style="background: linear-gradient(135deg, #b8860b, #FFD700); color: #1a0800; font-weight: bold; border-color: #FFD700; margin-left: 4px;">
+                🏆
+            </button>
         </div>
 
         <div style="margin-left: 10px;">
@@ -1883,55 +2217,41 @@
             <div class="world-description">
                 El mundo de arriba. Aquí reside Inti, el dios Sol.
             </div>
-            <div class="visual-element">🌞</div>
-            <button class="action-btn hanan-btn" onclick="ofrendarAlSol()" id="btn-hanan">
-                Ofrendar al Sol 🌽→☀️
+            <button class="action-btn hanan-btn" id="btn-hanan" onclick="ofrendarAlSol()">
+                🌞 Ofrendar al Sol (-10 🌽 ➔ +15 ☀️)
             </button>
-            <div class="cost-info">Costo: 10 🌽 | +15 ☀️</div>
-
-            <!-- Botón de Victoria -->
-            <button class="action-btn victory-btn" onclick="construirCoricancha()" id="btn-coricancha" disabled>
-                🏛️ Construir Coricancha
+            <button class="action-btn victory-btn" id="btn-coricancha" onclick="construirCoricancha()"
+                title="Requiere 2000 🌽 y 800 ☀️">
+                🏛️ Construir Gran Coricancha (2000 🌽 / 800 ☀️)
             </button>
-            <div class="cost-info">Requiere: 2000 🌽 y 800 ☀️</div>
         </div>
 
         <!-- Kay Pacha -->
         <div class="world kay-pacha" id="kay">
             <div class="world-title">🌍 KAY PACHA</div>
             <div class="world-description">
-                El mundo de aquí. Asigna tu pueblo mediante la Mita.
+                El mundo de aquí. Organiza la Mita para producir recursos.
             </div>
-            <div class="visual-element">🏘️</div>
 
-            <!-- Mita System -->
-            <div class="mita-container">
-                <div class="mita-title">⚒️ Sistema de Mita</div>
-
-                <div class="mita-row">
-                    <div class="mita-label">👨‍🌾 Agricultores:</div>
-                    <div class="mita-controls">
-                        <button class="mita-btn" onclick="cambiarMita('agricultor', -1)">-</button>
-                        <span class="mita-count" id="agricultores-count">0</span>
-                        <button class="mita-btn" onclick="cambiarMita('agricultor', 1)">+</button>
-                    </div>
+            <div class="mita-controls">
+                <div class="mita-group">
+                    <span>👨‍🌾 Agricultores:</span>
+                    <button class="mita-btn" onclick="cambiarMita('agricultor', -1)">-</button>
+                    <span class="mita-count" id="agricultores-count">0</span>
+                    <button class="mita-btn" onclick="cambiarMita('agricultor', 1)">+</button>
+                    <small>(+4 🌽/mes c/u)</small>
                 </div>
-                <div class="mita-info">Cada uno genera 4 🌽/mes</div>
-
-                <div class="mita-row">
-                    <div class="mita-label">🙏 Sacerdotes:</div>
-                    <div class="mita-controls">
-                        <button class="mita-btn" onclick="cambiarMita('sacerdote', -1)">-</button>
-                        <span class="mita-count" id="sacerdotes-count">0</span>
-                        <button class="mita-btn" onclick="cambiarMita('sacerdote', 1)">+</button>
-                    </div>
+                <div class="mita-group">
+                    <span>🙏 Sacerdotes:</span>
+                    <button class="mita-btn" onclick="cambiarMita('sacerdote', -1)">-</button>
+                    <span class="mita-count" id="sacerdotes-count">0</span>
+                    <button class="mita-btn" onclick="cambiarMita('sacerdote', 1)">+</button>
+                    <small>(+3 ☀️/mes c/u)</small>
                 </div>
-                <div class="mita-info">Cada uno genera 3 ☀️/mes</div>
-
-                <div class="mita-info" style="margin-top: 8px; font-weight: bold;">
-                    Disponibles: <span id="poblacion-disponible">15</span> |
-                    Asignados: <span id="poblacion-asignada">0</span>
-                </div>
+            </div>
+            <div style="font-size: 0.85em; margin-top: 5px; opacity: 0.9;">
+                Disponibles: <span id="poblacion-disponible">15</span> | Asignados: <span
+                    id="poblacion-asignada">0</span>
             </div>
         </div>
 
@@ -1939,14 +2259,12 @@
         <div class="world uku-pacha" id="uku">
             <div class="world-title">💀 UKU PACHA</div>
             <div class="world-description">
-                El mundo de abajo. Los Mallquis protegen a los vivos.
+                El inframundo. Honra a los ancestros (Mallquis).
             </div>
-            <div class="visual-element">👻</div>
-            <button class="action-btn uku-btn" onclick="honrarAncestros()" id="btn-uku">
-                Honrar Ancestros ☀️→️
+            <button class="action-btn uku-btn" id="btn-uku" onclick="honrarAncestros()">
+                🕯️ Honrar Ancestros (-10 ☀️ ➔ -50% Consumo 3 meses)
             </button>
-            <div class="cost-info">Costo: 10 ☀️ | -50% consumo x3 meses</div>
-            <div id="buff-ancestros" class="buff-indicator" style="display: none;">
+            <div id="buff-ancestros" style="display: none; color: #a8e063; font-weight: bold; margin-top: 8px;">
                 🛡️ Bendición: <span id="meses-restantes">0</span> meses
             </div>
         </div>
@@ -2003,11 +2321,152 @@
 
     <!-- Modal de Game Over/Victoria -->
     <div class="modal" id="gameOverModal">
-        <div class="modal-content" id="modalFinal">
+        <div class="modal-content" id="modalFinal" style="max-width: 540px;">
             <h2 id="tituloFinal">💀 EL AYNI SE HA ROTO 💀</h2>
             <p id="gameOverReason"></p>
-            <button class="restart-btn" onclick="reiniciarJuego()">Intentar de Nuevo</button>
-            <button class="btn-glosario" onclick="abrirGlosario()">📖 Glosario Cultural Inca</button>
+
+            <!-- Desglose de Puntaje -->
+            <div class="score-summary-box" id="scoreSummaryBox">
+                <div class="score-main-title">PUNTAJE FINAL DEL CURACA</div>
+                <div class="score-main-val" id="finalScoreVal">0</div>
+                <div class="score-player-name" id="finalScorePlayer">Curaca: -</div>
+
+                <div class="score-breakdown-grid">
+                    <div class="score-item">
+                        <span>⏳ Meses:</span>
+                        <strong id="scoreMesesVal">+0 pts</strong>
+                    </div>
+                    <div class="score-item">
+                        <span>👥 Población:</span>
+                        <strong id="scorePoblacionVal">+0 pts</strong>
+                    </div>
+                    <div class="score-item">
+                        <span>🌽 & ☀️ Recursos:</span>
+                        <strong id="scoreRecursosVal">+0 pts</strong>
+                    </div>
+                    <div class="score-item">
+                        <span>📚 Mejoras:</span>
+                        <strong id="scoreMejorasVal">+0 pts</strong>
+                    </div>
+                    <div class="score-item" style="grid-column: span 2;" id="scoreCoricanchaRow">
+                        <span>🏛️ Gran Coricancha:</span>
+                        <strong id="scoreCoricanchaVal" style="color:#FFD700;">+0 pts</strong>
+                    </div>
+                </div>
+
+                <!-- Estado de sincronización con Google Sheets -->
+                <div class="cloud-sync-badge" id="cloudSyncBadge">
+                    <span class="sync-icon">☁️</span>
+                    <span id="cloudSyncText">Sincronizando con Google Sheets...</span>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:14px;">
+                <button class="restart-btn" onclick="reiniciarJuego()" style="margin:0; flex:1; min-width:150px;">⚡
+                    Intentar de Nuevo</button>
+                <button class="btn-action-gold" onclick="abrirTableroPuntajes()" style="flex:1; min-width:150px;">🏆 Ver
+                    Tablero</button>
+            </div>
+            <button class="btn-glosario" onclick="abrirGlosario()" style="margin-top:12px;">📖 Glosario Cultural
+                Inca</button>
+        </div>
+    </div>
+
+    <!-- Modal de Registro de Jugador -->
+    <div class="modal" id="playerModal">
+        <div class="modal-content player-modal-card" style="max-width: 480px;">
+            <h2 style="font-family:'Cinzel Decorative',serif; color:#FFD700; font-size:1.7em; margin-bottom:8px;">👑
+                Registro del Curaca</h2>
+            <p style="font-size:0.88em; color:rgba(255,220,150,0.85); margin-bottom:18px;">
+                Ingresa tu nombre y las siglas de tu colegio para guardar tu puntaje en el <strong>Tablero Intercolegial
+                    del Tawantinsuyu</strong>.
+            </p>
+
+            <form id="playerForm" onsubmit="guardarRegistroJugador(event)"
+                style="display:flex; flex-direction:column; gap:14px; text-align:left;">
+                <div>
+                    <label
+                        style="display:block; font-family:'Cinzel',serif; color:#FFD700; font-size:0.85em; margin-bottom:6px; font-weight:600;">
+                        👤 Nombre o Apodo del Curaca / Equipo:
+                    </label>
+                    <input type="text" id="input-nombre-jugador" class="inca-input"
+                        placeholder="Ej: Nicolás, Equipo Inti, Pachacútec..." maxlength="30" required>
+                </div>
+
+                <div>
+                    <label
+                        style="display:block; font-family:'Cinzel',serif; color:#FFD700; font-size:0.85em; margin-bottom:6px; font-weight:600;">
+                        🏛️ Siglas del Colegio / Institución:
+                    </label>
+                    <input type="text" id="input-colegio-jugador" class="inca-input"
+                        placeholder="Ej: CNB, EEST1, CPB, SJD..." maxlength="15" style="text-transform:uppercase;"
+                        required>
+                </div>
+
+                <div style="display:flex; gap:10px; margin-top:8px;">
+                    <button type="button" class="btn-glosario" onclick="cerrarRegistroJugador()"
+                        style="margin:0; flex:1; border-radius:10px; padding:11px;">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="restart-btn"
+                        style="margin:0; flex:1.4; border-radius:10px; padding:11px; font-weight:700;">
+                        💾 Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Tablero de Puntajes Integrado -->
+    <div class="modal" id="gameLeaderboardModal">
+        <div class="modal-content leaderboard-modal-card" style="max-width: 700px; width: 95%;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,215,0,0.3); padding-bottom: 8px;">
+                <div style="font-family:'Cinzel Decorative',serif; color:#FFD700; font-size:1.4em; text-align:left;">
+                    🏆 Tablero de Puntajes
+                </div>
+                <button onclick="cerrarTableroPuntajes()"
+                    style="background:none; border:none; color:#FFD700; font-size:1.5rem; cursor:pointer;">✕</button>
+            </div>
+
+            <div
+                style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+                <div style="display:flex; align-items:center; gap:6px;">
+                    <span style="font-size:0.82em; color:#FFD700;">🏛️ Colegio:</span>
+                    <select id="modalSchoolFilter" onchange="filtrarPuntajesModal()" class="inca-select">
+                        <option value="">Todos los Colegios</option>
+                    </select>
+                </div>
+                <div style="display:flex; gap:6px;">
+                    <button class="btn-action-small" onclick="cargarPuntajesModal(true)">🔄 Refrescar</button>
+                    <a href="tablero.html" target="_blank" class="btn-action-small" style="text-decoration:none;">🖥️
+                        Tablero Web ↗</a>
+                </div>
+            </div>
+
+            <div class="modal-table-container">
+                <table class="modal-ranking-table">
+                    <thead>
+                        <tr>
+                            <th style="width:45px; text-align:center;">Pos</th>
+                            <th>Curaca</th>
+                            <th>Colegio</th>
+                            <th style="text-align:right;">Puntaje</th>
+                            <th>Resultado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modalTableBody">
+                        <!-- Loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div
+                style="margin-top:14px; display:flex; justify-content:space-between; align-items:center; font-size:0.8em; color:rgba(255,220,150,0.7);">
+                <span id="modalSyncStatus">Sincronizado con Google Sheets</span>
+                <button class="btn-glosario" onclick="cerrarTableroPuntajes()"
+                    style="margin:0; padding:5px 16px; font-size:0.85em;">Cerrar</button>
+            </div>
         </div>
     </div>
 
@@ -2021,7 +2480,8 @@
             <div class="glosario-body">
 
                 <p class="glosario-intro">
-                    Cada elemento del juego está basado en la cosmovisión y organización social real del Imperio Inca (Tawantinsuyu). Aquí te contamos qué significaba cada cosa para ellos.
+                    Cada elemento del juego está basado en la cosmovisión y organización social real del Imperio Inca
+                    (Tawantinsuyu). Aquí te contamos qué significaba cada cosa para ellos.
                 </p>
 
                 <!-- LOS TRES MUNDOS -->
@@ -2031,7 +2491,9 @@
                     <div class="glosario-entry-icon">☀️</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Hanan Pacha — Mundo de Arriba</span>
-                        <span class="glosario-entry-desc">El plano celestial donde vivían las divinidades solares y estelares. Inti, el Sol, era su deidad principal. Se accedía a él mediante ofrendas y rituales sagrados.</span>
+                        <span class="glosario-entry-desc">El plano celestial donde vivían las divinidades solares y
+                            estelares. Inti, el Sol, era su deidad principal. Se accedía a él mediante ofrendas y
+                            rituales sagrados.</span>
                     </div>
                 </div>
 
@@ -2039,7 +2501,9 @@
                     <div class="glosario-entry-icon">🌍</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Kay Pacha — Mundo de Aquí</span>
-                        <span class="glosario-entry-desc">El mundo de los vivos, donde transcurría la vida cotidiana. Era el espacio de la agricultura, el trabajo colectivo y las relaciones sociales del pueblo inca.</span>
+                        <span class="glosario-entry-desc">El mundo de los vivos, donde transcurría la vida cotidiana.
+                            Era el espacio de la agricultura, el trabajo colectivo y las relaciones sociales del pueblo
+                            inca.</span>
                     </div>
                 </div>
 
@@ -2047,7 +2511,9 @@
                     <div class="glosario-entry-icon">💀</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Uku Pacha — Mundo de Abajo</span>
-                        <span class="glosario-entry-desc">El inframundo, morada de los muertos y de lo que está por nacer. No era un lugar de castigo; los ancestros momificados (Mallquis) seguían protegiendo a los vivos desde allí.</span>
+                        <span class="glosario-entry-desc">El inframundo, morada de los muertos y de lo que está por
+                            nacer. No era un lugar de castigo; los ancestros momificados (Mallquis) seguían protegiendo
+                            a los vivos desde allí.</span>
                     </div>
                 </div>
 
@@ -2058,7 +2524,9 @@
                     <div class="glosario-entry-icon">🌞</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Inti — El Dios Sol</span>
-                        <span class="glosario-entry-desc">Deidad suprema del Imperio Inca. El Sapa Inca era considerado su hijo en la Tierra. Las ofrendas de comida y oro alimentaban su energía para que el ciclo agrícola continuara.</span>
+                        <span class="glosario-entry-desc">Deidad suprema del Imperio Inca. El Sapa Inca era considerado
+                            su hijo en la Tierra. Las ofrendas de comida y oro alimentaban su energía para que el ciclo
+                            agrícola continuara.</span>
                     </div>
                 </div>
 
@@ -2066,7 +2534,9 @@
                     <div class="glosario-entry-icon">🌙</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Mama Quilla — La Diosa Luna</span>
-                        <span class="glosario-entry-desc">Esposa de Inti y madre del tiempo. Regulaba el calendario lunar, las cosechas y la fertilidad. Era especialmente invocada en momentos de crisis agrícola.</span>
+                        <span class="glosario-entry-desc">Esposa de Inti y madre del tiempo. Regulaba el calendario
+                            lunar, las cosechas y la fertilidad. Era especialmente invocada en momentos de crisis
+                            agrícola.</span>
                     </div>
                 </div>
 
@@ -2074,7 +2544,9 @@
                     <div class="glosario-entry-icon">⚡</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Illapa — El Dios del Rayo</span>
-                        <span class="glosario-entry-desc">Controlaba las lluvias, el trueno y los relámpagos. Era fundamental para los agricultores: sin sus lluvias, no había cosecha. Se le ofrendaba para evitar sequías.</span>
+                        <span class="glosario-entry-desc">Controlaba las lluvias, el trueno y los relámpagos. Era
+                            fundamental para los agricultores: sin sus lluvias, no había cosecha. Se le ofrendaba para
+                            evitar sequías.</span>
                     </div>
                 </div>
 
@@ -2082,7 +2554,9 @@
                     <div class="glosario-entry-icon">🌋</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Pachacámac — El Hacedor del Mundo</span>
-                        <span class="glosario-entry-desc">Dios del interior de la Tierra, creador de todo ser vivo. Se creía que los terremotos eran su manifestación de poder. Tenía un gran templo oracular en la costa del Perú.</span>
+                        <span class="glosario-entry-desc">Dios del interior de la Tierra, creador de todo ser vivo. Se
+                            creía que los terremotos eran su manifestación de poder. Tenía un gran templo oracular en la
+                            costa del Perú.</span>
                     </div>
                 </div>
 
@@ -2093,7 +2567,9 @@
                     <div class="glosario-entry-icon">🔄</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">El Ayni — Reciprocidad</span>
-                        <span class="glosario-entry-desc">Principio central de la ética inca: todo se da y todo se recibe. El trabajo, la comida y el cuidado se compartían mutuamente entre vecinos y entre el pueblo y sus dioses. Romper el Ayni significaba el caos.</span>
+                        <span class="glosario-entry-desc">Principio central de la ética inca: todo se da y todo se
+                            recibe. El trabajo, la comida y el cuidado se compartían mutuamente entre vecinos y entre el
+                            pueblo y sus dioses. Romper el Ayni significaba el caos.</span>
                     </div>
                 </div>
 
@@ -2101,7 +2577,9 @@
                     <div class="glosario-entry-icon">⚒️</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">La Mita — Trabajo Rotativo</span>
-                        <span class="glosario-entry-desc">Sistema por el cual cada familia aportaba mano de obra al Estado en turnos rotativos. A cambio, el Estado les proveía de comida, ropa y herramientas. No era esclavitud: era reciprocidad organizada.</span>
+                        <span class="glosario-entry-desc">Sistema por el cual cada familia aportaba mano de obra al
+                            Estado en turnos rotativos. A cambio, el Estado les proveía de comida, ropa y herramientas.
+                            No era esclavitud: era reciprocidad organizada.</span>
                     </div>
                 </div>
 
@@ -2109,7 +2587,9 @@
                     <div class="glosario-entry-icon">👨‍🌾</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Agricultores</span>
-                        <span class="glosario-entry-desc">La base de la sociedad inca. Cultivaban maíz (sara), papa, quinua y otros productos en terrazas (andenes). El Estado almacenaba el excedente en qollqas para épocas de hambruna.</span>
+                        <span class="glosario-entry-desc">La base de la sociedad inca. Cultivaban maíz (sara), papa,
+                            quinua y otros productos en terrazas (andenes). El Estado almacenaba el excedente en qollqas
+                            para épocas de hambruna.</span>
                     </div>
                 </div>
 
@@ -2117,7 +2597,9 @@
                     <div class="glosario-entry-icon">🙏</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Sacerdotes (Villac Umu)</span>
-                        <span class="glosario-entry-desc">El sumo sacerdote y su casta administraban los ritos y el orden religioso del Imperio. Interpretaban señales divinas, supervisaban las ofrendas a Inti y coordinaban las grandes festividades.</span>
+                        <span class="glosario-entry-desc">El sumo sacerdote y su casta administraban los ritos y el
+                            orden religioso del Imperio. Interpretaban señales divinas, supervisaban las ofrendas a Inti
+                            y coordinaban las grandes festividades.</span>
                     </div>
                 </div>
 
@@ -2125,7 +2607,9 @@
                     <div class="glosario-entry-icon">👑</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Curaca</span>
-                        <span class="glosario-entry-desc">Jefe local de una comunidad (ayllu). Mediaba entre el pueblo y el Sapa Inca, organizaba el trabajo de la Mita y garantizaba que su comunidad cumpliera con los rituales sagrados.</span>
+                        <span class="glosario-entry-desc">Jefe local de una comunidad (ayllu). Mediaba entre el pueblo y
+                            el Sapa Inca, organizaba el trabajo de la Mita y garantizaba que su comunidad cumpliera con
+                            los rituales sagrados.</span>
                     </div>
                 </div>
 
@@ -2133,7 +2617,9 @@
                     <div class="glosario-entry-icon">👑</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Sapa Inca</span>
-                        <span class="glosario-entry-desc">El gobernante supremo del Imperio, considerado hijo del Sol. Tomaba todas las decisiones políticas, militares y religiosas. Su palabra era ley divina en todo el Tawantinsuyu.</span>
+                        <span class="glosario-entry-desc">El gobernante supremo del Imperio, considerado hijo del Sol.
+                            Tomaba todas las decisiones políticas, militares y religiosas. Su palabra era ley divina en
+                            todo el Tawantinsuyu.</span>
                     </div>
                 </div>
 
@@ -2144,7 +2630,9 @@
                     <div class="glosario-entry-icon">📚</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Yachaywasi — Casa del Saber</span>
-                        <span class="glosario-entry-desc">Institución educativa del Imperio donde los hijos de la nobleza aprendían quechua, astronomía, historia oral, arte de gobernar y los rituales sagrados. Equivalente a una universidad inca.</span>
+                        <span class="glosario-entry-desc">Institución educativa del Imperio donde los hijos de la
+                            nobleza aprendían quechua, astronomía, historia oral, arte de gobernar y los rituales
+                            sagrados. Equivalente a una universidad inca.</span>
                     </div>
                 </div>
 
@@ -2152,7 +2640,9 @@
                     <div class="glosario-entry-icon">🔢</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Quipus</span>
-                        <span class="glosario-entry-desc">Sistema de registro con cuerdas anudadas de distintos colores y posiciones. Los quipucamayoc (expertos) podían leer en ellos censos, tributos, calendarios y posiblemente narrativas históricas.</span>
+                        <span class="glosario-entry-desc">Sistema de registro con cuerdas anudadas de distintos colores
+                            y posiciones. Los quipucamayoc (expertos) podían leer en ellos censos, tributos, calendarios
+                            y posiblemente narrativas históricas.</span>
                     </div>
                 </div>
 
@@ -2160,7 +2650,9 @@
                     <div class="glosario-entry-icon">💧</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Canales de Riego</span>
-                        <span class="glosario-entry-desc">Los incas construyeron miles de kilómetros de canales (acequias) para llevar agua desde los glaciares hasta los valles. Esta tecnología permitía cultivar en épocas de helada y en terrenos áridos.</span>
+                        <span class="glosario-entry-desc">Los incas construyeron miles de kilómetros de canales
+                            (acequias) para llevar agua desde los glaciares hasta los valles. Esta tecnología permitía
+                            cultivar en épocas de helada y en terrenos áridos.</span>
                     </div>
                 </div>
 
@@ -2168,7 +2660,9 @@
                     <div class="glosario-entry-icon">🧙</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Amauta</span>
-                        <span class="glosario-entry-desc">Sabio y maestro de la sociedad inca. Conservaba y transmitía el conocimiento oral, la poesía, la historia y la filosofía andina. Eran los intelectuales del Imperio.</span>
+                        <span class="glosario-entry-desc">Sabio y maestro de la sociedad inca. Conservaba y transmitía
+                            el conocimiento oral, la poesía, la historia y la filosofía andina. Eran los intelectuales
+                            del Imperio.</span>
                     </div>
                 </div>
 
@@ -2176,7 +2670,9 @@
                     <div class="glosario-entry-icon">🦙</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Qhapaq Ñan — El Gran Camino</span>
-                        <span class="glosario-entry-desc">Red de más de 30.000 km de caminos que conectaba todo el Imperio. Por él viajaban el ejército, los chasquis (mensajeros), los comerciantes y los animales de carga. Fue declarado Patrimonio de la Humanidad.</span>
+                        <span class="glosario-entry-desc">Red de más de 30.000 km de caminos que conectaba todo el
+                            Imperio. Por él viajaban el ejército, los chasquis (mensajeros), los comerciantes y los
+                            animales de carga. Fue declarado Patrimonio de la Humanidad.</span>
                     </div>
                 </div>
 
@@ -2184,7 +2680,9 @@
                     <div class="glosario-entry-icon">🏃</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Chasqui — El Mensajero</span>
-                        <span class="glosario-entry-desc">Jóvenes atletas que corrían de posta en posta por el Qhapaq Ñan transmitiendo mensajes orales y quipus del Sapa Inca. Podían cubrir más de 400 km en un día entre relevos.</span>
+                        <span class="glosario-entry-desc">Jóvenes atletas que corrían de posta en posta por el Qhapaq
+                            Ñan transmitiendo mensajes orales y quipus del Sapa Inca. Podían cubrir más de 400 km en un
+                            día entre relevos.</span>
                     </div>
                 </div>
 
@@ -2195,7 +2693,9 @@
                     <div class="glosario-entry-icon">🏛️</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Coricancha — Templo del Sol</span>
-                        <span class="glosario-entry-desc">El templo más sagrado del Imperio, en el Cusco. Sus muros estaban cubiertos de planchas de oro puro. Albergaba ídolos de Inti, Mama Quilla e Illapa. Los conquistadores españoles construyeron una iglesia sobre sus cimientos.</span>
+                        <span class="glosario-entry-desc">El templo más sagrado del Imperio, en el Cusco. Sus muros
+                            estaban cubiertos de planchas de oro puro. Albergaba ídolos de Inti, Mama Quilla e Illapa.
+                            Los conquistadores españoles construyeron una iglesia sobre sus cimientos.</span>
                     </div>
                 </div>
 
@@ -2203,7 +2703,9 @@
                     <div class="glosario-entry-icon">🌎</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Tawantinsuyu — El Imperio de los Cuatro Suyos</span>
-                        <span class="glosario-entry-desc">El nombre quechua del Imperio Inca, que se extendía desde Colombia hasta el norte de Argentina. "Tawa" significa cuatro y "suyu" región. Era el estado más grande de América precolombina.</span>
+                        <span class="glosario-entry-desc">El nombre quechua del Imperio Inca, que se extendía desde
+                            Colombia hasta el norte de Argentina. "Tawa" significa cuatro y "suyu" región. Era el estado
+                            más grande de América precolombina.</span>
                     </div>
                 </div>
 
@@ -2214,7 +2716,9 @@
                     <div class="glosario-entry-icon">🎉</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Inti Raymi — Fiesta del Sol</span>
-                        <span class="glosario-entry-desc">La festividad más importante del año inca, celebrada en junio durante el solsticio de invierno. Incluía procesiones, danzas, ofrendas y banquetes colectivos para renovar la alianza con el Sol.</span>
+                        <span class="glosario-entry-desc">La festividad más importante del año inca, celebrada en junio
+                            durante el solsticio de invierno. Incluía procesiones, danzas, ofrendas y banquetes
+                            colectivos para renovar la alianza con el Sol.</span>
                     </div>
                 </div>
 
@@ -2222,7 +2726,9 @@
                     <div class="glosario-entry-icon">👻</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Mallquis — Ancestros Momificados</span>
-                        <span class="glosario-entry-desc">Los incas momificaban a sus muertos y los consultaban en rituales. Los Mallquis participaban simbólicamente en celebraciones, recibían ofrendas y "votaban" en decisiones importantes del ayllu.</span>
+                        <span class="glosario-entry-desc">Los incas momificaban a sus muertos y los consultaban en
+                            rituales. Los Mallquis participaban simbólicamente en celebraciones, recibían ofrendas y
+                            "votaban" en decisiones importantes del ayllu.</span>
                     </div>
                 </div>
 
@@ -2230,7 +2736,9 @@
                     <div class="glosario-entry-icon">✨</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Capacocha — Ofrenda Sagrada</span>
-                        <span class="glosario-entry-desc">El ritual más solemne del Imperio: la consagración de un niño o niña como ofrenda divina en momentos de gran importancia (coronaciones, eclipses, desastres). Era considerado un honor supremo para la familia.</span>
+                        <span class="glosario-entry-desc">El ritual más solemne del Imperio: la consagración de un niño
+                            o niña como ofrenda divina en momentos de gran importancia (coronaciones, eclipses,
+                            desastres). Era considerado un honor supremo para la familia.</span>
                     </div>
                 </div>
 
@@ -2238,7 +2746,9 @@
                     <div class="glosario-entry-icon">🌑</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Eclipse Solar</span>
-                        <span class="glosario-entry-desc">Los incas interpretaban los eclipses como señales de cólera divina. Se realizaban ceremonias urgentes, gritos rituales y se asustaba a Inti con ruidos para que "regresara". Generaban pánico colectivo real.</span>
+                        <span class="glosario-entry-desc">Los incas interpretaban los eclipses como señales de cólera
+                            divina. Se realizaban ceremonias urgentes, gritos rituales y se asustaba a Inti con ruidos
+                            para que "regresara". Generaban pánico colectivo real.</span>
                     </div>
                 </div>
 
@@ -2246,7 +2756,9 @@
                     <div class="glosario-entry-icon">🌵</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Sequía</span>
-                        <span class="glosario-entry-desc">Las sequías eran interpretadas como señal de que Illapa había retirado su favor. Los incas respondían con ofrendas, procesiones y penitencias colectivas para restablecer la relación con la divinidad.</span>
+                        <span class="glosario-entry-desc">Las sequías eran interpretadas como señal de que Illapa había
+                            retirado su favor. Los incas respondían con ofrendas, procesiones y penitencias colectivas
+                            para restablecer la relación con la divinidad.</span>
                     </div>
                 </div>
 
@@ -2254,7 +2766,9 @@
                     <div class="glosario-entry-icon">❄️</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Heladas</span>
-                        <span class="glosario-entry-desc">Las heladas (mayo-agosto) eran el mayor peligro para los cultivos andinos. Los incas desarrollaron técnicas como el chuño (papa deshidratada por congelación nocturna) para conservar alimentos en estas épocas.</span>
+                        <span class="glosario-entry-desc">Las heladas (mayo-agosto) eran el mayor peligro para los
+                            cultivos andinos. Los incas desarrollaron técnicas como el chuño (papa deshidratada por
+                            congelación nocturna) para conservar alimentos en estas épocas.</span>
                     </div>
                 </div>
 
@@ -2262,7 +2776,9 @@
                     <div class="glosario-entry-icon">🌋</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">Terremoto (Pachacámac)</span>
-                        <span class="glosario-entry-desc">Los terremotos eran el movimiento de Pachacámac bajo la Tierra. Su gran templo en Lima era uno de los oráculos más consultados del continente para apaciguarlo y conocer la voluntad divina.</span>
+                        <span class="glosario-entry-desc">Los terremotos eran el movimiento de Pachacámac bajo la
+                            Tierra. Su gran templo en Lima era uno de los oráculos más consultados del continente para
+                            apaciguarlo y conocer la voluntad divina.</span>
                     </div>
                 </div>
 
@@ -2270,7 +2786,9 @@
                     <div class="glosario-entry-icon">🌽</div>
                     <div class="glosario-entry-content">
                         <span class="glosario-entry-name">El Maíz (Sara)</span>
-                        <span class="glosario-entry-desc">La planta sagrada de los Andes. Se usaba para hacer chicha (bebida ritual), alimentar al pueblo y ofrendar a los dioses. El maíz de colores era símbolo de prosperidad y equilibrio cósmico.</span>
+                        <span class="glosario-entry-desc">La planta sagrada de los Andes. Se usaba para hacer chicha
+                            (bebida ritual), alimentar al pueblo y ofrendar a los dioses. El maíz de colores era símbolo
+                            de prosperidad y equilibrio cósmico.</span>
                     </div>
                 </div>
 
@@ -2279,6 +2797,103 @@
     </div>
 
     <script>
+        // ==========================================
+        // CONFIGURACIÓN DE JUGADOR & GOOGLE APPS SCRIPT
+        // ==========================================
+        const DEFAULT_GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbynwOPQoiMeC0CD9KobexcriT9X4-8PvtIRj-DQImUaYf39fxBlk2-ePsJSR8Ruk70/exec';
+        
+        function getGoogleScriptUrl() {
+            const saved = localStorage.getItem('inca_google_script_url');
+            if (saved && saved.startsWith('http') && !saved.includes('SAMPLE')) {
+                return saved;
+            }
+            return DEFAULT_GOOGLE_SCRIPT_URL;
+        }
+
+        let jugador = {
+            nombre: localStorage.getItem('inca_jugador_nombre') || '',
+            colegio: localStorage.getItem('inca_jugador_colegio') || ''
+        };
+        let iniciarJuegoPendiente = false;
+
+        // ==========================================
+        // GESTIÓN DE JUGADOR & REGISTRO
+        // ==========================================
+        function actualizarBadgeJugador() {
+            const badgeText = document.getElementById('title-player-text');
+            const topPlayerName = document.getElementById('top-player-name');
+            const inputNombre = document.getElementById('input-nombre-jugador');
+            const inputColegio = document.getElementById('input-colegio-jugador');
+
+            if (jugador.nombre) {
+                const colStr = jugador.colegio ? ` (${jugador.colegio.toUpperCase()})` : '';
+                if (badgeText) badgeText.textContent = `Curaca: ${jugador.nombre}${colStr}`;
+                if (topPlayerName) topPlayerName.textContent = `${jugador.nombre}${colStr}`;
+            } else {
+                if (badgeText) badgeText.textContent = 'Curaca: Sin registrar';
+                if (topPlayerName) topPlayerName.textContent = 'Anónimo';
+            }
+
+            if (inputNombre) inputNombre.value = jugador.nombre || '';
+            if (inputColegio) inputColegio.value = jugador.colegio || '';
+        }
+
+        function abrirRegistroJugador(paraIniciar = false) {
+            iniciarJuegoPendiente = paraIniciar;
+            const inputNombre = document.getElementById('input-nombre-jugador');
+            const inputColegio = document.getElementById('input-colegio-jugador');
+            if (inputNombre) inputNombre.value = jugador.nombre || '';
+            if (inputColegio) inputColegio.value = jugador.colegio || '';
+            
+            const modal = document.getElementById('playerModal');
+            if (modal) modal.style.display = 'flex';
+            setTimeout(() => {
+                if (inputNombre) inputNombre.focus();
+            }, 100);
+        }
+
+        function cerrarRegistroJugador() {
+            const modal = document.getElementById('playerModal');
+            if (modal) modal.style.display = 'none';
+            iniciarJuegoPendiente = false;
+        }
+
+        function guardarRegistroJugador(event) {
+            if (event) event.preventDefault();
+            const inputNombre = document.getElementById('input-nombre-jugador');
+            const inputColegio = document.getElementById('input-colegio-jugador');
+            const nombre = inputNombre ? inputNombre.value.trim() : '';
+            const colegio = inputColegio ? inputColegio.value.trim().toUpperCase() : '';
+
+            if (!nombre) {
+                alert('Por favor ingresa tu nombre o apodo de Curaca');
+                return;
+            }
+
+            jugador.nombre = nombre;
+            jugador.colegio = colegio;
+
+            localStorage.setItem('inca_jugador_nombre', nombre);
+            localStorage.setItem('inca_jugador_colegio', colegio);
+
+            actualizarBadgeJugador();
+            const modal = document.getElementById('playerModal');
+            if (modal) modal.style.display = 'none';
+
+            if (iniciarJuegoPendiente) {
+                iniciarJuegoPendiente = false;
+                iniciarJuego();
+            }
+        }
+
+        function iniciarJuegoClick() {
+            if (!jugador.nombre) {
+                abrirRegistroJugador(true);
+            } else {
+                iniciarJuego();
+            }
+        }
+
         // Estado del juego
         let juego = {
             poblacion: 15,
@@ -2608,6 +3223,70 @@
         ];
 
         // ==========================================
+        // GESTIÓN DE JUGADOR & REGISTRO
+        // ==========================================
+        function actualizarBadgeJugador() {
+            const titleText = document.getElementById('title-player-text');
+            const topText = document.getElementById('top-player-name');
+            if (jugador.nombre) {
+                const colegioStr = jugador.colegio ? ` (${jugador.colegio.toUpperCase()})` : '';
+                if (titleText) titleText.textContent = `Curaca: ${jugador.nombre}${colegioStr}`;
+                if (topText) topText.textContent = `${jugador.nombre}${colegioStr}`;
+            } else {
+                if (titleText) titleText.textContent = 'Curaca: Sin registrar (Clic)';
+                if (topText) topText.textContent = 'Anónimo';
+            }
+        }
+
+        function abrirRegistroJugador(iniciarDespues = false) {
+            iniciarJuegoPendiente = !!iniciarDespues;
+            document.getElementById('input-nombre-jugador').value = jugador.nombre || '';
+            document.getElementById('input-colegio-jugador').value = jugador.colegio || '';
+            document.getElementById('playerModal').style.display = 'flex';
+            setTimeout(() => {
+                const input = document.getElementById('input-nombre-jugador');
+                if (input) input.focus();
+            }, 100);
+        }
+
+        function cerrarRegistroJugador() {
+            document.getElementById('playerModal').style.display = 'none';
+            iniciarJuegoPendiente = false;
+        }
+
+        function guardarRegistroJugador(e) {
+            if (e) e.preventDefault();
+            const nom = document.getElementById('input-nombre-jugador').value.trim();
+            const col = document.getElementById('input-colegio-jugador').value.trim().toUpperCase();
+
+            if (!nom || !col) {
+                alert('Por favor ingresa tu nombre y las siglas de tu colegio.');
+                return;
+            }
+
+            jugador.nombre = nom;
+            jugador.colegio = col;
+            localStorage.setItem('inca_jugador_nombre', nom);
+            localStorage.setItem('inca_jugador_colegio', col);
+
+            actualizarBadgeJugador();
+            cerrarRegistroJugador();
+
+            if (iniciarJuegoPendiente) {
+                iniciarJuegoPendiente = false;
+                iniciarJuego();
+            }
+        }
+
+        function iniciarJuegoClick() {
+            if (!jugador.nombre || !jugador.colegio) {
+                abrirRegistroJugador(true);
+            } else {
+                iniciarJuego();
+            }
+        }
+
+        // ==========================================
         // INTRO & TITLE SCREEN LOGIC
         // ==========================================
         const TOTAL_TUT_SLIDES = 6;
@@ -2615,38 +3294,36 @@
         let fromTitleScreen = false;
 
         window.onload = function () {
+            // Actualizar datos del jugador
+            actualizarBadgeJugador();
+
             // Build tutorial dots
             const dotsContainer = document.getElementById('tut-dots');
-            for (let i = 0; i < TOTAL_TUT_SLIDES; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'tut-dot' + (i === 0 ? ' active' : '');
-                dotsContainer.appendChild(dot);
+            if (dotsContainer) {
+                for (let i = 0; i < TOTAL_TUT_SLIDES; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'tut-dot' + (i === 0 ? ' active' : '');
+                    dotsContainer.appendChild(dot);
+                }
+                updateTutorialNav();
             }
-            updateTutorialNav();
 
             // Register ended/error handlers only
             const video = document.getElementById('intro-video');
-            video.addEventListener('ended', transitionToTitle);
-            video.addEventListener('error', () => setTimeout(transitionToTitle, 500));
-            // Tap overlay is already visible (display:flex in HTML)
-            // No autoplay attempt — we wait for user tap to unlock audio context
+            if (video) {
+                video.addEventListener('ended', transitionToTitle);
+                video.addEventListener('error', () => setTimeout(transitionToTitle, 500));
+            }
         };
 
         // Called when user taps the overlay to manually start video
-        // This user gesture unlocks the browser audio context for all subsequent audio
         function startIntroVideo() {
             const tapOverlay = document.getElementById('intro-tap-overlay');
             const video = document.getElementById('intro-video');
 
-            // Hide overlay
             tapOverlay.style.display = 'none';
-
-            // Fade in video
             video.classList.add('visible');
-
-            // Play video (with sound - user gesture unlocks audio)
             video.play().catch(() => {
-                // If still blocked (rare), go to title
                 transitionToTitle();
             });
         }
@@ -2663,7 +3340,7 @@
             if (!el) return;
             el.volume = volume;
             el.currentTime = 0;
-            el.play().catch(() => {});
+            el.play().catch(() => { });
         }
 
         function stopAudio(id, fadeDuration) {
@@ -2684,7 +3361,6 @@
         function transitionToTitle() {
             const fadeOut = document.getElementById('intro-fade-out');
             const introScreen = document.getElementById('intro-screen');
-            // Stop intro video audio (it's muted anyway)
             const introVid = document.getElementById('intro-video');
             if (introVid) introVid.pause();
             fadeOut.classList.add('fade');
@@ -2693,7 +3369,6 @@
                 const titleScreen = document.getElementById('title-screen');
                 titleScreen.style.display = 'flex';
                 titleScreen.classList.add('visible');
-                // Start title music
                 playAudio('audio-titulo', 0.65);
             }, 1200);
         }
@@ -2702,13 +3377,12 @@
             const titleScreen = document.getElementById('title-screen');
             titleScreen.style.transition = 'opacity 0.8s ease';
             titleScreen.style.opacity = '0';
-            // Fade out title music, start gameplay music
             stopAudio('audio-titulo', 800);
             setTimeout(() => {
                 titleScreen.style.display = 'none';
-                // Start gameplay music (low volume loop)
                 playAudio('audio-juego', 0.28);
-                agregarLog("Bienvenido. Mantén el equilibrio entre los tres mundos.");
+                agregarLog(`Bienvenido Curaca ${jugador.nombre || ''} (${jugador.colegio || 'Tawantinsuyu'}).`);
+                agregarLog("Mantén el equilibrio entre los tres mundos.");
                 agregarLog("Asigna población en la Mita para generar recursos.");
                 agregarLog("Objetivo: 2000 🌽 y 800 ☀️ para el Coricancha.");
                 actualizarUI();
@@ -2723,7 +3397,6 @@
             fromTitleScreen = !!fromTitle;
             currentTutSlide = 0;
             document.getElementById('tutorial-modal').style.display = 'flex';
-            // Show/hide the close button: always show it
             document.getElementById('tutorial-close-btn').style.display = 'flex';
             mostrarSlide(0);
         }
@@ -2759,7 +3432,7 @@
             if (dir === 1 && isLast) {
                 cerrarTutorial();
                 if (fromTitleScreen) {
-                    iniciarJuego();
+                    iniciarJuegoClick();
                 }
                 return;
             }
@@ -2772,7 +3445,8 @@
             juego.velocidad = nuevaVelocidad;
 
             document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`btn-${nuevaVelocidad}`).classList.add('active');
+            const activeBtn = document.getElementById(`btn-${nuevaVelocidad}`);
+            if (activeBtn) activeBtn.classList.add('active');
 
             if (juego.intervaloJuego) {
                 clearInterval(juego.intervaloJuego);
@@ -2907,6 +3581,98 @@
             document.getElementById('modalEvento').style.display = 'none';
         }
 
+        // ==========================================
+        // SISTEMA DE PUNTAJE & GOOGLE SHEETS
+        // ==========================================
+        function calcularPuntajeFinal(esVictoria) {
+            const ptsMeses = juego.mes * 50;
+            const ptsPoblacion = Math.max(0, juego.poblacion) * 100;
+            const ptsRecursos = Math.max(0, Math.floor(juego.alimento * 1)) + Math.max(0, Math.floor(juego.fe * 2));
+            let ptsMejoras = 0;
+            if (juego.quipusDesarrollado) ptsMejoras += 300;
+            if (juego.canalesDesarrollado) ptsMejoras += 300;
+            const ptsCoricancha = esVictoria ? 2500 : 0;
+            const total = ptsMeses + ptsPoblacion + ptsRecursos + ptsMejoras + ptsCoricancha;
+
+            return {
+                total,
+                ptsMeses,
+                ptsPoblacion,
+                ptsRecursos,
+                ptsMejoras,
+                ptsCoricancha,
+                esVictoria
+            };
+        }
+
+        function mostrarPuntajeEnModal(scoreData) {
+            document.getElementById('finalScoreVal').textContent = scoreData.total.toLocaleString();
+            document.getElementById('finalScorePlayer').textContent = `Curaca: ${jugador.nombre || 'Anónimo'} · Col: ${jugador.colegio || 'S/D'}`;
+            document.getElementById('scoreMesesVal').textContent = `+${scoreData.ptsMeses.toLocaleString()} pts`;
+            document.getElementById('scorePoblacionVal').textContent = `+${scoreData.ptsPoblacion.toLocaleString()} pts`;
+            document.getElementById('scoreRecursosVal').textContent = `+${scoreData.ptsRecursos.toLocaleString()} pts`;
+            document.getElementById('scoreMejorasVal').textContent = `+${scoreData.ptsMejoras.toLocaleString()} pts`;
+
+            const coricanchaRow = document.getElementById('scoreCoricanchaRow');
+            if (scoreData.esVictoria) {
+                coricanchaRow.style.display = 'flex';
+                document.getElementById('scoreCoricanchaVal').textContent = `+${scoreData.ptsCoricancha.toLocaleString()} pts`;
+            } else {
+                coricanchaRow.style.display = 'none';
+            }
+        }
+
+        async function enviarPuntajeAGoogleSheets(scoreData) {
+            const syncBadge = document.getElementById('cloudSyncBadge');
+            const syncText = document.getElementById('cloudSyncText');
+            syncBadge.style.display = 'flex';
+            syncBadge.style.color = '#FFD700';
+            syncBadge.style.borderColor = 'rgba(255, 215, 0, 0.4)';
+            syncText.textContent = 'Sincronizando puntaje con Google Sheets...';
+
+            const payload = {
+                jugador: jugador.nombre || 'Anónimo',
+                colegio: jugador.colegio || 'S/D',
+                puntaje: scoreData.total,
+                resultado: scoreData.esVictoria ? '🏆 Victoria (Coricancha)' : `💀 Game Over (Mes ${juego.mes})`,
+                meses: juego.mes,
+                poblacion: juego.poblacion,
+                alimento: juego.alimento,
+                fe: juego.fe,
+                fecha: new Date().toISOString()
+            };
+
+            // Guardar copia local en el navegador
+            try {
+                let localScores = JSON.parse(localStorage.getItem('inca_local_scores') || '[]');
+                localScores.push(payload);
+                localStorage.setItem('inca_local_scores', JSON.stringify(localScores));
+            } catch (e) { }
+
+            const scriptUrl = getGoogleScriptUrl();
+
+            if (scriptUrl && scriptUrl.startsWith('http') && !scriptUrl.includes('SAMPLE')) {
+                try {
+                    await fetch(scriptUrl, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'text/plain;charset=utf-8'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    syncText.textContent = '✅ ¡Puntaje guardado en Google Sheets!';
+                    syncBadge.style.color = '#2ecc71';
+                    syncBadge.style.borderColor = '#2ecc71';
+                } catch (err) {
+                    console.warn('Error al sincronizar con Apps Script:', err);
+                    syncText.textContent = '💾 Puntaje guardado localmente (Offline)';
+                }
+            } else {
+                syncText.textContent = '💾 Puntaje registrado localmente';
+            }
+        }
+
         // Victoria
         function construirCoricancha() {
             if (juego.alimento >= 2000 && juego.fe >= 800) {
@@ -2914,16 +3680,14 @@
                 clearInterval(juego.intervaloJuego);
                 agregarLog('¡VICTORIA! Construido el Coricancha.', 'victory');
 
-                // Stop gameplay music
                 stopAudio('audio-juego', 1500);
 
-                // Show victory video overlay
                 const overlay = document.getElementById('victory-video-overlay');
                 overlay.style.display = 'flex';
                 const vid = document.getElementById('victory-video');
                 vid.volume = 1.0;
                 vid.currentTime = 0;
-                vid.play().catch(() => {});
+                vid.play().catch(() => { });
             } else {
                 agregarLog('Necesitas 2000 🌽 y 800 ☀️.', 'error');
             }
@@ -2931,20 +3695,24 @@
 
         function cerrarVictoriaVideo() {
             const vid = document.getElementById('victory-video');
-            vid.pause();
+            if (vid) vid.pause();
             document.getElementById('victory-video-overlay').style.display = 'none';
-            // Show the classic victory modal
+
             const modal = document.getElementById('gameOverModal');
             const modalContent = document.getElementById('modalFinal');
             const titulo = document.getElementById('tituloFinal');
             const razon = document.getElementById('gameOverReason');
             modalContent.classList.add('victory');
-            titulo.textContent = '🏆 ¡VICTORIA! 🏆';
+            titulo.textContent = '🏆 ¡VICTORIA IMPERIAL! 🏆';
             razon.innerHTML = `
-                Has restaurado el equilibrio del Tawantinsuyu.<br><br>
-                El Gran Coricancha se alza majestuoso.<br>
-                Tu sabiduría trajo prosperidad eterna.
+                Has restaurado el equilibrio del Tawantinsuyu.<br>
+                El Gran Coricancha se alza majestuoso ante Inti.
             `;
+
+            const scoreData = calcularPuntajeFinal(true);
+            mostrarPuntajeEnModal(scoreData);
+            enviarPuntajeAGoogleSheets(scoreData);
+
             modal.style.display = 'flex';
         }
 
@@ -3148,7 +3916,124 @@
         // Game Over
         function mostrarGameOver(razon) {
             document.getElementById('gameOverReason').textContent = razon;
+            const modalContent = document.getElementById('modalFinal');
+            modalContent.classList.remove('victory');
+            document.getElementById('tituloFinal').textContent = '💀 EL AYNI SE HA ROTO 💀';
+
+            const scoreData = calcularPuntajeFinal(false);
+            mostrarPuntajeEnModal(scoreData);
+            enviarPuntajeAGoogleSheets(scoreData);
+
             document.getElementById('gameOverModal').style.display = 'flex';
+        }
+
+        // ==========================================
+        // TABLERO DE PUNTAJES MODAL
+        // ==========================================
+        let modalScores = [];
+        const DEMO_SCORES_LOCAL = [
+            { ranking: 1, jugador: 'Manco Cápac', colegio: 'CNB', puntaje: 5420, resultado: '🏆 Victoria (Coricancha)' },
+            { ranking: 2, jugador: 'Mama Ocllo', colegio: 'EEST1', puntaje: 4890, resultado: '🏆 Victoria (Coricancha)' },
+            { ranking: 3, jugador: 'Pachacútec', colegio: 'CPB', puntaje: 4310, resultado: '🏆 Victoria (Coricancha)' },
+            { ranking: 4, jugador: 'Atahualpa', colegio: 'CNB', puntaje: 2950, resultado: '💀 Game Over (Mes 22)' },
+            { ranking: 5, jugador: 'Túpac Yupanqui', colegio: 'SJD', puntaje: 2680, resultado: '💀 Game Over (Mes 19)' }
+        ];
+
+        function abrirTableroPuntajes() {
+            document.getElementById('gameLeaderboardModal').style.display = 'flex';
+            cargarPuntajesModal();
+        }
+
+        function cerrarTableroPuntajes() {
+            document.getElementById('gameLeaderboardModal').style.display = 'none';
+        }
+
+        async function cargarPuntajesModal(forceRefresh = false) {
+            const tbody = document.getElementById('modalTableBody');
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:#FFD700;">⏳ Cargando ranking del Tawantinsuyu...</td></tr>';
+
+            let localScores = [];
+            try {
+                localScores = JSON.parse(localStorage.getItem('inca_local_scores') || '[]');
+            } catch (e) { }
+
+            const scriptUrl = getGoogleScriptUrl();
+
+            if (scriptUrl && scriptUrl.startsWith('http') && !scriptUrl.includes('SAMPLE')) {
+                try {
+                    const res = await fetch(`${scriptUrl}?action=getScores&t=${Date.now()}`);
+                    const json = await res.json();
+                    if (json.success && Array.isArray(json.data)) {
+                        modalScores = json.data;
+                        localScores.forEach(localItem => {
+                            if (!modalScores.some(s => s.jugador === localItem.jugador && s.puntaje === localItem.puntaje)) {
+                                modalScores.push(localItem);
+                            }
+                        });
+                    } else {
+                        throw new Error('Formato inválido');
+                    }
+                } catch (err) {
+                    modalScores = [...DEMO_SCORES_LOCAL, ...localScores];
+                }
+            } else {
+                modalScores = [...DEMO_SCORES_LOCAL, ...localScores];
+            }
+
+            modalScores.sort((a, b) => b.puntaje - a.puntaje);
+            modalScores.forEach((item, idx) => item.ranking = idx + 1);
+
+            actualizarSelectColegiosModal();
+            filtrarPuntajesModal();
+        }
+
+        function actualizarSelectColegiosModal() {
+            const select = document.getElementById('modalSchoolFilter');
+            if (!select) return;
+            const valorActual = select.value;
+            const schools = Array.from(new Set(modalScores.map(s => (s.colegio || '').trim().toUpperCase()).filter(Boolean))).sort();
+
+            select.innerHTML = '<option value="">Todos los Colegios</option>';
+            schools.forEach(sch => {
+                const opt = document.createElement('option');
+                opt.value = sch;
+                opt.textContent = sch;
+                if (sch === valorActual) opt.selected = true;
+                select.appendChild(opt);
+            });
+        }
+
+        function filtrarPuntajesModal() {
+            const select = document.getElementById('modalSchoolFilter');
+            const col = select ? select.value.trim().toUpperCase() : '';
+            const tbody = document.getElementById('modalTableBody');
+
+            let filtrados = modalScores;
+            if (col) {
+                filtrados = modalScores.filter(s => (s.colegio || '').toUpperCase() === col);
+            }
+
+            if (filtrados.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:15px; color:rgba(255,220,150,0.6);">No hay registros para este colegio.</td></tr>';
+                return;
+            }
+
+            let html = '';
+            filtrados.forEach((item, idx) => {
+                let rank = item.ranking || (idx + 1);
+                let rankText = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `${rank}°`;
+                const isVic = item.resultado && item.resultado.toLowerCase().includes('victoria');
+                html += `
+                    <tr>
+                        <td style="text-align:center; font-weight:bold;">${rankText}</td>
+                        <td style="font-weight:600;">${item.jugador}</td>
+                        <td><span style="background:rgba(255,215,0,0.15); color:#FFD700; padding:2px 6px; border-radius:4px; font-size:0.75rem;">${item.colegio || 'S/D'}</span></td>
+                        <td style="text-align:right; font-family:'Cinzel',serif; font-weight:bold; color:#FFD700;">${(item.puntaje || 0).toLocaleString()}</td>
+                        <td style="font-size:0.8rem; color:${isVic ? '#2ecc71' : '#e74c3c'};">${item.resultado || '-'}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
         }
 
         // Glosario Cultural
@@ -3198,10 +4083,10 @@
             if (juegoAudio) {
                 juegoAudio.volume = 0.28;
                 juegoAudio.currentTime = 0;
-                juegoAudio.play().catch(() => {});
+                juegoAudio.play().catch(() => { });
             }
 
-            agregarLog("Nueva partida. Que Inti ilumine tu camino.");
+            agregarLog(`Nueva partida iniciada por Curaca ${jugador.nombre || ''}.`);
             actualizarUI();
             iniciarBucleJuego();
         }

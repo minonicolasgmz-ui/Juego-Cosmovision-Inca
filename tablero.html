@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero de Puntajes · Camino a Coricancha</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --gold-primary: #FFD700;
+            --gold-dark: #b8860b;
+            --gold-light: #fff0a8;
+            --bg-dark: #0f0f14;
+            --bg-card: rgba(26, 26, 38, 0.85);
+            --border-gold: rgba(255, 215, 0, 0.35);
+            --text-light: #f5f0e6;
+            --text-muted: rgba(245, 240, 230, 0.7);
+            --accent-green: #2ecc71;
+            --accent-red: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 50% 10%, #221a0f 0%, #0d0d12 60%, #050508 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 20px 15px 40px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient golden sun rays in background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.12) 0%, rgba(218, 165, 32, 0.04) 40%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-top: 10px;
+        }
+
+        .sun-emblem {
+            font-size: 3rem;
+            animation: pulseSun 4s infinite ease-in-out;
+            display: inline-block;
+            filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.6));
+        }
+
+        @keyframes pulseSun {
+
+            0%,
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+            }
+
+            50% {
+                transform: scale(1.08);
+                filter: drop-shadow(0 0 35px rgba(255, 215, 0, 0.9));
+            }
+        }
+
+        .subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.3em;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        h1 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(1.8rem, 4.5vw, 3rem);
+            color: #ffffff;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.4), 0 2px 5px rgba(0, 0, 0, 0.8);
+            margin: 5px 0 10px;
+            font-weight: 700;
+        }
+
+        .gold-line {
+            width: 260px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+            margin: 0 auto 15px;
+        }
+
+        /* Status & Live Badge */
+        .live-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(46, 204, 113, 0.12);
+            border: 1px solid rgba(46, 204, 113, 0.35);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #2ecc71;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #2ecc71;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #2ecc71;
+            animation: liveBlink 1.8s infinite;
+        }
+
+        @keyframes liveBlink {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.3;
+                transform: scale(0.7);
+            }
+        }
+
+        .sync-time {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Stats overview cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--gold-primary);
+        }
+
+        .stat-icon {
+            font-size: 1.6rem;
+            margin-bottom: 6px;
+        }
+
+        .stat-val {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--gold-primary);
+        }
+
+        .stat-label {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Podium (Top 3) */
+        .podium-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 15px;
+            margin: 25px 0 40px;
+            flex-wrap: wrap;
+        }
+
+        .podium-place {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px 15px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .podium-place:hover {
+            transform: translateY(-5px);
+        }
+
+        .podium-1 {
+            order: 2;
+            width: 280px;
+            border: 2px solid var(--gold-primary);
+            background: linear-gradient(180deg, rgba(255, 215, 0, 0.15) 0%, rgba(26, 26, 38, 0.95) 100%);
+            box-shadow: 0 0 35px rgba(255, 215, 0, 0.25);
+            padding-top: 30px;
+        }
+
+        .podium-2 {
+            order: 1;
+            width: 240px;
+            border: 1px solid rgba(192, 192, 192, 0.6);
+            background: linear-gradient(180deg, rgba(192, 192, 192, 0.1) 0%, rgba(26, 26, 38, 0.9) 100%);
+        }
+
+        .podium-3 {
+            order: 3;
+            width: 240px;
+            border: 1px solid rgba(205, 127, 50, 0.6);
+            background: linear-gradient(180deg, rgba(205, 127, 50, 0.1) 0%, rgba(26, 26, 38, 0.9) 100%);
+        }
+
+        .podium-crown {
+            font-size: 2.2rem;
+            position: absolute;
+            top: -22px;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+        }
+
+        .podium-medal {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .podium-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+            word-break: break-word;
+            max-width: 100%;
+        }
+
+        .podium-school {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.12);
+            color: var(--gold-primary);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: 0.05em;
+        }
+
+        .podium-score {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--gold-primary);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .podium-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Controls / Filter Bar */
+        .controls-bar {
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 14px;
+            padding: 14px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+
+        .filter-label {
+            font-size: 0.85rem;
+            color: var(--gold-primary);
+            font-weight: 600;
+        }
+
+        select,
+        input[type="text"] {
+            background: rgba(15, 15, 20, 0.8);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            color: var(--text-light);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        select:focus,
+        input[type="text"]:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold-primary));
+            color: #1a0a00;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s;
+        }
+
+        .btn-action:hover {
+            transform: scale(1.04);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--gold-primary);
+            color: var(--gold-primary);
+        }
+
+        /* Leaderboard Table */
+        .table-wrapper {
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        thead th {
+            background: rgba(184, 134, 11, 0.25);
+            color: var(--gold-primary);
+            font-family: 'Cinzel', serif;
+            font-size: 0.82rem;
+            letter-spacing: 0.08em;
+            padding: 14px 16px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-gold);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 215, 0, 0.06);
+        }
+
+        tbody td {
+            padding: 12px 16px;
+            font-size: 0.9rem;
+        }
+
+        .col-rank {
+            width: 60px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .col-player {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .col-school {
+            font-weight: 500;
+        }
+
+        .school-tag {
+            background: rgba(255, 215, 0, 0.12);
+            color: var(--gold-light);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 6px;
+            padding: 3px 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .col-score {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--gold-primary);
+            text-align: right;
+        }
+
+        .badge-victory {
+            background: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .badge-gameover {
+            background: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        /* Empty State & Loader */
+        .loading-state,
+        .empty-state {
+            padding: 50px 20px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 215, 0, 0.2);
+            border-top-color: var(--gold-primary);
+            border-radius: 50%;
+            animation: spin 0.9s infinite linear;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Config Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(6px);
+            padding: 15px;
+        }
+
+        .modal-card {
+            background: #181824;
+            border: 2px solid var(--gold-primary);
+            border-radius: 16px;
+            max-width: 550px;
+            width: 100%;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-title {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-primary);
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--gold-primary);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Navigation Footer */
+        footer {
+            margin-top: 35px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--gold-primary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .podium-place {
+                width: 100% !important;
+                order: initial !important;
+            }
+
+            .hide-mobile {
+                display: none;
+            }
+
+            .controls-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="sun-emblem">☀️</div>
+            <div class="subtitle">Tawantinsuyu · Torneo Intercolegial</div>
+            <h1>Tablero de Puntajes</h1>
+            <div class="gold-line"></div>
+
+            <div class="live-bar">
+                <div class="live-badge">
+                    <span class="pulse-dot"></span>
+                    <span>Sincronización en Vivo</span>
+                </div>
+                <div class="sync-time" id="syncStatus">Actualizado recién</div>
+            </div>
+        </header>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👑</div>
+                <div class="stat-val" id="statMaxScore">0</div>
+                <div class="stat-label">Puntaje Máximo</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-val" id="statTotalPlayers">0</div>
+                <div class="stat-label">Curacas Participantes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏛️</div>
+                <div class="stat-val" id="statTotalSchools">0</div>
+                <div class="stat-label">Colegios Compitiendo</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-val" id="statCoricanchas">0</div>
+                <div class="stat-label">Coricanchas Construidos</div>
+            </div>
+        </div>
+
+        <!-- Top 3 Podium -->
+        <div class="podium-container" id="podiumContainer" style="display: none;">
+            <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Controls Bar -->
+        <div class="controls-bar">
+            <div class="filter-group">
+                <span class="filter-label">🏛️ Colegio:</span>
+                <select id="schoolFilter" onchange="aplicarFiltros()">
+                    <option value="">Todos los Colegios</option>
+                </select>
+
+                <input type="text" id="searchInput" placeholder="🔍 Buscar curaca..." oninput="aplicarFiltros()">
+            </div>
+
+            <div style="display: flex; gap: 8px;">
+                <button class="btn-action btn-secondary" onclick="abrirModalConfig()"
+                    title="Configurar conexión con Google Apps Script">
+                    ⚙️ Configurar URL
+                </button>
+                <button class="btn-action" onclick="cargarPuntajes(true)" id="btnRefresh">
+                    🔄 Actualizar
+                </button>
+            </div>
+        </div>
+
+        <!-- Leaderboard Table -->
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="col-rank">Pos</th>
+                        <th>Curaca / Jugador</th>
+                        <th>Colegio</th>
+                        <th class="col-score">Puntaje</th>
+                        <th>Resultado</th>
+                        <th class="hide-mobile">Meses</th>
+                        <th class="hide-mobile">Fecha</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr>
+                        <td colspan="7">
+                            <div class="loading-state">
+                                <div class="spinner"></div>
+                                <p>Cargando posiciones del Tawantinsuyu...</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>Juego Cosmovisión Inca · <strong>Camino a Coricancha</strong></p>
+            <p style="margin-top: 6px;"><a href="index.html">🎮 Volver al Juego</a> &nbsp;•&nbsp; <a
+                    href="javascript:void(0)" onclick="abrirModalConfig()">⚙️ Conexión Apps Script</a></p>
+        </footer>
+    </div>
+
+    <!-- Modal de Configuración de URL de Google Apps Script -->
+    <div class="modal" id="configModal">
+        <div class="modal-card">
+            <div class="modal-title">⚙️ Conexión con Google Sheets</div>
+            <p class="modal-desc">
+                Pega aquí la URL de la aplicación web de <strong>Google Apps Script</strong> para sincronizar este
+                tablero con tu hoja de cálculo en tiempo real.
+            </p>
+            <div class="input-group">
+                <label for="scriptUrlInput">URL de la Web App de Apps Script:</label>
+                <input type="text" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec">
+            </div>
+            <div style="font-size:0.78rem; color:var(--text-muted); line-height:1.5;">
+                ℹ️ Si dejas este campo vacío, se usarán los datos precargados de demostración.
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-action btn-secondary" onclick="cerrarModalConfig()">Cancelar</button>
+                <button class="btn-action" onclick="guardarConfigUrl()">Guardar y Conectar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // CONFIGURACIÓN & ESTADO
+        // ==========================================
+        const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbynwOPQoiMeC0CD9KobexcriT9X4-8PvtIRj-DQImUaYf39fxBlk2-ePsJSR8Ruk70/exec';
+        
+        function getScriptUrl() {
+            const saved = localStorage.getItem('inca_google_script_url');
+            if (saved && saved.startsWith('http') && !saved.includes('SAMPLE')) {
+                return saved;
+            }
+            return DEFAULT_SCRIPT_URL;
+        }
+
+        let currentScriptUrl = getScriptUrl();
+        let allScores = [];
+        let pollingInterval = null;
+
+        // Datos de muestra para cuando no hay conexión
+        const DEMO_SCORES = [
+            { ranking: 1, jugador: 'Manco Cápac', colegio: 'CNB', puntaje: 5420, resultado: '🏆 Victoria (Coricancha)', meses: 28, poblacion: 32, alimento: 2150, fe: 840, fecha: '2026-08-31 18:20' },
+            { ranking: 2, jugador: 'Mama Ocllo', colegio: 'EEST1', puntaje: 4890, resultado: '🏆 Victoria (Coricancha)', meses: 31, poblacion: 28, alimento: 2020, fe: 810, fecha: '2026-08-31 17:45' },
+            { ranking: 3, jugador: 'Pachacútec', colegio: 'CPB', puntaje: 4310, resultado: '🏆 Victoria (Coricancha)', meses: 35, poblacion: 26, alimento: 2000, fe: 800, fecha: '2026-08-31 16:10' },
+            { ranking: 4, jugador: 'Atahualpa', colegio: 'CNB', puntaje: 2950, resultado: '💀 Game Over (Mes 22)', meses: 22, poblacion: 18, alimento: 350, fe: 210, fecha: '2026-08-31 15:30' },
+            { ranking: 5, jugador: 'Túpac Yupanqui', colegio: 'SJD', puntaje: 2680, resultado: '💀 Game Over (Mes 19)', meses: 19, poblacion: 15, alimento: 180, fe: 160, fecha: '2026-08-31 14:05' }
+        ];
+
+        // ==========================================
+        // INICIALIZACIÓN
+        // ==========================================
+        window.addEventListener('DOMContentLoaded', () => {
+            // Verificar si la URL vino en query param (?url=...)
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryUrl = urlParams.get('url') || urlParams.get('api');
+            if (queryUrl) {
+                currentScriptUrl = queryUrl;
+                localStorage.setItem('inca_google_script_url', queryUrl);
+            }
+
+            cargarPuntajes();
+
+            // Auto-refresco en vivo cada 15 segundos
+            pollingInterval = setInterval(() => {
+                cargarPuntajes(false);
+            }, 15000);
+        });
+
+        // ==========================================
+        // CARGA DE PUNTAJES (API GOOGLE APPS SCRIPT)
+        // ==========================================
+        async function cargarPuntajes(isManual = false) {
+            const btnRefresh = document.getElementById('btnRefresh');
+            if (isManual && btnRefresh) {
+                btnRefresh.textContent = '⏳ Cargando...';
+                btnRefresh.disabled = true;
+            }
+
+            const syncStatus = document.getElementById('syncStatus');
+            if (syncStatus) syncStatus.textContent = 'Sincronizando...';
+
+            // También revisamos si hay puntajes guardados en localStorage desde este navegador
+            let localGameScores = [];
+            try {
+                localGameScores = JSON.parse(localStorage.getItem('inca_local_scores') || '[]');
+            } catch (e) { }
+
+            const scriptUrl = getScriptUrl();
+
+            if (scriptUrl && scriptUrl.startsWith('http') && !scriptUrl.includes('SAMPLE')) {
+                try {
+                    const response = await fetch(`${scriptUrl}?action=getScores&t=${Date.now()}`);
+                    const json = await response.json();
+
+                    if (json.success && Array.isArray(json.data)) {
+                        allScores = json.data;
+                        // Combinar con puntajes locales recientes si no están en la hoja aún
+                        localGameScores.forEach(localItem => {
+                            if (!allScores.some(s => s.jugador === localItem.jugador && s.puntaje === localItem.puntaje)) {
+                                allScores.push(localItem);
+                            }
+                        });
+                        reordenarScores();
+                    } else {
+                        throw new Error('Respuesta inválida');
+                    }
+                } catch (err) {
+                    console.warn('No se pudo conectar a Google Sheets, usando almacenamiento local/demo:', err);
+                    combinarLocalConDemo(localGameScores);
+                }
+            } else {
+                combinarLocalConDemo(localGameScores);
+            }
+
+            actualizarEstadisticas();
+            actualizarSelectColegios();
+            aplicarFiltros();
+
+            const now = new Date();
+            syncStatus.textContent = `Actualizado ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`;
+
+            if (isManual && btnRefresh) {
+                btnRefresh.textContent = '🔄 Actualizar';
+                btnRefresh.disabled = false;
+            }
+        }
+
+        function combinarLocalConDemo(localGameScores) {
+            allScores = [...DEMO_SCORES];
+            if (localGameScores && localGameScores.length > 0) {
+                localGameScores.forEach(localItem => {
+                    if (!allScores.some(s => s.jugador === localItem.jugador && s.fecha === localItem.fecha)) {
+                        allScores.push(localItem);
+                    }
+                });
+            }
+            reordenarScores();
+        }
+
+        function reordenarScores() {
+            allScores.sort((a, b) => b.puntaje - a.puntaje);
+            allScores.forEach((item, index) => {
+                item.ranking = index + 1;
+            });
+        }
+
+        // ==========================================
+        // RENDERIZADO DE TABLA Y PODIO
+        // ==========================================
+        function aplicarFiltros() {
+            const selectedSchool = document.getElementById('schoolFilter').value.trim().toUpperCase();
+            const searchText = document.getElementById('searchInput').value.trim().toLowerCase();
+
+            let filtrados = allScores.filter(item => {
+                const matchSchool = !selectedSchool || (item.colegio && item.colegio.toUpperCase() === selectedSchool);
+                const matchPlayer = !searchText || (item.jugador && item.jugador.toLowerCase().includes(searchText));
+                return matchSchool && matchPlayer;
+            });
+
+            renderizarPodio(filtrados);
+            renderizarTabla(filtrados);
+        }
+
+        function renderizarPodio(lista) {
+            const container = document.getElementById('podiumContainer');
+            if (!lista || lista.length === 0) {
+                container.style.display = 'none';
+                return;
+            }
+
+            container.style.display = 'flex';
+            container.innerHTML = '';
+
+            const top1 = lista[0];
+            const top2 = lista[1];
+            const top3 = lista[2];
+
+            // 2do Puesto (Plata)
+            if (top2) {
+                container.innerHTML += `
+                    <div class="podium-place podium-2">
+                        <div class="podium-medal">🥈</div>
+                        <div class="podium-name">${escapeHtml(top2.jugador)}</div>
+                        <span class="podium-school">${escapeHtml(top2.colegio || 'S/D')}</span>
+                        <div class="podium-score">${top2.puntaje.toLocaleString()}</div>
+                        <div class="podium-sub">${escapeHtml(top2.resultado || '')}</div>
+                    </div>
+                `;
+            }
+
+            // 1er Puesto (Oro)
+            if (top1) {
+                container.innerHTML += `
+                    <div class="podium-place podium-1">
+                        <div class="podium-crown">👑</div>
+                        <div class="podium-medal">🥇</div>
+                        <div class="podium-name" style="font-size:1.3rem;">${escapeHtml(top1.jugador)}</div>
+                        <span class="podium-school" style="font-size:0.85rem; padding:4px 14px;">${escapeHtml(top1.colegio || 'S/D')}</span>
+                        <div class="podium-score" style="font-size:2rem;">${top1.puntaje.toLocaleString()}</div>
+                        <div class="podium-sub" style="color:var(--gold-light); font-weight:600;">${escapeHtml(top1.resultado || '')}</div>
+                    </div>
+                `;
+            }
+
+            // 3er Puesto (Bronce)
+            if (top3) {
+                container.innerHTML += `
+                    <div class="podium-place podium-3">
+                        <div class="podium-medal">🥉</div>
+                        <div class="podium-name">${escapeHtml(top3.jugador)}</div>
+                        <span class="podium-school">${escapeHtml(top3.colegio || 'S/D')}</span>
+                        <div class="podium-score">${top3.puntaje.toLocaleString()}</div>
+                        <div class="podium-sub">${escapeHtml(top3.resultado || '')}</div>
+                    </div>
+                `;
+            }
+        }
+
+        function renderizarTabla(lista) {
+            const tbody = document.getElementById('tableBody');
+            if (!lista || lista.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-state">
+                                <div style="font-size:2.5rem; margin-bottom:10px;">📜</div>
+                                <p>No se encontraron partidas con los filtros seleccionados.</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            let html = '';
+            lista.forEach((item, index) => {
+                let rankIcon = item.ranking || (index + 1);
+                if (rankIcon === 1) rankIcon = '🥇';
+                else if (rankIcon === 2) rankIcon = '🥈';
+                else if (rankIcon === 3) rankIcon = '🥉';
+                else rankIcon = `${rankIcon}°`;
+
+                const isVictory = item.resultado && item.resultado.toLowerCase().includes('victoria');
+                const badgeClass = isVictory ? 'badge-victory' : 'badge-gameover';
+
+                html += `
+                    <tr>
+                        <td class="col-rank">${rankIcon}</td>
+                        <td class="col-player">${escapeHtml(item.jugador)}</td>
+                        <td class="col-school"><span class="school-tag">${escapeHtml(item.colegio || 'S/D')}</span></td>
+                        <td class="col-score">${item.puntaje.toLocaleString()}</td>
+                        <td><span class="${badgeClass}">${escapeHtml(item.resultado || '-')}</span></td>
+                        <td class="hide-mobile">${item.meses ? `Mes ${item.meses}` : '-'}</td>
+                        <td class="hide-mobile" style="color:var(--text-muted); font-size:0.8rem;">${formatFecha(item.fecha)}</td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        // ==========================================
+        // ESTADÍSTICAS Y SELECTS
+        // ==========================================
+        function actualizarEstadisticas() {
+            if (!allScores || allScores.length === 0) {
+                document.getElementById('statMaxScore').textContent = '0';
+                document.getElementById('statTotalPlayers').textContent = '0';
+                document.getElementById('statTotalSchools').textContent = '0';
+                document.getElementById('statCoricanchas').textContent = '0';
+                return;
+            }
+
+            const maxScore = Math.max(...allScores.map(s => s.puntaje || 0));
+            const schools = new Set(allScores.map(s => (s.colegio || '').trim().toUpperCase()).filter(Boolean));
+            const victorias = allScores.filter(s => (s.resultado || '').toLowerCase().includes('victoria')).length;
+
+            document.getElementById('statMaxScore').textContent = maxScore.toLocaleString();
+            document.getElementById('statTotalPlayers').textContent = allScores.length;
+            document.getElementById('statTotalSchools').textContent = schools.size;
+            document.getElementById('statCoricanchas').textContent = victorias;
+        }
+
+        function actualizarSelectColegios() {
+            const select = document.getElementById('schoolFilter');
+            if (!select) return;
+            const valorActual = select.value;
+
+            const schools = Array.from(new Set(allScores.map(s => (s.colegio || '').trim().toUpperCase()).filter(Boolean))).sort();
+
+            select.innerHTML = '<option value="">Todos los Colegios</option>';
+            schools.forEach(sch => {
+                const opt = document.createElement('option');
+                opt.value = sch;
+                opt.textContent = sch;
+                if (sch === valorActual) opt.selected = true;
+                select.appendChild(opt);
+            });
+        }
+
+        // ==========================================
+        // MODAL DE CONFIGURACIÓN
+        // ==========================================
+        function abrirModalConfig() {
+            document.getElementById('scriptUrlInput').value = getScriptUrl();
+            document.getElementById('configModal').style.display = 'flex';
+        }
+
+        function cerrarModalConfig() {
+            document.getElementById('configModal').style.display = 'none';
+        }
+
+        function guardarConfigUrl() {
+            const url = document.getElementById('scriptUrlInput').value.trim();
+            if (url) {
+                localStorage.setItem('inca_google_script_url', url);
+            } else {
+                localStorage.removeItem('inca_google_script_url');
+            }
+            currentScriptUrl = getScriptUrl();
+            cerrarModalConfig();
+            cargarPuntajes(true);
+        }
+
+        // ==========================================
+        // HELPERS
+        // ==========================================
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.toString()
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function formatFecha(f) {
+            if (!f) return '-';
+            try {
+                const d = new Date(f);
+                if (isNaN(d.getTime())) return f;
+                return d.toLocaleDateString([], { day: '2-digit', month: '2-digit' }) + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            } catch (e) {
+                return f;
+            }
+        }
+    </script>
+</body>
+
+</html>
