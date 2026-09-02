@@ -10,328 +10,628 @@
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Inter:wght@400;500;600&display=swap"
         rel="stylesheet">
     <style>
+        :root {
+            --gold-primary: #FFD700;
+            --gold-light: #FFF4B8;
+            --gold-dark: #B8860B;
+            --gold-glow: rgba(255, 215, 0, 0.45);
+            --gold-glow-soft: rgba(255, 215, 0, 0.2);
+            
+            --bg-dark: #0c0806;
+            --bg-panel: rgba(16, 12, 8, 0.94);
+            --border-gold: rgba(218, 165, 32, 0.45);
+            --border-gold-bright: rgba(255, 215, 0, 0.75);
+            
+            --hanan-bg-top: #081422;
+            --hanan-bg-mid: #14283b;
+            --hanan-bg-bot: #2a1f0a;
+            
+            --kay-bg-top: #0b1a0e;
+            --kay-bg-mid: #162817;
+            --kay-bg-bot: #251b11;
+            
+            --kay-frost-top: #0f1c29;
+            --kay-frost-mid: #1a2a38;
+            --kay-frost-bot: #1c2229;
+            
+            --uku-bg-top: #130708;
+            --uku-bg-mid: #1d0e11;
+            --uku-bg-bot: #0a0405;
+            
+            --font-display: 'Cinzel Decorative', 'Cinzel', serif;
+            --font-sub: 'Cinzel', serif;
+            --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: var(--font-body);
             overflow-x: hidden;
-            background: #1a1a1a;
-            font-size: 16px;
+            background: var(--bg-dark);
+            color: #f5eedb;
+            font-size: 15px;
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            min-height: 100dvh;
+            touch-action: manipulation;
         }
 
-        /* Panel de UI - Fijo en la parte superior */
+        /* Ambient subtle gold dust in game background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(1px 1px at 20% 30%, rgba(255, 215, 0, 0.25) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 75% 15%, rgba(255, 215, 0, 0.2) 0%, transparent 100%),
+                radial-gradient(1px 1px at 40% 70%, rgba(255, 215, 0, 0.2) 0%, transparent 100%),
+                radial-gradient(1px 1px at 85% 80%, rgba(255, 215, 0, 0.15) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* =============================================
+           PANEL DE UI - BARRA SUPERIOR IMPERIAL
+        ============================================= */
         .ui-panel {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(135deg, #2c3e50, #34495e);
-            color: white;
-            padding: 8px 5px;
+            background: var(--bg-panel);
+            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(14px);
+            border-bottom: 2px solid var(--border-gold);
+            padding: 7px 10px;
+            padding-top: calc(7px + env(safe-area-inset-top, 0px));
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             align-items: center;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 215, 0, 0.2) inset;
             flex-wrap: wrap;
-            gap: 5px;
+            gap: 6px 8px;
         }
 
         .resource {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 5px;
-            font-size: 0.95em;
-            font-weight: bold;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 5px 8px;
-            border-radius: 15px;
+            gap: 6px;
+            font-size: 0.88em;
+            background: rgba(255, 215, 0, 0.08);
+            border: 1px solid rgba(255, 215, 0, 0.22);
+            padding: 4px 9px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .resource:hover {
+            border-color: rgba(255, 215, 0, 0.45);
+            background: rgba(255, 215, 0, 0.12);
         }
 
         .resource span {
-            font-size: 1.2em;
+            font-size: 1.15em;
+            line-height: 1;
+            filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.3));
         }
 
-        /* Controles de tiempo */
+        .res-label {
+            font-size: 0.68em;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: rgba(255, 220, 150, 0.7);
+            font-family: var(--font-sub);
+            line-height: 1;
+        }
+
+        .res-val {
+            font-family: var(--font-sub);
+            font-weight: 700;
+            color: var(--gold-primary);
+            font-size: 1em;
+            line-height: 1.1;
+        }
+
+        /* Controles de tiempo & Tablero */
         .time-controls {
-            display: flex;
-            gap: 3px;
+            display: inline-flex;
+            gap: 4px;
             align-items: center;
         }
 
         .time-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 5px 8px;
-            border-radius: 5px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #FFD700;
+            padding: 5px 9px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1em;
-            transition: all 0.3s;
+            font-size: 0.9em;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
         }
 
         .time-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
+            background: rgba(255, 215, 0, 0.25);
+            border-color: #FFD700;
+            transform: translateY(-1px);
+        }
+
+        .time-btn:active {
+            transform: translateY(1px);
         }
 
         .time-btn.active {
-            background: #FFD700;
-            color: #2c3e50;
+            background: linear-gradient(135deg, #b8860b, #FFD700);
+            color: #1a0800;
             border-color: #FFD700;
             font-weight: bold;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
-        .station-display {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 5px 8px;
-            border-radius: 15px;
-            font-size: 0.8em;
-            white-space: nowrap;
+        /* Indicador de Equilibrio Cósmico */
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-left: 2px;
+            animation: pulse-indicator 2s infinite ease-in-out;
+            vertical-align: middle;
         }
 
-        /* Contenedor principal */
+        .status-good {
+            background: #2ecc71;
+            box-shadow: 0 0 8px #2ecc71;
+        }
+
+        .status-warning {
+            background: #f39c12;
+            box-shadow: 0 0 8px #f39c12;
+        }
+
+        .status-danger {
+            background: #e74c3c;
+            box-shadow: 0 0 10px #e74c3c;
+        }
+
+        @keyframes pulse-indicator {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.6;
+            }
+        }
+
+        /* =============================================
+           CONTENEDOR PRINCIPAL & LOS TRES MUNDOS
+        ============================================= */
         .game-container {
-            margin-top: 60px;
+            margin-top: 56px;
             display: flex;
             flex-direction: column;
-            min-height: calc(100vh - 60px);
+            min-height: calc(100vh - 56px);
+            min-height: calc(100dvh - 56px);
             position: relative;
+            z-index: 1;
         }
 
-        /* Secciones de los Tres Mundos */
         .world {
             flex: 1;
-            padding: 10px;
+            min-height: 31vh;
+            padding: 16px 14px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
-            transition: all 0.3s;
-            min-height: 33vh;
+            text-align: center;
+            overflow: hidden;
+            transition: background 0.6s ease;
         }
 
-        /* Hanan Pacha - Mundo de Arriba */
+        /* Separadores ornamentales entre mundos */
+        .world::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 5%;
+            right: 5%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.4), rgba(255, 215, 0, 0.8), rgba(218, 165, 32, 0.4), transparent);
+        }
+
+        .world:last-child::after {
+            display: none;
+        }
+
+        /* 1. HANAN PACHA - MUNDO CELESTIAL */
         .hanan-pacha {
-            background: linear-gradient(180deg, #87CEEB 0%, #FFD700 100%);
-            border-bottom: 3px solid #DAA520;
+            background: 
+                radial-gradient(circle at 50% -10%, rgba(255, 215, 0, 0.18) 0%, rgba(255, 170, 0, 0.05) 50%, transparent 75%),
+                linear-gradient(180deg, var(--hanan-bg-top) 0%, var(--hanan-bg-mid) 65%, var(--hanan-bg-bot) 100%);
         }
 
-        /* Kay Pacha - Mundo de Aquí */
+        /* 2. KAY PACHA - MUNDO TERRENAL */
         .kay-pacha {
-            background: linear-gradient(180deg, #90EE90 0%, #8B4513 100%);
-            border-bottom: 3px solid #654321;
-            transition: background 0.5s;
+            background: 
+                radial-gradient(circle at 50% 25%, rgba(76, 175, 80, 0.12) 0%, rgba(46, 125, 50, 0.04) 55%, transparent 75%),
+                linear-gradient(180deg, var(--kay-bg-top) 0%, var(--kay-bg-mid) 60%, var(--kay-bg-bot) 100%);
         }
 
         .kay-pacha.helada {
-            background: linear-gradient(180deg, #B0C4DE 0%, #708090 100%);
+            background: 
+                radial-gradient(circle at 50% 25%, rgba(116, 185, 255, 0.18) 0%, rgba(52, 152, 219, 0.06) 55%, transparent 75%),
+                linear-gradient(180deg, var(--kay-frost-top) 0%, var(--kay-frost-mid) 60%, var(--kay-frost-bot) 100%);
         }
 
-        /* Uku Pacha - Mundo de Abajo */
+        /* 3. UKU PACHA - INFRAMUNDO ANCESTRAL */
         .uku-pacha {
-            background: linear-gradient(180deg, #4a4a4a 0%, #2c1810 100%);
-            color: #d4af37;
+            background: 
+                radial-gradient(circle at 50% 80%, rgba(225, 112, 85, 0.14) 0%, rgba(138, 43, 20, 0.05) 55%, transparent 75%),
+                linear-gradient(180deg, var(--uku-bg-top) 0%, var(--uku-bg-mid) 50%, var(--uku-bg-bot) 100%);
         }
 
+        /* Títulos y Descripciones de Mundos */
         .world-title {
-            font-size: 1.5em;
-            margin-bottom: 8px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            text-align: center;
+            font-family: var(--font-display);
+            font-size: clamp(1.25em, 3.5vw, 1.6em);
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: 0.08em;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hanan-pacha .world-title {
+            color: #FFD700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .kay-pacha .world-title {
+            color: #a8e063;
+            text-shadow: 0 0 20px rgba(168, 224, 99, 0.5), 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .kay-pacha.helada .world-title {
+            color: #74b9ff;
+            text-shadow: 0 0 20px rgba(116, 185, 255, 0.7), 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .uku-pacha .world-title {
+            color: #e17055;
+            text-shadow: 0 0 20px rgba(225, 112, 85, 0.6), 0 2px 4px rgba(0, 0, 0, 0.8);
         }
 
         .world-description {
-            font-size: 0.9em;
-            margin-bottom: 10px;
-            text-align: center;
-            max-width: 100%;
-            opacity: 0.9;
-            padding: 0 5px;
+            font-family: var(--font-body);
+            font-size: clamp(0.8em, 2.2vw, 0.9em);
+            margin-bottom: 12px;
+            max-width: 440px;
+            color: rgba(255, 230, 185, 0.82);
+            line-height: 1.4;
+            padding: 0 8px;
+            position: relative;
+            z-index: 2;
         }
 
-        /* Botones de Acción */
+        /* =============================================
+           BOTONES DE ACCIÓN IMPERIALES
+        ============================================= */
+        .world-actions-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            z-index: 2;
+        }
+
         .action-btn {
-            padding: 10px 20px;
-            font-size: 1em;
+            padding: 10px 18px;
+            font-size: clamp(0.88em, 2.4vw, 0.96em);
             border: none;
-            border-radius: 8px;
+            border-radius: 25px;
             cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            margin: 3px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: var(--font-sub);
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
         }
 
-        .action-btn:hover {
+        .action-btn:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
         }
 
-        .action-btn:active {
-            transform: translateY(0);
+        .action-btn:active:not(:disabled) {
+            transform: translateY(1px) scale(0.98);
         }
 
         .action-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.42;
             cursor: not-allowed;
-            transform: none;
+            filter: grayscale(0.5);
+            box-shadow: none;
         }
 
+        /* Botón Hanan Pacha */
         .hanan-btn {
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            color: #8B4513;
+            background: linear-gradient(135deg, #c48a10 0%, #FFD700 50%, #d49a15 100%);
+            color: #1c0b02;
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 18px rgba(255, 215, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
         }
 
-        .kay-btn {
-            background: linear-gradient(135deg, #228B22, #32CD32);
-            color: white;
+        .hanan-btn:hover:not(:disabled) {
+            box-shadow: 0 6px 25px rgba(255, 215, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.6);
         }
 
-        .uku-btn {
-            background: linear-gradient(135deg, #8B4513, #A0522D);
-            color: #FFD700;
-        }
-
+        /* Botón Victoria - Gran Coricancha */
         .victory-btn {
-            background: linear-gradient(135deg, #FFD700, #FF6B6B);
-            color: white;
-            font-size: 1em;
-            padding: 12px 25px;
-            border: 3px solid #fff;
-            animation: pulse-gold 2s infinite;
+            background: linear-gradient(135deg, #784408 0%, #d49a15 40%, #FFD700 100%);
+            color: #1a0800;
+            border: 1.5px solid #fff;
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
         }
 
-        @keyframes pulse-gold {
+        .victory-btn:not(:disabled) {
+            animation: pulse-coricancha 2s infinite ease-in-out;
+        }
 
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        @keyframes pulse-coricancha {
+            0%, 100% {
+                box-shadow: 0 0 15px rgba(255, 215, 0, 0.5), 0 0 30px rgba(255, 170, 0, 0.3);
+                transform: scale(1);
             }
-
             50% {
-                box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+                box-shadow: 0 0 25px rgba(255, 215, 0, 0.9), 0 0 45px rgba(255, 200, 0, 0.6);
+                transform: scale(1.02);
             }
         }
 
-        /* Mita System */
-        .mita-container {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-            text-align: center;
+        /* Botón Uku Pacha */
+        .uku-btn {
+            background: linear-gradient(135deg, #6e2710 0%, #a84218 50%, #571c0a 100%);
+            color: #ffe6b0;
+            border: 1.5px solid rgba(255, 180, 100, 0.45);
+            box-shadow: 0 4px 18px rgba(180, 60, 20, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .uku-btn:hover:not(:disabled) {
+            box-shadow: 0 6px 25px rgba(225, 112, 85, 0.6);
+            border-color: rgba(255, 200, 140, 0.7);
+        }
+
+        /* =============================================
+           SISTEMA DE MITA (KAY PACHA) - CARDS MODULARES
+        ============================================= */
+        .mita-cards-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
             width: 100%;
-            max-width: 300px;
+            max-width: 440px;
+            margin: 4px 0 8px;
+            position: relative;
+            z-index: 2;
         }
 
-        .mita-title {
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #fff;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            font-size: 0.95em;
+        .mita-card {
+            background: rgba(14, 25, 16, 0.75);
+            border: 1.5px solid rgba(120, 224, 143, 0.3);
+            border-radius: 14px;
+            padding: 10px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+            transition: all 0.25s ease;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
-        .mita-row {
+        .mita-card:hover {
+            border-color: rgba(120, 224, 143, 0.55);
+            background: rgba(18, 32, 20, 0.85);
+        }
+
+        .mita-card-header {
+            font-family: var(--font-sub);
+            font-size: 0.84em;
+            font-weight: 700;
+            color: #FFD700;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        .mita-counter-row {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            margin: 5px 0;
-        }
-
-        .mita-label {
-            color: #fff;
-            font-size: 0.95em;
-            min-width: 100px;
-        }
-
-        .mita-controls {
-            display: flex;
-            gap: 8px;
-            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
         }
 
         .mita-btn {
-            background: rgba(255, 255, 255, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            color: white;
-            width: 25px;
-            height: 25px;
+            background: rgba(255, 215, 0, 0.12);
+            border: 1.5px solid rgba(255, 215, 0, 0.45);
+            color: #FFD700;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 1.2em;
             font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
+            transition: all 0.15s ease;
+            line-height: 1;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         }
 
         .mita-btn:hover {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 215, 0, 0.3);
+            border-color: #FFD700;
             transform: scale(1.1);
         }
 
+        .mita-btn:active {
+            transform: scale(0.92);
+            background: #FFD700;
+            color: #1a0800;
+        }
+
         .mita-count {
-            font-size: 1.1em;
-            font-weight: bold;
+            font-family: var(--font-sub);
+            font-size: 1.45em;
+            font-weight: 700;
             color: #FFD700;
-            min-width: 25px;
+            min-width: 30px;
             text-align: center;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
         }
 
-        .mita-info {
+        .mita-rate-chip {
+            font-size: 0.75em;
+            padding: 2px 8px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 235, 190, 0.85);
+            font-family: var(--font-body);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mita-summary-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.82em;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 4px 14px;
+            border-radius: 20px;
+            color: rgba(255, 230, 180, 0.9);
+            font-family: var(--font-sub);
+            position: relative;
+            z-index: 2;
+        }
+
+        .mita-summary-pill strong {
+            color: #FFD700;
+        }
+
+        /* Chip de Bendición Ancestral en Uku Pacha */
+        .buff-ancestros-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(46, 204, 113, 0.15);
+            border: 1.5px solid rgba(46, 204, 113, 0.5);
+            color: #2ecc71;
+            padding: 5px 14px;
+            border-radius: 20px;
             font-size: 0.85em;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 3px;
+            font-weight: 600;
+            margin-top: 10px;
+            animation: pulse-buff 2s infinite ease-in-out;
+            position: relative;
+            z-index: 2;
         }
 
-        /* Yachaywasi Panel */
+        @keyframes pulse-buff {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(46, 204, 113, 0.7);
+            }
+        }
+
+        /* =============================================
+           PANEL YACHAYWASI (SABER)
+        ============================================= */
         .yachaywasi-toggle {
             position: fixed;
             right: 0;
             top: 50%;
             transform: translateY(-50%);
-            background: linear-gradient(135deg, #8B4513, #D2691E);
+            background: linear-gradient(180deg, #2c1a0e 0%, #1c0e06 100%);
+            border: 1.5px solid var(--gold-primary);
+            border-right: none;
             color: #FFD700;
-            padding: 10px 8px;
-            border-radius: 10px 0 0 10px;
+            padding: 12px 9px;
+            border-radius: 12px 0 0 12px;
             cursor: pointer;
-            font-weight: bold;
+            font-family: var(--font-sub);
+            font-weight: 700;
             font-size: 0.85em;
+            letter-spacing: 0.12em;
             writing-mode: vertical-rl;
             text-orientation: mixed;
             z-index: 900;
-            box-shadow: -2px 2px 10px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s;
+            box-shadow: -4px 4px 20px rgba(0, 0, 0, 0.6);
+            transition: all 0.25s ease;
         }
 
         .yachaywasi-toggle:hover {
-            padding-right: 12px;
+            padding-right: 13px;
+            background: linear-gradient(180deg, #3c2414 0%, #29150a 100%);
+            box-shadow: -4px 4px 25px rgba(255, 215, 0, 0.4);
         }
 
         .yachaywasi-panel {
             position: fixed;
-            right: -280px;
-            top: 60px;
-            width: 260px;
-            background: linear-gradient(180deg, #2c1810 0%, #4a4a4a 100%);
+            right: -300px;
+            top: 56px;
+            width: 280px;
+            background: linear-gradient(180deg, #180d07 0%, #26150b 100%);
             color: #FFD700;
-            padding: 15px;
-            border-radius: 10px 0 0 10px;
+            padding: 16px;
+            border-radius: 16px 0 0 16px;
             z-index: 900;
-            transition: right 0.3s;
-            box-shadow: -5px 5px 20px rgba(0, 0, 0, 0.5);
-            border: 2px solid #DAA520;
-            max-height: calc(100vh - 80px);
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -8px 8px 30px rgba(0, 0, 0, 0.75);
+            border: 2px solid var(--gold-dark);
+            border-right: none;
+            max-height: calc(100vh - 70px);
+            max-height: calc(100dvh - 70px);
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .yachaywasi-panel.open {
@@ -342,101 +642,122 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #DAA520;
+            margin-bottom: 14px;
+            border-bottom: 1.5px solid rgba(218, 165, 32, 0.4);
             padding-bottom: 10px;
         }
 
         .yachaywasi-title {
-            font-size: 1.2em;
-            font-weight: bold;
+            font-family: var(--font-sub);
+            font-size: 1.15em;
+            font-weight: 700;
+            color: #FFD700;
+            letter-spacing: 0.05em;
         }
 
         .yachaywasi-close {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: #FFD700;
-            width: 25px;
-            height: 25px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 0.9em;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .yachaywasi-close:hover {
+            background: rgba(255, 80, 80, 0.3);
+            color: #fff;
         }
 
         .upgrade-card {
-            background: rgba(218, 165, 32, 0.1);
-            border: 2px solid #DAA520;
-            border-radius: 8px;
-            padding: 10px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1.5px solid rgba(218, 165, 32, 0.35);
+            border-radius: 12px;
+            padding: 12px;
             margin: 10px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .upgrade-card h4 {
+            font-family: var(--font-sub);
             color: #FFD700;
-            margin-bottom: 5px;
-            font-size: 1em;
+            margin-bottom: 4px;
+            font-size: 0.95em;
+            font-weight: 700;
         }
 
         .upgrade-card p {
-            font-size: 0.9em;
-            color: #ddd;
+            font-size: 0.82em;
+            color: rgba(255, 225, 180, 0.85);
             margin: 3px 0;
+            line-height: 1.35;
         }
 
         .upgrade-btn {
             width: 100%;
             padding: 8px;
-            background: linear-gradient(135deg, #DAA520, #FFD700);
-            color: #2c1810;
+            background: linear-gradient(135deg, #b8860b, #FFD700);
+            color: #1a0800;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
+            font-family: var(--font-sub);
+            font-weight: 700;
             margin-top: 8px;
-            transition: all 0.3s;
-            font-size: 0.9em;
+            transition: all 0.25s ease;
+            font-size: 0.85em;
+            letter-spacing: 0.04em;
         }
 
         .upgrade-btn:hover:not(:disabled) {
-            transform: scale(1.05);
+            transform: scale(1.03);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
         }
 
         .upgrade-btn:disabled {
-            opacity: 0.4;
+            opacity: 0.45;
             cursor: not-allowed;
-            background: #666;
-            color: #999;
+            background: #443c36;
+            color: #887d74;
         }
 
         .upgrade-btn.developed {
-            background: #32CD32;
+            background: #2ecc71;
             color: #fff;
+            opacity: 1;
         }
 
-        /* Registro de Eventos */
+        /* =============================================
+           REGISTRO DE EVENTOS (LOG)
+        ============================================= */
         .event-log {
             position: fixed;
-            bottom: 10px;
-            right: 10px;
-            width: 280px;
-            max-height: 250px;
-            background: rgba(0, 0, 0, 0.9);
-            color: #fff;
-            padding: 10px;
-            border-radius: 8px;
+            bottom: 12px;
+            right: 12px;
+            width: 270px;
+            max-height: 240px;
+            background: rgba(14, 10, 7, 0.94);
+            color: #f5eedb;
+            padding: 10px 12px;
+            border-radius: 12px;
             overflow: hidden;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95em;
+            font-size: 0.84em;
             z-index: 1000;
-            border: 2px solid #DAA520;
-            transition: all 0.3s;
+            border: 1.5px solid var(--border-gold);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .event-log.minimized {
-            max-height: 35px;
+            max-height: 38px;
             overflow: hidden;
         }
 
@@ -445,13 +766,16 @@
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .log-header h3 {
+            font-family: var(--font-sub);
             color: #FFD700;
             margin: 0;
-            font-size: 0.95em;
+            font-size: 0.9em;
+            font-weight: 700;
+            letter-spacing: 0.05em;
         }
 
         .log-toggle {
@@ -459,37 +783,41 @@
             border: none;
             color: #FFD700;
             cursor: pointer;
-            font-size: 1em;
-            padding: 0 5px;
+            font-size: 0.9em;
+            padding: 2px 4px;
         }
 
         .log-content {
-            max-height: 190px;
+            max-height: 180px;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .log-entry {
-            margin: 3px 0;
-            padding: 3px;
-            border-left: 3px solid #DAA520;
-            padding-left: 8px;
-            animation: fadeIn 0.5s;
-            font-size: 0.95em;
+            margin: 4px 0;
+            padding: 3px 6px;
+            border-left: 2.5px solid var(--gold-primary);
+            font-size: 0.88em;
+            line-height: 1.35;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 0 4px 4px 0;
+            animation: fadeInLog 0.3s ease;
         }
 
-        @keyframes fadeIn {
+        @keyframes fadeInLog {
             from {
                 opacity: 0;
-                transform: translateX(20px);
+                transform: translateX(10px);
             }
-
             to {
                 opacity: 1;
                 transform: translateX(0);
             }
         }
 
-        /* Modal de Eventos */
+        /* =============================================
+           MODAL DE EVENTOS & GAME OVER
+        ============================================= */
         .modal-evento {
             display: none;
             position: fixed;
@@ -497,79 +825,89 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.88);
             z-index: 11000;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(5px);
-            padding: 20px;
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            padding: 16px;
         }
 
         .modal-content-evento {
-            background: linear-gradient(135deg, #2c1810, #4a4a4a);
+            background: linear-gradient(160deg, #1a0f08 0%, #2b180d 60%, #150a06 100%);
             color: #FFD700;
-            padding: 25px;
-            border-radius: 15px;
-            max-width: 500px;
+            padding: 24px 20px;
+            border-radius: 18px;
+            max-width: 480px;
             width: 100%;
-            border: 3px solid #DAA520;
-            box-shadow: 0 0 50px rgba(218, 165, 32, 0.6);
+            border: 2px solid var(--gold-primary);
+            box-shadow: 0 0 50px rgba(218, 165, 32, 0.5), 0 20px 40px rgba(0, 0, 0, 0.9);
             text-align: center;
-            animation: slideIn 0.5s;
+            animation: slideInModal 0.35s ease;
         }
 
-        @keyframes slideIn {
+        @keyframes slideInModal {
             from {
-                transform: translateY(-50px);
+                transform: translateY(-30px) scale(0.95);
                 opacity: 0;
             }
-
             to {
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
                 opacity: 1;
             }
         }
 
         .modal-content-evento h2 {
-            font-size: 1.6em;
-            margin-bottom: 15px;
-            color: #fff;
+            font-family: var(--font-display);
+            font-size: 1.45em;
+            margin-bottom: 12px;
+            color: #FFD700;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
         }
 
         .modal-content-evento p {
-            font-size: 1em;
-            margin: 10px 0;
-            line-height: 1.5;
-            color: #ddd;
+            font-family: var(--font-body);
+            font-size: 0.92em;
+            margin: 10px 0 16px;
+            line-height: 1.55;
+            color: rgba(255, 235, 195, 0.9);
         }
 
         .event-choices {
             display: flex;
             gap: 10px;
             justify-content: center;
-            margin-top: 20px;
             flex-wrap: wrap;
         }
 
         .choice-btn {
-            padding: 10px 20px;
-            font-size: 0.95em;
-            border: 2px solid #DAA520;
-            border-radius: 8px;
+            padding: 10px 18px;
+            font-size: 0.9em;
+            border: 1.5px solid var(--gold-primary);
+            border-radius: 20px;
             cursor: pointer;
-            background: rgba(218, 165, 32, 0.2);
+            background: rgba(218, 165, 32, 0.15);
             color: #FFD700;
-            transition: all 0.3s;
-            font-weight: bold;
+            transition: all 0.25s ease;
+            font-family: var(--font-sub);
+            font-weight: 700;
+            flex: 1;
+            min-width: 140px;
         }
 
         .choice-btn:hover {
-            background: #DAA520;
-            color: #2c1810;
-            transform: scale(1.05);
+            background: var(--gold-primary);
+            color: #1c0b02;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
         }
 
-        /* Modal de Game Over, Victoria, Registro y Tablero */
+        .choice-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Modal General (Game Over, Victoria, Jugador, Tablero) */
         .modal {
             display: none;
             position: fixed;
@@ -581,218 +919,159 @@
             z-index: 12000;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 16px;
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
         }
 
         .modal-content {
-            background: linear-gradient(135deg, #2c1810, #4a4a4a);
+            background: linear-gradient(160deg, #1c0e07 0%, #2c160b 50%, #120804 100%);
             color: #FFD700;
-            padding: 30px;
-            border-radius: 15px;
+            padding: 26px 20px;
+            border-radius: 18px;
             text-align: center;
             max-width: 500px;
             width: 100%;
-            border: 3px solid #DAA520;
-            box-shadow: 0 0 30px rgba(218, 165, 32, 0.5);
+            border: 2px solid var(--gold-primary);
+            box-shadow: 0 0 40px rgba(218, 165, 32, 0.45), 0 20px 50px rgba(0, 0, 0, 0.9);
+            animation: slideInModal 0.35s ease;
         }
 
         .modal-content h2 {
-            font-size: 2.2em;
-            margin-bottom: 15px;
+            font-family: var(--font-display);
+            font-size: 1.6em;
+            margin-bottom: 10px;
         }
 
         .modal-content.victory h2 {
-            color: #32CD32;
-            text-shadow: 0 0 20px rgba(50, 205, 50, 0.8);
+            color: #2ecc71;
+            text-shadow: 0 0 25px rgba(46, 204, 113, 0.8);
         }
 
         .modal-content p {
-            font-size: 1.05em;
-            margin: 10px 0;
+            font-family: var(--font-body);
+            font-size: 0.95em;
+            margin: 8px 0;
             line-height: 1.5;
+            color: rgba(255, 230, 185, 0.9);
         }
 
         .restart-btn {
-            margin-top: 20px;
-            padding: 12px 30px;
-            font-size: 1.15em;
-            background: #FFD700;
-            color: #2c1810;
+            margin-top: 14px;
+            padding: 12px 26px;
+            font-size: 1em;
+            background: linear-gradient(135deg, #b8860b, #FFD700);
+            color: #1a0800;
             border: none;
-            border-radius: 8px;
+            border-radius: 25px;
             cursor: pointer;
-            font-weight: bold;
+            font-family: var(--font-sub);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
         }
 
         .restart-btn:hover {
-            background: #FFA500;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255, 215, 0, 0.65);
         }
 
-        /* Elementos visuales */
-        .visual-element {
-            font-size: 2.5em;
-            margin: 8px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        .status-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-left: 5px;
-            animation: pulse 2s infinite;
-        }
-
-        .status-good {
-            background: #32CD32;
-        }
-
-        .status-warning {
-            background: #FFA500;
-        }
-
-        .status-danger {
-            background: #FF4500;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .buff-indicator {
-            background: rgba(255, 215, 0, 0.3);
-            padding: 5px 10px;
-            border-radius: 12px;
-            font-size: 0.85em;
-            margin-top: 8px;
-            border: 1px solid #DAA520;
-        }
-
-        .cost-info {
-            font-size: 0.8em;
-            margin-top: 5px;
-            color: #8B4513;
-        }
-
-        /* Responsive */
+        /* =============================================
+           RESPONSIVE BREAKPOINTS (CELULARES & SAFARI)
+        ============================================= */
         @media (max-width: 768px) {
             body {
                 font-size: 14px;
             }
 
             .ui-panel {
-                padding: 5px 3px;
+                padding: 5px 6px;
+                gap: 4px 6px;
             }
 
             .resource {
-                font-size: 0.85em;
-                padding: 4px 6px;
+                font-size: 0.82em;
+                padding: 3px 6px;
+                gap: 4px;
             }
 
             .world {
-                min-height: 33vh;
-                padding: 8px;
-            }
-
-            .world-title {
-                font-size: 1.3em;
-            }
-
-            .world-description {
-                font-size: 0.85em;
+                padding: 12px 10px;
             }
 
             .action-btn {
-                padding: 8px 15px;
-                font-size: 0.95em;
+                padding: 9px 15px;
             }
 
-            .visual-element {
-                font-size: 2em;
+            .mita-cards-container {
+                gap: 8px;
             }
 
             .yachaywasi-panel {
-                width: 240px;
-                right: -240px;
-                top: 60px;
+                width: 260px;
+                right: -260px;
             }
 
             .event-log {
-                width: 250px;
-                bottom: 10px;
-                right: 10px;
-                font-size: 0.85em;
-            }
-
-            .modal-content-evento {
-                padding: 20px;
-            }
-
-            .choice-btn {
-                padding: 8px 15px;
-                font-size: 0.9em;
+                width: 240px;
+                bottom: 8px;
+                right: 8px;
             }
         }
 
         @media (max-width: 480px) {
             .resource {
-                font-size: 0.8em;
+                font-size: 0.78em;
                 padding: 3px 5px;
-                gap: 3px;
             }
 
             .resource span {
-                font-size: 1em;
+                font-size: 1.05em;
             }
 
             .time-btn {
-                padding: 4px 6px;
-                font-size: 0.9em;
+                padding: 4px 7px;
+                font-size: 0.85em;
             }
 
             .world-title {
                 font-size: 1.2em;
             }
 
-            .action-btn {
-                padding: 7px 12px;
-                font-size: 0.9em;
+            .world-description {
+                font-size: 0.78em;
+                margin-bottom: 8px;
             }
 
-            .victory-btn {
-                padding: 10px 20px;
-                font-size: 0.95em;
+            .action-btn {
+                padding: 8px 14px;
+                font-size: 0.85em;
+            }
+
+            .mita-card {
+                padding: 8px 5px;
+            }
+
+            .mita-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 1.05em;
+            }
+
+            .mita-count {
+                font-size: 1.25em;
+                min-width: 24px;
             }
 
             .yachaywasi-panel {
-                width: 220px;
-                right: -220px;
+                width: 240px;
+                right: -240px;
             }
 
             .event-log {
-                width: 200px;
-                font-size: 0.85em;
+                width: 210px;
+                font-size: 0.8em;
             }
         }
 
@@ -2152,15 +2431,14 @@
     <!-- Panel de UI -->
     <div class="ui-panel">
         <!-- Curaca info / botón rápido -->
-        <div class="resource"
-            style="cursor: pointer; background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.4);"
+        <div class="resource curaca-res"
+            style="cursor: pointer; background: rgba(255,215,0,0.14); border: 1.5px solid rgba(255,215,0,0.45);"
             onclick="abrirRegistroJugador(false)" title="Clic para cambiar nombre/colegio">
             <span>👑</span>
             <div>
-                <div style="font-size: 0.7em; color: #FFD700; text-transform: uppercase; letter-spacing: 0.05em;">Curaca
-                </div>
-                <div id="top-player-name"
-                    style="font-size: 0.85em; font-weight: bold; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                <div class="res-label" style="color: #FFD700;">Curaca</div>
+                <div id="top-player-name" class="res-val"
+                    style="max-width: 105px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.88em;">
                     Anónimo</div>
             </div>
         </div>
@@ -2168,43 +2446,45 @@
         <div class="resource">
             <span>👥</span>
             <div>
-                <div>Población</div>
-                <div id="poblacion">15</div>
+                <div class="res-label">Población</div>
+                <div class="res-val" id="poblacion">15</div>
             </div>
         </div>
         <div class="resource">
             <span>🌽</span>
             <div>
-                <div>Alimento</div>
-                <div id="alimento">80</div>
+                <div class="res-label">Alimento</div>
+                <div class="res-val" id="alimento">80</div>
             </div>
         </div>
         <div class="resource">
             <span>☀️</span>
             <div>
-                <div>Fe</div>
-                <div id="fe">30</div>
+                <div class="res-label">Fe</div>
+                <div class="res-val" id="fe">30</div>
             </div>
         </div>
         <div class="resource">
             <span>📅</span>
             <div>
-                <div id="mes-display">Mes 1 (Normal) ☀️</div>
+                <div class="res-val" id="mes-display" style="font-size: 0.86em; white-space: nowrap;">Mes 1 (Normal) ☀️</div>
             </div>
         </div>
 
         <!-- Controles de Tiempo -->
         <div class="time-controls">
+            <button class="time-btn" id="btn-pausa" onclick="cambiarVelocidad('pausa')"
+                title="Pausar juego">⏸️</button>
             <button class="time-btn active" id="btn-normal" onclick="cambiarVelocidad('normal')"
-                title="Normal">▶️</button>
-            <button class="time-btn" id="btn-rapido" onclick="cambiarVelocidad('rapido')" title="Rápido">⏩</button>
+                title="Velocidad Normal">▶️</button>
+            <button class="time-btn" id="btn-rapido" onclick="cambiarVelocidad('rapido')" title="Velocidad Rápida">⏩</button>
             <button class="time-btn" onclick="abrirTableroPuntajes()" title="Ver Tablero de Puntajes"
-                style="background: linear-gradient(135deg, #b8860b, #FFD700); color: #1a0800; font-weight: bold; border-color: #FFD700; margin-left: 4px;">
+                style="background: linear-gradient(135deg, #b8860b, #FFD700); color: #1a0800; font-weight: bold; border-color: #FFD700; margin-left: 2px;">
                 🏆
             </button>
         </div>
 
-        <div style="margin-left: 10px;">
+        <div style="margin-left: 4px; display: inline-flex; align-items: center;" title="Estado del Equilibrio Cósmico">
             <span id="equilibrio" class="status-indicator status-good"></span>
         </div>
     </div>
@@ -2215,43 +2495,61 @@
         <div class="world hanan-pacha" id="hanan">
             <div class="world-title">☀️ HANAN PACHA</div>
             <div class="world-description">
-                El mundo de arriba. Aquí reside Inti, el dios Sol.
+                El mundo celestial de arriba donde reside Inti, el dios Sol. Ofrenda maíz para ganar Fe y construir el Coricancha.
             </div>
-            <button class="action-btn hanan-btn" id="btn-hanan" onclick="ofrendarAlSol()">
-                🌞 Ofrendar al Sol (-10 🌽 ➔ +15 ☀️)
-            </button>
-            <button class="action-btn victory-btn" id="btn-coricancha" onclick="construirCoricancha()"
-                title="Requiere 2000 🌽 y 800 ☀️">
-                🏛️ Construir Gran Coricancha (2000 🌽 / 800 ☀️)
-            </button>
+            <div class="world-actions-row">
+                <button class="action-btn hanan-btn" id="btn-hanan" onclick="ofrendarAlSol()">
+                    🌞 Ofrendar al Sol (-10 🌽 ➔ +15 ☀️)
+                </button>
+                <button class="action-btn victory-btn" id="btn-coricancha" onclick="construirCoricancha()"
+                    title="Requiere 2000 🌽 y 800 ☀️">
+                    🏛️ Construir Gran Coricancha (2000 🌽 / 800 ☀️)
+                </button>
+            </div>
         </div>
 
         <!-- Kay Pacha -->
         <div class="world kay-pacha" id="kay">
             <div class="world-title">🌍 KAY PACHA</div>
             <div class="world-description">
-                El mundo de aquí. Organiza la Mita para producir recursos.
+                El mundo terrenal de aquí. Organiza los turnos de la Mita para producir alimento y oraciones sagradas.
             </div>
 
-            <div class="mita-controls">
-                <div class="mita-group">
-                    <span>👨‍🌾 Agricultores:</span>
-                    <button class="mita-btn" onclick="cambiarMita('agricultor', -1)">-</button>
-                    <span class="mita-count" id="agricultores-count">0</span>
-                    <button class="mita-btn" onclick="cambiarMita('agricultor', 1)">+</button>
-                    <small>(+4 🌽/mes c/u)</small>
+            <div class="mita-cards-container">
+                <!-- Tarjeta Agricultores -->
+                <div class="mita-card">
+                    <div class="mita-card-header">
+                        <span>👨‍🌾</span>
+                        <span>Agricultores</span>
+                    </div>
+                    <div class="mita-counter-row">
+                        <button class="mita-btn" onclick="cambiarMita('agricultor', -1)" aria-label="Menos agricultores">−</button>
+                        <span class="mita-count" id="agricultores-count">0</span>
+                        <button class="mita-btn" onclick="cambiarMita('agricultor', 1)" aria-label="Más agricultores">+</button>
+                    </div>
+                    <div class="mita-rate-chip">+4 🌽/mes c/u</div>
                 </div>
-                <div class="mita-group">
-                    <span>🙏 Sacerdotes:</span>
-                    <button class="mita-btn" onclick="cambiarMita('sacerdote', -1)">-</button>
-                    <span class="mita-count" id="sacerdotes-count">0</span>
-                    <button class="mita-btn" onclick="cambiarMita('sacerdote', 1)">+</button>
-                    <small>(+3 ☀️/mes c/u)</small>
+
+                <!-- Tarjeta Sacerdotes -->
+                <div class="mita-card">
+                    <div class="mita-card-header">
+                        <span>🙏</span>
+                        <span>Sacerdotes</span>
+                    </div>
+                    <div class="mita-counter-row">
+                        <button class="mita-btn" onclick="cambiarMita('sacerdote', -1)" aria-label="Menos sacerdotes">−</button>
+                        <span class="mita-count" id="sacerdotes-count">0</span>
+                        <button class="mita-btn" onclick="cambiarMita('sacerdote', 1)" aria-label="Más sacerdotes">+</button>
+                    </div>
+                    <div class="mita-rate-chip">+3 ☀️/mes c/u</div>
                 </div>
             </div>
-            <div style="font-size: 0.85em; margin-top: 5px; opacity: 0.9;">
-                Disponibles: <span id="poblacion-disponible">15</span> | Asignados: <span
-                    id="poblacion-asignada">0</span>
+
+            <div class="mita-summary-pill">
+                <span>👥 Mano de Obra:</span>
+                <span>Disponibles: <strong id="poblacion-disponible">15</strong></span>
+                <span>|</span>
+                <span>Asignados: <strong id="poblacion-asignada">0</strong></span>
             </div>
         </div>
 
@@ -2259,13 +2557,15 @@
         <div class="world uku-pacha" id="uku">
             <div class="world-title">💀 UKU PACHA</div>
             <div class="world-description">
-                El inframundo. Honra a los ancestros (Mallquis).
+                El inframundo sagrado de los Mallquis (ancestros). Ríndeles culto para mitigar el hambre en tiempos difíciles.
             </div>
-            <button class="action-btn uku-btn" id="btn-uku" onclick="honrarAncestros()">
-                🕯️ Honrar Ancestros (-10 ☀️ ➔ -50% Consumo 3 meses)
-            </button>
-            <div id="buff-ancestros" style="display: none; color: #a8e063; font-weight: bold; margin-top: 8px;">
-                🛡️ Bendición: <span id="meses-restantes">0</span> meses
+            <div class="world-actions-row">
+                <button class="action-btn uku-btn" id="btn-uku" onclick="honrarAncestros()">
+                    🕯️ Honrar Ancestros (-10 ☀️ ➔ −50% Consumo 3 meses)
+                </button>
+            </div>
+            <div id="buff-ancestros" class="buff-ancestros-chip" style="display: none;">
+                🛡️ Bendición Ancestral: <span id="meses-restantes">0</span> meses activos (−50% Consumo)
             </div>
         </div>
     </div>
@@ -2917,7 +3217,8 @@
         // Configuración de velocidades
         const velocidades = {
             'normal': 5000,
-            'rapido': 2500
+            'rapido': 2500,
+            'pausa': null
         };
 
         // Estaciones
@@ -3450,14 +3751,20 @@
 
             if (juego.intervaloJuego) {
                 clearInterval(juego.intervaloJuego);
+                juego.intervaloJuego = null;
             }
 
-            iniciarBucleJuego();
-            agregarLog(`Velocidad: ${nuevaVelocidad === 'normal' ? 'Normal' : 'Rápida'}`);
+            if (nuevaVelocidad !== 'pausa') {
+                iniciarBucleJuego();
+                agregarLog(`Velocidad: ${nuevaVelocidad === 'normal' ? 'Normal' : 'Rápida'}`);
+            } else {
+                agregarLog('⏸️ Juego en pausa.');
+            }
         }
 
         function iniciarBucleJuego() {
-            if (juego.activo) {
+            if (juego.activo && juego.velocidad !== 'pausa') {
+                if (juego.intervaloJuego) clearInterval(juego.intervaloJuego);
                 juego.intervaloJuego = setInterval(gameTick, velocidades[juego.velocidad]);
             }
         }
@@ -3549,6 +3856,7 @@
             const velocidadAnterior = juego.velocidad;
             if (juego.intervaloJuego) {
                 clearInterval(juego.intervaloJuego);
+                juego.intervaloJuego = null;
             }
 
             const evento = eventosPosibles[Math.floor(Math.random() * eventosPosibles.length)];
@@ -3566,8 +3874,9 @@
                 btn.onclick = () => {
                     opcion.accion();
                     cerrarModalEvento();
-                    if (juego.activo) {
-                        juego.intervaloJuego = setInterval(gameTick, velocidades[velocidadAnterior]);
+                    if (juego.activo && velocidadAnterior !== 'pausa') {
+                        juego.velocidad = velocidadAnterior;
+                        iniciarBucleJuego();
                     }
                     actualizarUI();
                 };
@@ -3846,8 +4155,9 @@
             document.getElementById('fe').textContent = juego.fe;
 
             let estacion = obtenerEstacion();
+            let anio = Math.floor((juego.mes - 1) / 12) + 1;
             let mesEnAnio = ((juego.mes - 1) % 12) + 1;
-            document.getElementById('mes-display').textContent = `Mes ${mesEnAnio} (${estacion.nombre}) ${estacion.emoji}`;
+            document.getElementById('mes-display').textContent = `Año ${anio} · Mes ${mesEnAnio} (${estacion.nombre}) ${estacion.emoji}`;
 
             let kayPacha = document.getElementById('kay');
             if (estacion.clase === 'helada') {
@@ -4076,6 +4386,11 @@
             document.getElementById('btn-canales').disabled = false;
             document.getElementById('btn-canales').classList.remove('developed');
             document.getElementById('btn-canales').textContent = 'Construir';
+
+            juego.velocidad = 'normal';
+            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
+            const normalBtn = document.getElementById('btn-normal');
+            if (normalBtn) normalBtn.classList.add('active');
 
             // Restart gameplay music
             stopAudio('audio-titulo', 300);
