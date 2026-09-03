@@ -2003,6 +2003,22 @@
             background: rgba(20, 20, 35, 0.95);
         }
 
+        select.inca-input {
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23FFD700' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 38px;
+        }
+
+        select.inca-input option {
+            background-color: #1a100a;
+            color: #FFD700;
+            padding: 8px;
+        }
+
         .inca-select {
             background: rgba(15, 15, 25, 0.9);
             border: 1px solid rgba(255, 215, 0, 0.4);
@@ -2678,7 +2694,7 @@
             <h2 style="font-family:'Cinzel Decorative',serif; color:#FFD700; font-size:1.7em; margin-bottom:8px;">👑
                 Registro del Curaca</h2>
             <p style="font-size:0.88em; color:rgba(255,220,150,0.85); margin-bottom:18px;">
-                Ingresa tu nombre y las siglas de tu colegio para guardar tu puntaje en el <strong>Tablero Intercolegial
+                Ingresa tu nombre y selecciona tu colegio para guardar tu puntaje en el <strong>Tablero Intercolegial
                     del Tawantinsuyu</strong>.
             </p>
 
@@ -2698,9 +2714,24 @@
                         style="display:block; font-family:'Cinzel',serif; color:#FFD700; font-size:0.85em; margin-bottom:6px; font-weight:600;">
                         🏛️ Siglas del Colegio / Institución:
                     </label>
-                    <input type="text" id="input-colegio-jugador" class="inca-input"
-                        placeholder="Ej: CNB, EEST1, CPB, SJD..." maxlength="15" style="text-transform:uppercase;"
-                        required>
+                    <select id="select-colegio-jugador" class="inca-input" onchange="cambioOpcionColegio()" required
+                        style="color: #FFD700;">
+                        <option value="" disabled selected>-- Selecciona Colegio / Institución --</option>
+                        <option value="DVS">DVS</option>
+                        <option value="IPET 263">IPET 263</option>
+                        <option value="GMZ">GMZ</option>
+                        <option value="ProA">ProA</option>
+                        <option value="GMZ Nivel Superior">GMZ Nivel Superior</option>
+                        <option value="D.F.Sarmiento">D.F.Sarmiento</option>
+                        <option value="El Amanecer">El Amanecer</option>
+                        <option value="Visitante de la Comunidad">Visitante de la Comunidad</option>
+                        <option value="__OTRA__">Otra (Escribir manualmente)...</option>
+                    </select>
+
+                    <div id="wrapper-colegio-manual" style="display: none; margin-top: 8px;">
+                        <input type="text" id="input-colegio-manual" class="inca-input"
+                            placeholder="Escribe el nombre o siglas de tu institución..." maxlength="35">
+                    </div>
                 </div>
 
                 <div style="display:flex; gap:10px; margin-top:8px;">
@@ -3119,14 +3150,42 @@
         // ==========================================
         // GESTIÓN DE JUGADOR & REGISTRO
         // ==========================================
+        const OPCIONES_COLEGIO_PREDEFINIDAS = [
+            'DVS',
+            'IPET 263',
+            'GMZ',
+            'ProA',
+            'GMZ Nivel Superior',
+            'D.F.Sarmiento',
+            'El Amanecer',
+            'Visitante de la Comunidad'
+        ];
+
+        function cambioOpcionColegio() {
+            const selectCol = document.getElementById('select-colegio-jugador');
+            const wrapperManual = document.getElementById('wrapper-colegio-manual');
+            const inputManual = document.getElementById('input-colegio-manual');
+            if (selectCol && selectCol.value === '__OTRA__') {
+                if (wrapperManual) wrapperManual.style.display = 'block';
+                if (inputManual) {
+                    inputManual.focus();
+                    inputManual.setAttribute('required', 'required');
+                }
+            } else {
+                if (wrapperManual) wrapperManual.style.display = 'none';
+                if (inputManual) {
+                    inputManual.removeAttribute('required');
+                }
+            }
+        }
+
         function actualizarBadgeJugador() {
             const badgeText = document.getElementById('title-player-text');
             const topPlayerName = document.getElementById('top-player-name');
             const inputNombre = document.getElementById('input-nombre-jugador');
-            const inputColegio = document.getElementById('input-colegio-jugador');
 
             if (jugador.nombre) {
-                const colStr = jugador.colegio ? ` (${jugador.colegio.toUpperCase()})` : '';
+                const colStr = jugador.colegio ? ` (${jugador.colegio})` : '';
                 if (badgeText) badgeText.textContent = `Curaca: ${jugador.nombre}${colStr}`;
                 if (topPlayerName) topPlayerName.textContent = `${jugador.nombre}${colStr}`;
             } else {
@@ -3135,20 +3194,48 @@
             }
 
             if (inputNombre) inputNombre.value = jugador.nombre || '';
-            if (inputColegio) inputColegio.value = jugador.colegio || '';
         }
 
         function abrirRegistroJugador(paraIniciar = false) {
             iniciarJuegoPendiente = paraIniciar;
             const inputNombre = document.getElementById('input-nombre-jugador');
-            const inputColegio = document.getElementById('input-colegio-jugador');
+            const selectCol = document.getElementById('select-colegio-jugador');
+            const wrapperManual = document.getElementById('wrapper-colegio-manual');
+            const inputManual = document.getElementById('input-colegio-manual');
+
             if (inputNombre) inputNombre.value = jugador.nombre || '';
-            if (inputColegio) inputColegio.value = jugador.colegio || '';
-            
+
+            if (selectCol) {
+                if (jugador.colegio) {
+                    if (OPCIONES_COLEGIO_PREDEFINIDAS.includes(jugador.colegio)) {
+                        selectCol.value = jugador.colegio;
+                        if (wrapperManual) wrapperManual.style.display = 'none';
+                        if (inputManual) {
+                            inputManual.value = '';
+                            inputManual.removeAttribute('required');
+                        }
+                    } else {
+                        selectCol.value = '__OTRA__';
+                        if (wrapperManual) wrapperManual.style.display = 'block';
+                        if (inputManual) {
+                            inputManual.value = jugador.colegio;
+                            inputManual.setAttribute('required', 'required');
+                        }
+                    }
+                } else {
+                    selectCol.value = '';
+                    if (wrapperManual) wrapperManual.style.display = 'none';
+                    if (inputManual) {
+                        inputManual.value = '';
+                        inputManual.removeAttribute('required');
+                    }
+                }
+            }
+
             const modal = document.getElementById('playerModal');
             if (modal) modal.style.display = 'flex';
             setTimeout(() => {
-                if (inputNombre) inputNombre.focus();
+                if (inputNombre && !inputNombre.value) inputNombre.focus();
             }, 100);
         }
 
@@ -3161,12 +3248,33 @@
         function guardarRegistroJugador(event) {
             if (event) event.preventDefault();
             const inputNombre = document.getElementById('input-nombre-jugador');
-            const inputColegio = document.getElementById('input-colegio-jugador');
+            const selectCol = document.getElementById('select-colegio-jugador');
+            const inputManual = document.getElementById('input-colegio-manual');
+
             const nombre = inputNombre ? inputNombre.value.trim() : '';
-            const colegio = inputColegio ? inputColegio.value.trim().toUpperCase() : '';
+            let colegio = '';
+
+            if (selectCol) {
+                if (selectCol.value === '__OTRA__') {
+                    colegio = inputManual ? inputManual.value.trim() : '';
+                } else {
+                    colegio = selectCol.value.trim();
+                }
+            }
 
             if (!nombre) {
-                alert('Por favor ingresa tu nombre o apodo de Curaca');
+                alert('Por favor ingresa tu nombre o apodo de Curaca.');
+                if (inputNombre) inputNombre.focus();
+                return;
+            }
+
+            if (!colegio) {
+                alert('Por favor selecciona o escribe tu colegio o institución.');
+                if (selectCol && selectCol.value === '__OTRA__' && inputManual) {
+                    inputManual.focus();
+                } else if (selectCol) {
+                    selectCol.focus();
+                }
                 return;
             }
 
@@ -3177,8 +3285,7 @@
             localStorage.setItem('inca_jugador_colegio', colegio);
 
             actualizarBadgeJugador();
-            const modal = document.getElementById('playerModal');
-            if (modal) modal.style.display = 'none';
+            cerrarRegistroJugador();
 
             if (iniciarJuegoPendiente) {
                 iniciarJuegoPendiente = false;
@@ -3187,7 +3294,7 @@
         }
 
         function iniciarJuegoClick() {
-            if (!jugador.nombre) {
+            if (!jugador.nombre || !jugador.colegio) {
                 abrirRegistroJugador(true);
             } else {
                 iniciarJuego();
@@ -3523,69 +3630,7 @@
             }
         ];
 
-        // ==========================================
-        // GESTIÓN DE JUGADOR & REGISTRO
-        // ==========================================
-        function actualizarBadgeJugador() {
-            const titleText = document.getElementById('title-player-text');
-            const topText = document.getElementById('top-player-name');
-            if (jugador.nombre) {
-                const colegioStr = jugador.colegio ? ` (${jugador.colegio.toUpperCase()})` : '';
-                if (titleText) titleText.textContent = `Curaca: ${jugador.nombre}${colegioStr}`;
-                if (topText) topText.textContent = `${jugador.nombre}${colegioStr}`;
-            } else {
-                if (titleText) titleText.textContent = 'Curaca: Sin registrar (Clic)';
-                if (topText) topText.textContent = 'Anónimo';
-            }
-        }
-
-        function abrirRegistroJugador(iniciarDespues = false) {
-            iniciarJuegoPendiente = !!iniciarDespues;
-            document.getElementById('input-nombre-jugador').value = jugador.nombre || '';
-            document.getElementById('input-colegio-jugador').value = jugador.colegio || '';
-            document.getElementById('playerModal').style.display = 'flex';
-            setTimeout(() => {
-                const input = document.getElementById('input-nombre-jugador');
-                if (input) input.focus();
-            }, 100);
-        }
-
-        function cerrarRegistroJugador() {
-            document.getElementById('playerModal').style.display = 'none';
-            iniciarJuegoPendiente = false;
-        }
-
-        function guardarRegistroJugador(e) {
-            if (e) e.preventDefault();
-            const nom = document.getElementById('input-nombre-jugador').value.trim();
-            const col = document.getElementById('input-colegio-jugador').value.trim().toUpperCase();
-
-            if (!nom || !col) {
-                alert('Por favor ingresa tu nombre y las siglas de tu colegio.');
-                return;
-            }
-
-            jugador.nombre = nom;
-            jugador.colegio = col;
-            localStorage.setItem('inca_jugador_nombre', nom);
-            localStorage.setItem('inca_jugador_colegio', col);
-
-            actualizarBadgeJugador();
-            cerrarRegistroJugador();
-
-            if (iniciarJuegoPendiente) {
-                iniciarJuegoPendiente = false;
-                iniciarJuego();
-            }
-        }
-
-        function iniciarJuegoClick() {
-            if (!jugador.nombre || !jugador.colegio) {
-                abrirRegistroJugador(true);
-            } else {
-                iniciarJuego();
-            }
-        }
+// Registro unificado en la sección superior
 
         // ==========================================
         // INTRO & TITLE SCREEN LOGIC
@@ -4242,11 +4287,12 @@
         // ==========================================
         let modalScores = [];
         const DEMO_SCORES_LOCAL = [
-            { ranking: 1, jugador: 'Manco Cápac', colegio: 'CNB', puntaje: 5420, resultado: '🏆 Victoria (Coricancha)' },
-            { ranking: 2, jugador: 'Mama Ocllo', colegio: 'EEST1', puntaje: 4890, resultado: '🏆 Victoria (Coricancha)' },
-            { ranking: 3, jugador: 'Pachacútec', colegio: 'CPB', puntaje: 4310, resultado: '🏆 Victoria (Coricancha)' },
-            { ranking: 4, jugador: 'Atahualpa', colegio: 'CNB', puntaje: 2950, resultado: '💀 Game Over (Mes 22)' },
-            { ranking: 5, jugador: 'Túpac Yupanqui', colegio: 'SJD', puntaje: 2680, resultado: '💀 Game Over (Mes 19)' }
+            { ranking: 1, jugador: 'Manco Cápac', colegio: 'DVS', puntaje: 5420, resultado: '🏆 Victoria (Coricancha)' },
+            { ranking: 2, jugador: 'Mama Ocllo', colegio: 'IPET 263', puntaje: 4890, resultado: '🏆 Victoria (Coricancha)' },
+            { ranking: 3, jugador: 'Pachacútec', colegio: 'GMZ', puntaje: 4310, resultado: '🏆 Victoria (Coricancha)' },
+            { ranking: 4, jugador: 'Atahualpa', colegio: 'ProA', puntaje: 2950, resultado: '💀 Game Over (Mes 22)' },
+            { ranking: 5, jugador: 'Túpac Yupanqui', colegio: 'D.F.Sarmiento', puntaje: 2680, resultado: '💀 Game Over (Mes 19)' },
+            { ranking: 6, jugador: 'Micaela Bastidas', colegio: 'El Amanecer', puntaje: 2450, resultado: '💀 Game Over (Mes 18)' }
         ];
 
         function abrirTableroPuntajes() {
@@ -4320,7 +4366,7 @@
 
             let filtrados = modalScores;
             if (col) {
-                filtrados = modalScores.filter(s => (s.colegio || '').toUpperCase() === col);
+                filtrados = modalScores.filter(s => (s.colegio || '').trim().toUpperCase() === col.toUpperCase());
             }
 
             if (filtrados.length === 0) {
