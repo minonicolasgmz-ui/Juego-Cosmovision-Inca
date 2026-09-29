@@ -1,1078 +1,337 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tablero de Puntajes · Camino a Coricancha</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <style>
-        :root {
-            --gold-primary: #FFD700;
-            --gold-dark: #b8860b;
-            --gold-light: #fff0a8;
-            --bg-dark: #0f0f14;
-            --bg-card: rgba(26, 26, 38, 0.85);
-            --border-gold: rgba(255, 215, 0, 0.35);
-            --text-light: #f5f0e6;
-            --text-muted: rgba(245, 240, 230, 0.7);
-            --accent-green: #2ecc71;
-            --accent-red: #e74c3c;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at 50% 10%, #221a0f 0%, #0d0d12 60%, #050508 100%);
-            color: var(--text-light);
-            min-height: 100vh;
-            padding: 20px 15px 40px;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Ambient golden sun rays in background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: -200px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.12) 0%, rgba(218, 165, 32, 0.04) 40%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Header */
-        header {
-            text-align: center;
-            margin-bottom: 25px;
-            padding-top: 10px;
-        }
-
-        .sun-emblem {
-            font-size: 3rem;
-            animation: pulseSun 4s infinite ease-in-out;
-            display: inline-block;
-            filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.6));
-        }
-
-        @keyframes pulseSun {
-
-            0%,
-            100% {
-                transform: scale(1);
-                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
-            }
-
-            50% {
-                transform: scale(1.08);
-                filter: drop-shadow(0 0 35px rgba(255, 215, 0, 0.9));
-            }
-        }
-
-        .subtitle {
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            letter-spacing: 0.3em;
-            color: var(--gold-primary);
-            text-transform: uppercase;
-            margin-top: 5px;
-            opacity: 0.9;
-        }
-
-        h1 {
-            font-family: 'Cinzel Decorative', serif;
-            font-size: clamp(1.8rem, 4.5vw, 3rem);
-            color: #ffffff;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.4), 0 2px 5px rgba(0, 0, 0, 0.8);
-            margin: 5px 0 10px;
-            font-weight: 700;
-        }
-
-        .gold-line {
-            width: 260px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
-            margin: 0 auto 15px;
-        }
-
-        /* Status & Live Badge */
-        .live-bar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 25px;
-        }
-
-        .live-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(46, 204, 113, 0.12);
-            border: 1px solid rgba(46, 204, 113, 0.35);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #2ecc71;
-        }
-
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #2ecc71;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #2ecc71;
-            animation: liveBlink 1.8s infinite;
-        }
-
-        @keyframes liveBlink {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.3;
-                transform: scale(0.7);
-            }
-        }
-
-        .sync-time {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        /* Stats overview cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-gold);
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-            transition: transform 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--gold-primary);
-        }
-
-        .stat-icon {
-            font-size: 1.6rem;
-            margin-bottom: 6px;
-        }
-
-        .stat-val {
-            font-family: 'Cinzel', serif;
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--gold-primary);
-        }
-
-        .stat-label {
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        /* Podium (Top 3) */
-        .podium-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            gap: 15px;
-            margin: 25px 0 40px;
-            flex-wrap: wrap;
-        }
-
-        .podium-place {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 20px 15px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            position: relative;
-            transition: transform 0.3s ease;
-        }
-
-        .podium-place:hover {
-            transform: translateY(-5px);
-        }
-
-        .podium-1 {
-            order: 2;
-            width: 280px;
-            border: 2px solid var(--gold-primary);
-            background: linear-gradient(180deg, rgba(255, 215, 0, 0.15) 0%, rgba(26, 26, 38, 0.95) 100%);
-            box-shadow: 0 0 35px rgba(255, 215, 0, 0.25);
-            padding-top: 30px;
-        }
-
-        .podium-2 {
-            order: 1;
-            width: 240px;
-            border: 1px solid rgba(192, 192, 192, 0.6);
-            background: linear-gradient(180deg, rgba(192, 192, 192, 0.1) 0%, rgba(26, 26, 38, 0.9) 100%);
-        }
-
-        .podium-3 {
-            order: 3;
-            width: 240px;
-            border: 1px solid rgba(205, 127, 50, 0.6);
-            background: linear-gradient(180deg, rgba(205, 127, 50, 0.1) 0%, rgba(26, 26, 38, 0.9) 100%);
-        }
-
-        .podium-crown {
-            font-size: 2.2rem;
-            position: absolute;
-            top: -22px;
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
-        }
-
-        .podium-medal {
-            font-size: 2rem;
-            margin-bottom: 5px;
-        }
-
-        .podium-name {
-            font-family: 'Cinzel', serif;
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 4px;
-            word-break: break-word;
-            max-width: 100%;
-        }
-
-        .podium-school {
-            display: inline-block;
-            background: rgba(255, 215, 0, 0.12);
-            color: var(--gold-primary);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-radius: 12px;
-            padding: 3px 10px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            letter-spacing: 0.05em;
-        }
-
-        .podium-score {
-            font-family: 'Cinzel', serif;
-            font-size: 1.6rem;
-            font-weight: 900;
-            color: var(--gold-primary);
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-        }
-
-        .podium-sub {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        /* Controls / Filter Bar */
-        .controls-bar {
-            background: var(--bg-card);
-            border: 1px solid var(--border-gold);
-            border-radius: 14px;
-            padding: 14px 18px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        .filter-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            flex: 1;
-        }
-
-        .filter-label {
-            font-size: 0.85rem;
-            color: var(--gold-primary);
-            font-weight: 600;
-        }
-
-        select,
-        input[type="text"] {
-            background: rgba(15, 15, 20, 0.8);
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            color: var(--text-light);
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.88rem;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        select:focus,
-        input[type="text"]:focus {
-            border-color: var(--gold-primary);
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-        }
-
-        .btn-action {
-            background: linear-gradient(135deg, var(--gold-dark), var(--gold-primary));
-            color: #1a0a00;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 8px;
-            font-family: 'Cinzel', serif;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.3s;
-        }
-
-        .btn-action:hover {
-            transform: scale(1.04);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.08);
-            color: var(--text-light);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--gold-primary);
-            color: var(--gold-primary);
-        }
-
-        /* Leaderboard Table */
-        .table-wrapper {
-            background: var(--bg-card);
-            border: 1px solid var(--border-gold);
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        thead th {
-            background: rgba(184, 134, 11, 0.25);
-            color: var(--gold-primary);
-            font-family: 'Cinzel', serif;
-            font-size: 0.82rem;
-            letter-spacing: 0.08em;
-            padding: 14px 16px;
-            text-transform: uppercase;
-            border-bottom: 1px solid var(--border-gold);
-        }
-
-        tbody tr {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: background 0.2s;
-        }
-
-        tbody tr:hover {
-            background: rgba(255, 215, 0, 0.06);
-        }
-
-        tbody td {
-            padding: 12px 16px;
-            font-size: 0.9rem;
-        }
-
-        .col-rank {
-            width: 60px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .col-player {
-            font-weight: 600;
-            color: #ffffff;
-        }
-
-        .col-school {
-            font-weight: 500;
-        }
-
-        .school-tag {
-            background: rgba(255, 215, 0, 0.12);
-            color: var(--gold-light);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-radius: 6px;
-            padding: 3px 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-        }
-
-        .col-score {
-            font-family: 'Cinzel', serif;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--gold-primary);
-            text-align: right;
-        }
-
-        .badge-victory {
-            background: rgba(46, 204, 113, 0.15);
-            color: #2ecc71;
-            border: 1px solid rgba(46, 204, 113, 0.4);
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 0.78rem;
-            font-weight: 600;
-        }
-
-        .badge-gameover {
-            background: rgba(231, 76, 60, 0.15);
-            color: #e74c3c;
-            border: 1px solid rgba(231, 76, 60, 0.4);
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 0.78rem;
-            font-weight: 600;
-        }
-
-        /* Empty State & Loader */
-        .loading-state,
-        .empty-state {
-            padding: 50px 20px;
-            text-align: center;
-            color: var(--text-muted);
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(255, 215, 0, 0.2);
-            border-top-color: var(--gold-primary);
-            border-radius: 50%;
-            animation: spin 0.9s infinite linear;
-            margin: 0 auto 15px;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Config Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(6px);
-            padding: 15px;
-        }
-
-        .modal-card {
-            background: #181824;
-            border: 2px solid var(--gold-primary);
-            border-radius: 16px;
-            max-width: 550px;
-            width: 100%;
-            padding: 25px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
-        }
-
-        .modal-title {
-            font-family: 'Cinzel', serif;
-            color: var(--gold-primary);
-            font-size: 1.3rem;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .modal-desc {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 18px;
-        }
-
-        .input-group {
-            margin-bottom: 16px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.8rem;
-            color: var(--gold-primary);
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-
-        .input-group input {
-            width: 100%;
-        }
-
-        .modal-buttons {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        /* Navigation Footer */
-        footer {
-            margin-top: 35px;
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        footer a {
-            color: var(--gold-primary);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        footer a:hover {
-            color: #ffffff;
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            .podium-place {
-                width: 100% !important;
-                order: initial !important;
-            }
-
-            .hide-mobile {
-                display: none;
-            }
-
-            .controls-bar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .filter-group {
-                flex-direction: column;
-                align-items: stretch;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#243e3b">
+  <title>Clasificación · Camino a Coricancha</title>
+  <style>
+    :root { color-scheme: light; --paper:#f5efdf; --ink:#243e3b; --muted:#59665d; --gold:#ba873e; --line:#d5ccb7; --card:#fffaf0; --danger:#963c31; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.5; padding:24px max(16px,env(safe-area-inset-right)) max(32px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left)); }
+    button,input,select { font:inherit; }
+    button,a,input,select { -webkit-tap-highlight-color:transparent; }
+    button,input,select,.back-link { min-height:44px; }
+    button,select { cursor:pointer; }
+    button { border:1px solid var(--ink); border-radius:7px; padding:10px 16px; background:var(--ink); color:var(--card); font-weight:650; }
+    button:hover { background:#365854; }
+    button:disabled { cursor:wait; opacity:.65; }
+    button.secondary { background:transparent; color:var(--ink); border-color:var(--line); }
+    button.secondary:hover { background:#e8e0cd; }
+    :focus-visible { outline:3px solid #946021; outline-offset:3px; }
+    a { color:var(--ink); text-underline-offset:4px; }
+    .container { width:100%; max-width:1100px; margin:auto; }
+    .topline { display:flex; justify-content:space-between; align-items:center; gap:12px; font-size:.82rem; }
+    .back-link { display:inline-flex; align-items:center; }
+    .brand { letter-spacing:.09em; font-weight:700; text-align:right; }
+    header { text-align:center; padding:36px 0 22px; }
+    .eyebrow { margin:0 0 10px; letter-spacing:.16em; text-transform:uppercase; font-size:.73rem; font-weight:750; color:#775124; }
+    h1 { font-family:Georgia,"Times New Roman",serif; font-size:clamp(2.1rem,6vw,3.7rem); font-weight:500; letter-spacing:-.045em; line-height:1.05; margin:0; }
+    header p { max-width:600px; margin:16px auto; color:var(--muted); }
+    .sun { width:52px; height:52px; margin:0 auto 18px; border:1px solid var(--gold); border-radius:50%; color:#86612d; display:grid; place-items:center; font-size:1.8rem; }
+    .live-bar { display:flex; justify-content:center; align-items:center; gap:10px 16px; flex-wrap:wrap; margin-top:24px; font-size:.81rem; }
+    .live-badge { display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border:1px solid var(--line); border-radius:20px; font-weight:700; }
+    .pulse-dot { width:7px; height:7px; background:var(--gold); border-radius:50%; }
+    .live-badge[data-state="online"] .pulse-dot { background:#367351; }
+    .live-badge[data-state="offline"] .pulse-dot { background:var(--danger); }
+    .sync-time { color:var(--muted); max-width:650px; }
+    .notice { margin:0 0 20px; padding:12px 15px; border-left:3px solid var(--gold); color:var(--muted); background:#eee5d0; font-size:.86rem; }
+    .notice[hidden] { display:none; }
+    .stats-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--line); border-radius:10px; margin:20px 0 34px; overflow:hidden; }
+    .stat-card { padding:20px 12px; text-align:center; background:var(--card); border-right:1px solid var(--line); min-width:0; }
+    .stat-card:last-child { border-right:0; }
+    .stat-val { font-family:Georgia,serif; font-size:clamp(1.6rem,3.5vw,2.25rem); font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
+    .stat-label { color:var(--muted); font-size:.75rem; margin-top:5px; }
+    .podium-container { display:grid; grid-template-columns:1fr 1.15fr 1fr; align-items:end; gap:14px; margin:34px 0; }
+    .podium-container[hidden] { display:none; }
+    .podium-place { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:20px 14px; text-align:center; overflow-wrap:anywhere; min-width:0; }
+    .podium-1 { order:2; padding-top:32px; border-color:var(--gold); background:#eee1bf; }
+    .podium-2 { order:1; }
+    .podium-3 { order:3; }
+    .podium-medal { font-size:1.6rem; margin-bottom:9px; }
+    .podium-name { font-family:Georgia,serif; font-size:1.25rem; font-weight:600; }
+    .podium-school,.podium-sub { font-size:.75rem; color:var(--muted); }
+    .podium-score { font-size:1.5rem; font-weight:700; margin:12px 0 2px; font-variant-numeric:tabular-nums; }
+    .controls-bar { border-top:1px solid var(--line); padding:22px 0 18px; display:flex; gap:16px; align-items:end; flex-wrap:wrap; }
+    .filter-group { display:flex; gap:12px; flex:1; flex-wrap:wrap; min-width:0; }
+    .field { display:flex; flex-direction:column; gap:6px; flex:1 1 170px; min-width:0; }
+    label { font-size:.77rem; font-weight:700; }
+    input,select { width:100%; min-width:0; border:1px solid #b9b39f; padding:10px 12px; background:var(--card); color:var(--ink); border-radius:6px; font-size:1rem; }
+    input::placeholder { color:#687269; }
+    .buttons { display:flex; gap:8px; flex-wrap:wrap; }
+    .version-note { color:var(--muted); font-size:.81rem; margin:0 0 18px; }
+    .table-wrapper { width:100%; max-width:100%; overflow-x:auto; border:1px solid var(--line); border-radius:10px; background:var(--card); -webkit-overflow-scrolling:touch; }
+    table { width:100%; min-width:760px; text-align:left; border-collapse:collapse; }
+    caption { text-align:left; padding:14px 16px; font-size:.8rem; color:var(--muted); border-bottom:1px solid var(--line); }
+    th { background:#e9e2d1; font-size:.72rem; letter-spacing:.05em; text-transform:uppercase; padding:14px 16px; }
+    td { padding:14px 16px; border-top:1px solid #e5dece; font-size:.88rem; }
+    td.col-player { font-weight:650; max-width:220px; overflow-wrap:anywhere; }
+    td.col-school { max-width:180px; overflow-wrap:anywhere; }
+    .col-rank { width:54px; text-align:center; }
+    .col-score { text-align:right; font-variant-numeric:tabular-nums; font-weight:700; }
+    .school-tag { color:#5d573f; }
+    .badge-victory,.badge-gameover { display:inline-block; font-size:.76rem; border:1px solid #bfd1bb; color:#285737; background:#e6efdf; border-radius:5px; padding:4px 7px; max-width:240px; }
+    .badge-gameover { color:#8a3930; background:#f4e2d8; border-color:#dec4b8; }
+    .local-tag { display:block; margin-top:4px; font-size:.7rem; font-weight:400; color:var(--muted); }
+    .empty-state { text-align:center; padding:35px 20px; color:var(--muted); white-space:normal; max-width:min(700px,calc(100vw - 64px)); }
+    footer { border-top:1px solid var(--line); margin-top:32px; padding-top:18px; color:var(--muted); font-size:.8rem; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:center; }
+    footer p { margin:0; }
+    dialog { padding:0; margin:auto; border:1px solid var(--gold); border-radius:12px; background:var(--card); color:var(--ink); width:min(550px,calc(100% - 28px)); max-height:calc(100dvh - 28px); overflow-y:auto; box-shadow:0 20px 80px #14292344; }
+    dialog::backdrop { background:#112725aa; }
+    .modal-card { padding:24px; }
+    .modal-title { font-family:Georgia,serif; font-size:1.55rem; margin:0 0 12px; }
+    .modal-desc { color:var(--muted); font-size:.9rem; margin:0 0 18px; }
+    .input-group { display:grid; gap:7px; margin:16px 0; }
+    .config-help { color:var(--muted); font-size:.8rem; }
+    .config-error { color:var(--danger); font-size:.85rem; }
+    .config-error:empty { display:none; }
+    .modal-buttons { display:flex; justify-content:flex-end; gap:10px; flex-wrap:wrap; margin-top:22px; }
+    @media(max-width:600px) { body { padding-top:16px; } header { padding:24px 0 12px; } .brand { font-size:.65rem; max-width:145px; } .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .stat-card:nth-child(2) { border-right:0; } .stat-card:nth-child(-n+2) { border-bottom:1px solid var(--line); } .podium-container { grid-template-columns:1fr; gap:8px; margin:24px 0; } .podium-place { display:grid; grid-template-columns:36px 1fr auto; text-align:left; padding:14px; align-items:center; column-gap:10px; } .podium-place { order:initial; } .podium-medal { grid-row:1 / 4; margin:0; font-size:1.3rem; } .podium-name { font-size:1.08rem; } .podium-school { grid-column:2; } .podium-sub { grid-column:2 / 4; } .podium-score { grid-column:3; grid-row:1 / 3; margin:0; font-size:1.2rem; } .controls-bar,.filter-group { flex-direction:column; align-items:stretch; } .field { flex:auto; } .buttons > button { flex:1; } .modal-card { padding:20px; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+  </style>
 </head>
-
 <body>
-
-    <div class="container">
-        <!-- Header -->
-        <header>
-            <div class="sun-emblem">☀️</div>
-            <div class="subtitle">Tawantinsuyu · Torneo Intercolegial</div>
-            <h1>Tablero de Puntajes</h1>
-            <div class="gold-line"></div>
-
-            <div class="live-bar">
-                <div class="live-badge">
-                    <span class="pulse-dot"></span>
-                    <span>Sincronización en Vivo</span>
-                </div>
-                <div class="sync-time" id="syncStatus">Actualizado recién</div>
-            </div>
-        </header>
-
-        <!-- Stats Overview -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">👑</div>
-                <div class="stat-val" id="statMaxScore">0</div>
-                <div class="stat-label">Puntaje Máximo</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">👥</div>
-                <div class="stat-val" id="statTotalPlayers">0</div>
-                <div class="stat-label">Curacas Participantes</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">🏛️</div>
-                <div class="stat-val" id="statTotalSchools">0</div>
-                <div class="stat-label">Colegios Compitiendo</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">🏆</div>
-                <div class="stat-val" id="statCoricanchas">0</div>
-                <div class="stat-label">Coricanchas Construidos</div>
-            </div>
-        </div>
-
-        <!-- Top 3 Podium -->
-        <div class="podium-container" id="podiumContainer" style="display: none;">
-            <!-- Rendered dynamically -->
-        </div>
-
-        <!-- Controls Bar -->
-        <div class="controls-bar">
-            <div class="filter-group">
-                <span class="filter-label">🏛️ Colegio:</span>
-                <select id="schoolFilter" onchange="aplicarFiltros()">
-                    <option value="">Todos los Colegios</option>
-                </select>
-
-                <input type="text" id="searchInput" placeholder="🔍 Buscar curaca..." oninput="aplicarFiltros()">
-            </div>
-
-            <div style="display: flex; gap: 8px;">
-                <button class="btn-action btn-secondary" onclick="abrirModalConfig()"
-                    title="Configurar conexión con Google Apps Script">
-                    ⚙️ Configurar URL
-                </button>
-                <button class="btn-action" onclick="cargarPuntajes(true)" id="btnRefresh">
-                    🔄 Actualizar
-                </button>
-            </div>
-        </div>
-
-        <!-- Leaderboard Table -->
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="col-rank">Pos</th>
-                        <th>Curaca / Jugador</th>
-                        <th>Colegio</th>
-                        <th class="col-score">Puntaje</th>
-                        <th>Resultado</th>
-                        <th class="hide-mobile">Meses</th>
-                        <th class="hide-mobile">Fecha</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <tr>
-                        <td colspan="7">
-                            <div class="loading-state">
-                                <div class="spinner"></div>
-                                <p>Cargando posiciones del Tawantinsuyu...</p>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Footer -->
-        <footer>
-            <p>Juego Cosmovisión Inca · <strong>Camino a Coricancha</strong></p>
-            <p style="margin-top: 6px;"><a href="index.html">🎮 Volver al Juego</a> &nbsp;•&nbsp; <a
-                    href="javascript:void(0)" onclick="abrirModalConfig()">⚙️ Conexión Apps Script</a></p>
-        </footer>
+  <main class="container">
+    <nav class="topline" aria-label="Navegación"><a class="back-link" href="index.html">← Volver al juego</a><span class="brand">CAMINO A CORICANCHA</span></nav>
+    <header>
+      <div class="sun" aria-hidden="true">☀</div>
+      <p class="eyebrow">La memoria de los ayllus</p>
+      <h1>Clasificación de curacas</h1>
+      <p>Cada partida cuenta una historia de decisiones, comunidad y equilibrio.</p>
+      <div class="live-bar"><div class="live-badge" id="liveBadge" data-state="loading"><span class="pulse-dot" aria-hidden="true"></span><span id="connectionLabel">Consultando clasificación</span></div><div class="sync-time" id="syncStatus" role="status" aria-live="polite">Buscando partidas guardadas…</div></div>
+    </header>
+    <p id="connectionNotice" class="notice" hidden></p>
+    <section class="stats-grid" aria-label="Estadísticas de la selección actual">
+      <div class="stat-card"><div class="stat-val" id="statMaxScore">0</div><div class="stat-label">Mejor puntaje</div></div>
+      <div class="stat-card"><div class="stat-val" id="statTotalPlayers">0</div><div class="stat-label">Curacas participantes</div></div>
+      <div class="stat-card"><div class="stat-val" id="statTotalSchools">0</div><div class="stat-label">Colegios representados</div></div>
+      <div class="stat-card"><div class="stat-val" id="statCoricanchas">0</div><div class="stat-label">Coricanchas construidos</div></div>
+    </section>
+    <section class="podium-container" id="podiumContainer" aria-label="Primeros tres puestos" hidden></section>
+    <section class="controls-bar" aria-label="Filtros de la clasificación">
+      <div class="filter-group">
+        <div class="field"><label for="versionFilter">Reglas de la partida</label><select id="versionFilter" onchange="cambiarVersion()"><option value="v2">Nueva versión · v2</option><option value="classic">Versión clásica</option></select></div>
+        <div class="field"><label for="schoolFilter">Colegio o comunidad</label><select id="schoolFilter" onchange="aplicarFiltros()"><option value="">Todos los colegios</option></select></div>
+        <div class="field"><label for="searchInput">Buscar curaca</label><input type="search" id="searchInput" placeholder="Nombre o apodo" oninput="aplicarFiltros()"></div>
+      </div>
+      <div class="buttons"><button class="secondary" onclick="abrirModalConfig()">Conexión</button><button onclick="cargarPuntajes(true)" id="btnRefresh">Actualizar</button></div>
+    </section>
+    <p class="version-note">Las reglas y los puntajes de ambas versiones son distintos. Se clasifican por separado. Las estadísticas reflejan los filtros elegidos.</p>
+    <div class="table-wrapper" tabindex="0" role="region" aria-label="Tabla de clasificación. Deslizá horizontalmente para ver todas las columnas.">
+      <table><caption id="tableCaption">Partidas de la nueva versión · Deslizá la tabla para ver más detalles.</caption><thead><tr><th class="col-rank" scope="col">Pos.</th><th scope="col">Curaca</th><th scope="col">Colegio</th><th class="col-score" scope="col">Puntaje</th><th scope="col">Resultado</th><th scope="col">Meses</th><th scope="col">Fecha</th></tr></thead><tbody id="tableBody"><tr><td colspan="7"><div class="empty-state">Cargando partidas…</div></td></tr></tbody></table>
     </div>
+    <footer><p>Camino a Coricancha · El equilibrio de los tres mundos</p><button class="secondary" onclick="abrirModalConfig()">Configurar Google Sheets</button></footer>
+  </main>
+  <dialog id="configModal" aria-labelledby="configTitle" aria-describedby="configDescription">
+    <form class="modal-card" onsubmit="event.preventDefault(); guardarConfigUrl();">
+      <h2 class="modal-title" id="configTitle">Conexión con Google Sheets</h2>
+      <p class="modal-desc" id="configDescription">Usá la aplicación web de Google Apps Script de tu colegio para consultar sus partidas.</p>
+      <div class="input-group"><label for="scriptUrlInput">Dirección de la aplicación web</label><input type="url" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec" aria-describedby="configHelp configError" autocomplete="off" spellcheck="false"></div>
+      <p class="config-help" id="configHelp">Solo se aceptan direcciones de Google Apps Script que terminen en /exec. Dejá el campo vacío para volver a la conexión predeterminada.</p>
+      <p class="config-error" id="configError" role="alert"></p>
+      <div class="modal-buttons"><button type="button" class="secondary" onclick="cerrarModalConfig()">Cerrar</button><button type="submit">Guardar y conectar</button></div>
+    </form>
+  </dialog>
+  <script>
+    'use strict';
+    const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbynwOPQoiMeC0CD9KobexcriT9X4-8PvtIRj-DQImUaYf39fxBlk2-ePsJSR8Ruk70/exec';
+    let currentScriptUrl = DEFAULT_SCRIPT_URL;
+    let allScores = [];
+    let remoteSnapshot = [];
+    let lastRemoteAt = null;
+    let pollingInterval = null;
+    let activeRequest = null;
+    let requestSequence = 0;
+    let storageNote = '';
 
-    <!-- Modal de Configuración de URL de Google Apps Script -->
-    <div class="modal" id="configModal">
-        <div class="modal-card">
-            <div class="modal-title">⚙️ Conexión con Google Sheets</div>
-            <p class="modal-desc">
-                Pega aquí la URL de la aplicación web de <strong>Google Apps Script</strong> para sincronizar este
-                tablero con tu hoja de cálculo en tiempo real.
-            </p>
-            <div class="input-group">
-                <label for="scriptUrlInput">URL de la Web App de Apps Script:</label>
-                <input type="text" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec">
-            </div>
-            <div style="font-size:0.78rem; color:var(--text-muted); line-height:1.5;">
-                ℹ️ Si dejas este campo vacío, se usarán los datos precargados de demostración.
-            </div>
-            <div class="modal-buttons">
-                <button class="btn-action btn-secondary" onclick="cerrarModalConfig()">Cancelar</button>
-                <button class="btn-action" onclick="guardarConfigUrl()">Guardar y Conectar</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // ==========================================
-        // CONFIGURACIÓN & ESTADO
-        // ==========================================
-        const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbynwOPQoiMeC0CD9KobexcriT9X4-8PvtIRj-DQImUaYf39fxBlk2-ePsJSR8Ruk70/exec';
-        
-        function getScriptUrl() {
-            const saved = localStorage.getItem('inca_google_script_url');
-            if (saved && saved.startsWith('http') && !saved.includes('SAMPLE')) {
-                return saved;
-            }
-            return DEFAULT_SCRIPT_URL;
+    function validScriptUrl(value) {
+      if (typeof value !== 'string') return false;
+      try {
+        const url = new URL(value);
+        return url.protocol === 'https:' && url.hostname === 'script.google.com' && !url.port && !url.username && !url.password && !url.search && !url.hash && /^\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(url.pathname);
+      } catch (_) { return false; }
+    }
+    function getScriptUrl() { return currentScriptUrl; }
+    function readStored(key) {
+      try { return localStorage.getItem(key); } catch (_) { storageNote = 'El almacenamiento de este navegador no está disponible.'; return null; }
+    }
+    function safeNumber(value) {
+      if ((typeof value !== 'number' && typeof value !== 'string') || value === '') return 0;
+      const result = Number(value);
+      return Number.isFinite(result) ? Math.max(0, Math.min(Number.MAX_SAFE_INTEGER, Math.floor(result))) : 0;
+    }
+    function safeText(value, fallback = '', maxLength = 160) {
+      return typeof value === 'string' ? value.trim().slice(0, maxLength) : fallback;
+    }
+    function normalizeScore(item, local) {
+      if (!item || typeof item !== 'object' || Array.isArray(item)) return null;
+      const name = safeText(item.jugador, '', 80);
+      if (!name) return null;
+      const dateValue = typeof item.fecha === 'string' || typeof item.fecha === 'number' ? new Date(item.fecha) : null;
+      return { jugador:name, colegio:safeText(item.colegio, 'S/D', 80) || 'S/D', puntaje:safeNumber(item.puntaje), resultado:safeText(item.resultado, 'Fin de partida'), meses:safeNumber(item.meses), poblacion:safeNumber(item.poblacion), alimento:safeNumber(item.alimento), fe:safeNumber(item.fe), fecha:dateValue && Number.isFinite(dateValue.getTime()) ? dateValue.toISOString() : '', local:Boolean(local) };
+    }
+    function normalizeScores(items, local) { return items.map(item => normalizeScore(item, local)).filter(Boolean); }
+    function readLocalScores() {
+      const saved = readStored('inca_local_scores');
+      if (!saved) return [];
+      try {
+        const parsed = JSON.parse(saved);
+        if (!Array.isArray(parsed)) throw new Error('Invalid scores');
+        return normalizeScores(parsed, true);
+      } catch (_) { storageNote = 'No se pudieron leer las partidas locales de este navegador.'; return []; }
+    }
+    function combineScores(remote, local) {
+      const result = [...remote];
+      const keys = new Set(remote.map(scoreKey));
+      for (const item of local) if (!keys.has(scoreKey(item))) { result.push(item); keys.add(scoreKey(item)); }
+      return result.sort((a,b) => b.puntaje - a.puntaje || (Date.parse(b.fecha) || 0) - (Date.parse(a.fecha) || 0));
+    }
+    function scoreKey(item) { return JSON.stringify([item.jugador,item.colegio.toUpperCase(),item.puntaje,item.fecha,item.resultado]); }
+    function setConnection(state, label, message) {
+      document.getElementById('liveBadge').dataset.state = state;
+      document.getElementById('connectionLabel').textContent = label;
+      document.getElementById('syncStatus').textContent = message + (storageNote ? ' ' + storageNote : '');
+    }
+    async function cargarPuntajes(isManual = false) {
+      if (activeRequest) {
+        if (!isManual) return;
+        activeRequest.abort();
+      }
+      const seq = ++requestSequence;
+      const controller = new AbortController();
+      activeRequest = controller;
+      const refresh = document.getElementById('btnRefresh');
+      refresh.disabled = true;
+      refresh.textContent = 'Consultando…';
+      storageNote = '';
+      const local = readLocalScores();
+      // Show real local data immediately, even when the network is slow.
+      allScores = combineScores(remoteSnapshot, local);
+      actualizarSelectColegios();
+      aplicarFiltros();
+      setConnection('loading', 'Consultando clasificación', 'Conectando con la hoja de puntajes…');
+      const timeout = setTimeout(() => controller.abort(), 8000);
+      try {
+        const url = new URL(getScriptUrl());
+        url.searchParams.set('action', 'getScores');
+        url.searchParams.set('t', String(Date.now()));
+        const response = await fetch(url.href, { signal:controller.signal, cache:'no-store' });
+        if (!response.ok) throw new Error('Remote request failed');
+        const json = await response.json();
+        if (!json || json.success !== true || !Array.isArray(json.data)) throw new Error('Invalid ranking response');
+        if (seq !== requestSequence) return;
+        remoteSnapshot = normalizeScores(json.data, false);
+        lastRemoteAt = new Date();
+        allScores = combineScores(remoteSnapshot, local);
+        const pending = allScores.filter(item => item.local).length;
+        setConnection('online', 'Hoja conectada', 'Consulta confirmada a las ' + lastRemoteAt.toLocaleTimeString('es-AR', {hour:'2-digit',minute:'2-digit'}) + (pending ? ' · ' + pending + ' partida(s) local(es) sin confirmar en la hoja.' : '.'));
+      } catch (_) {
+        if (seq !== requestSequence) return;
+        allScores = combineScores(remoteSnapshot, local);
+        setConnection('offline', 'Sin conexión con la hoja', lastRemoteAt ? 'Mostrando la última consulta de las ' + lastRemoteAt.toLocaleTimeString('es-AR', {hour:'2-digit',minute:'2-digit'}) + ' y las partidas locales.' : 'Mostrando únicamente las partidas de este navegador. Podés volver a intentar.');
+      } finally {
+        clearTimeout(timeout);
+        if (seq === requestSequence) {
+          activeRequest = null;
+          refresh.disabled = false;
+          refresh.textContent = 'Actualizar';
+          actualizarSelectColegios();
+          aplicarFiltros();
         }
-
-        let currentScriptUrl = getScriptUrl();
-        let allScores = [];
-        let pollingInterval = null;
-
-        // Datos de muestra para cuando no hay conexión
-        const DEMO_SCORES = [
-            { ranking: 1, jugador: 'Manco Cápac', colegio: 'DVS', puntaje: 5420, resultado: '🏆 Victoria (Coricancha)', meses: 28, poblacion: 32, alimento: 2150, fe: 840, fecha: '2026-08-31 18:20' },
-            { ranking: 2, jugador: 'Mama Ocllo', colegio: 'IPET 263', puntaje: 4890, resultado: '🏆 Victoria (Coricancha)', meses: 31, poblacion: 28, alimento: 2020, fe: 810, fecha: '2026-08-31 17:45' },
-            { ranking: 3, jugador: 'Pachacútec', colegio: 'GMZ', puntaje: 4310, resultado: '🏆 Victoria (Coricancha)', meses: 35, poblacion: 26, alimento: 2000, fe: 800, fecha: '2026-08-31 16:10' },
-            { ranking: 4, jugador: 'Atahualpa', colegio: 'ProA', puntaje: 2950, resultado: '💀 Game Over (Mes 22)', meses: 22, poblacion: 18, alimento: 350, fe: 210, fecha: '2026-08-31 15:30' },
-            { ranking: 5, jugador: 'Túpac Yupanqui', colegio: 'D.F.Sarmiento', puntaje: 2680, resultado: '💀 Game Over (Mes 19)', meses: 19, poblacion: 15, alimento: 180, fe: 160, fecha: '2026-08-31 14:05' },
-            { ranking: 6, jugador: 'Micaela Bastidas', colegio: 'El Amanecer', puntaje: 2450, resultado: '💀 Game Over (Mes 18)', meses: 18, poblacion: 14, alimento: 150, fe: 130, fecha: '2026-08-31 13:15' }
-        ];
-
-        // ==========================================
-        // INICIALIZACIÓN
-        // ==========================================
-        window.addEventListener('DOMContentLoaded', () => {
-            // Verificar si la URL vino en query param (?url=...)
-            const urlParams = new URLSearchParams(window.location.search);
-            const queryUrl = urlParams.get('url') || urlParams.get('api');
-            if (queryUrl) {
-                currentScriptUrl = queryUrl;
-                localStorage.setItem('inca_google_script_url', queryUrl);
-            }
-
-            cargarPuntajes();
-
-            // Auto-refresco en vivo cada 15 segundos
-            pollingInterval = setInterval(() => {
-                cargarPuntajes(false);
-            }, 15000);
-        });
-
-        // ==========================================
-        // CARGA DE PUNTAJES (API GOOGLE APPS SCRIPT)
-        // ==========================================
-        async function cargarPuntajes(isManual = false) {
-            const btnRefresh = document.getElementById('btnRefresh');
-            if (isManual && btnRefresh) {
-                btnRefresh.textContent = '⏳ Cargando...';
-                btnRefresh.disabled = true;
-            }
-
-            const syncStatus = document.getElementById('syncStatus');
-            if (syncStatus) syncStatus.textContent = 'Sincronizando...';
-
-            // También revisamos si hay puntajes guardados en localStorage desde este navegador
-            let localGameScores = [];
-            try {
-                localGameScores = JSON.parse(localStorage.getItem('inca_local_scores') || '[]');
-            } catch (e) { }
-
-            const scriptUrl = getScriptUrl();
-
-            if (scriptUrl && scriptUrl.startsWith('http') && !scriptUrl.includes('SAMPLE')) {
-                try {
-                    const response = await fetch(`${scriptUrl}?action=getScores&t=${Date.now()}`);
-                    const json = await response.json();
-
-                    if (json.success && Array.isArray(json.data)) {
-                        allScores = json.data;
-                        // Combinar con puntajes locales recientes si no están en la hoja aún
-                        localGameScores.forEach(localItem => {
-                            if (!allScores.some(s => s.jugador === localItem.jugador && s.puntaje === localItem.puntaje)) {
-                                allScores.push(localItem);
-                            }
-                        });
-                        reordenarScores();
-                    } else {
-                        throw new Error('Respuesta inválida');
-                    }
-                } catch (err) {
-                    console.warn('No se pudo conectar a Google Sheets, usando almacenamiento local/demo:', err);
-                    combinarLocalConDemo(localGameScores);
-                }
-            } else {
-                combinarLocalConDemo(localGameScores);
-            }
-
-            actualizarEstadisticas();
-            actualizarSelectColegios();
-            aplicarFiltros();
-
-            const now = new Date();
-            syncStatus.textContent = `Actualizado ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`;
-
-            if (isManual && btnRefresh) {
-                btnRefresh.textContent = '🔄 Actualizar';
-                btnRefresh.disabled = false;
-            }
-        }
-
-        function combinarLocalConDemo(localGameScores) {
-            allScores = [...DEMO_SCORES];
-            if (localGameScores && localGameScores.length > 0) {
-                localGameScores.forEach(localItem => {
-                    if (!allScores.some(s => s.jugador === localItem.jugador && s.fecha === localItem.fecha)) {
-                        allScores.push(localItem);
-                    }
-                });
-            }
-            reordenarScores();
-        }
-
-        function reordenarScores() {
-            allScores.sort((a, b) => b.puntaje - a.puntaje);
-            allScores.forEach((item, index) => {
-                item.ranking = index + 1;
-            });
-        }
-
-        // ==========================================
-        // RENDERIZADO DE TABLA Y PODIO
-        // ==========================================
-        function aplicarFiltros() {
-            const selectedSchool = document.getElementById('schoolFilter').value.trim().toUpperCase();
-            const searchText = document.getElementById('searchInput').value.trim().toLowerCase();
-
-            let filtrados = allScores.filter(item => {
-                const matchSchool = !selectedSchool || (item.colegio && item.colegio.toUpperCase() === selectedSchool);
-                const matchPlayer = !searchText || (item.jugador && item.jugador.toLowerCase().includes(searchText));
-                return matchSchool && matchPlayer;
-            });
-
-            renderizarPodio(filtrados);
-            renderizarTabla(filtrados);
-        }
-
-        function renderizarPodio(lista) {
-            const container = document.getElementById('podiumContainer');
-            if (!lista || lista.length === 0) {
-                container.style.display = 'none';
-                return;
-            }
-
-            container.style.display = 'flex';
-            container.innerHTML = '';
-
-            const top1 = lista[0];
-            const top2 = lista[1];
-            const top3 = lista[2];
-
-            // 2do Puesto (Plata)
-            if (top2) {
-                container.innerHTML += `
-                    <div class="podium-place podium-2">
-                        <div class="podium-medal">🥈</div>
-                        <div class="podium-name">${escapeHtml(top2.jugador)}</div>
-                        <span class="podium-school">${escapeHtml(top2.colegio || 'S/D')}</span>
-                        <div class="podium-score">${top2.puntaje.toLocaleString()}</div>
-                        <div class="podium-sub">${escapeHtml(top2.resultado || '')}</div>
-                    </div>
-                `;
-            }
-
-            // 1er Puesto (Oro)
-            if (top1) {
-                container.innerHTML += `
-                    <div class="podium-place podium-1">
-                        <div class="podium-crown">👑</div>
-                        <div class="podium-medal">🥇</div>
-                        <div class="podium-name" style="font-size:1.3rem;">${escapeHtml(top1.jugador)}</div>
-                        <span class="podium-school" style="font-size:0.85rem; padding:4px 14px;">${escapeHtml(top1.colegio || 'S/D')}</span>
-                        <div class="podium-score" style="font-size:2rem;">${top1.puntaje.toLocaleString()}</div>
-                        <div class="podium-sub" style="color:var(--gold-light); font-weight:600;">${escapeHtml(top1.resultado || '')}</div>
-                    </div>
-                `;
-            }
-
-            // 3er Puesto (Bronce)
-            if (top3) {
-                container.innerHTML += `
-                    <div class="podium-place podium-3">
-                        <div class="podium-medal">🥉</div>
-                        <div class="podium-name">${escapeHtml(top3.jugador)}</div>
-                        <span class="podium-school">${escapeHtml(top3.colegio || 'S/D')}</span>
-                        <div class="podium-score">${top3.puntaje.toLocaleString()}</div>
-                        <div class="podium-sub">${escapeHtml(top3.resultado || '')}</div>
-                    </div>
-                `;
-            }
-        }
-
-        function renderizarTabla(lista) {
-            const tbody = document.getElementById('tableBody');
-            if (!lista || lista.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7">
-                            <div class="empty-state">
-                                <div style="font-size:2.5rem; margin-bottom:10px;">📜</div>
-                                <p>No se encontraron partidas con los filtros seleccionados.</p>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            let html = '';
-            lista.forEach((item, index) => {
-                let rankIcon = item.ranking || (index + 1);
-                if (rankIcon === 1) rankIcon = '🥇';
-                else if (rankIcon === 2) rankIcon = '🥈';
-                else if (rankIcon === 3) rankIcon = '🥉';
-                else rankIcon = `${rankIcon}°`;
-
-                const isVictory = item.resultado && item.resultado.toLowerCase().includes('victoria');
-                const badgeClass = isVictory ? 'badge-victory' : 'badge-gameover';
-
-                html += `
-                    <tr>
-                        <td class="col-rank">${rankIcon}</td>
-                        <td class="col-player">${escapeHtml(item.jugador)}</td>
-                        <td class="col-school"><span class="school-tag">${escapeHtml(item.colegio || 'S/D')}</span></td>
-                        <td class="col-score">${item.puntaje.toLocaleString()}</td>
-                        <td><span class="${badgeClass}">${escapeHtml(item.resultado || '-')}</span></td>
-                        <td class="hide-mobile">${item.meses ? `Mes ${item.meses}` : '-'}</td>
-                        <td class="hide-mobile" style="color:var(--text-muted); font-size:0.8rem;">${formatFecha(item.fecha)}</td>
-                    </tr>
-                `;
-            });
-
-            tbody.innerHTML = html;
-        }
-
-        // ==========================================
-        // ESTADÍSTICAS Y SELECTS
-        // ==========================================
-        function actualizarEstadisticas() {
-            if (!allScores || allScores.length === 0) {
-                document.getElementById('statMaxScore').textContent = '0';
-                document.getElementById('statTotalPlayers').textContent = '0';
-                document.getElementById('statTotalSchools').textContent = '0';
-                document.getElementById('statCoricanchas').textContent = '0';
-                return;
-            }
-
-            const maxScore = Math.max(...allScores.map(s => s.puntaje || 0));
-            const schools = new Set(allScores.map(s => (s.colegio || '').trim().toUpperCase()).filter(Boolean));
-            const victorias = allScores.filter(s => (s.resultado || '').toLowerCase().includes('victoria')).length;
-
-            document.getElementById('statMaxScore').textContent = maxScore.toLocaleString();
-            document.getElementById('statTotalPlayers').textContent = allScores.length;
-            document.getElementById('statTotalSchools').textContent = schools.size;
-            document.getElementById('statCoricanchas').textContent = victorias;
-        }
-
-        function actualizarSelectColegios() {
-            const select = document.getElementById('schoolFilter');
-            if (!select) return;
-            const valorActual = select.value;
-
-            const schools = Array.from(new Set(allScores.map(s => (s.colegio || '').trim().toUpperCase()).filter(Boolean))).sort();
-
-            select.innerHTML = '<option value="">Todos los Colegios</option>';
-            schools.forEach(sch => {
-                const opt = document.createElement('option');
-                opt.value = sch;
-                opt.textContent = sch;
-                if (sch === valorActual) opt.selected = true;
-                select.appendChild(opt);
-            });
-        }
-
-        // ==========================================
-        // MODAL DE CONFIGURACIÓN
-        // ==========================================
-        function abrirModalConfig() {
-            document.getElementById('scriptUrlInput').value = getScriptUrl();
-            document.getElementById('configModal').style.display = 'flex';
-        }
-
-        function cerrarModalConfig() {
-            document.getElementById('configModal').style.display = 'none';
-        }
-
-        function guardarConfigUrl() {
-            const url = document.getElementById('scriptUrlInput').value.trim();
-            if (url) {
-                localStorage.setItem('inca_google_script_url', url);
-            } else {
-                localStorage.removeItem('inca_google_script_url');
-            }
-            currentScriptUrl = getScriptUrl();
-            cerrarModalConfig();
-            cargarPuntajes(true);
-        }
-
-        // ==========================================
-        // HELPERS
-        // ==========================================
-        function escapeHtml(str) {
-            if (!str) return '';
-            return str.toString()
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        }
-
-        function formatFecha(f) {
-            if (!f) return '-';
-            try {
-                const d = new Date(f);
-                if (isNaN(d.getTime())) return f;
-                return d.toLocaleDateString([], { day: '2-digit', month: '2-digit' }) + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            } catch (e) {
-                return f;
-            }
-        }
-    </script>
+      }
+    }
+    function versionOf(item) { return /v2/i.test(item.resultado) ? 'v2' : 'classic'; }
+    function versionScores() { return allScores.filter(item => versionOf(item) === document.getElementById('versionFilter').value); }
+    function cambiarVersion() { actualizarSelectColegios(); aplicarFiltros(); }
+    function actualizarSelectColegios() {
+      const select = document.getElementById('schoolFilter');
+      const previous = select.value;
+      const schools = [...new Set(versionScores().map(item => item.colegio.toUpperCase()))].sort((a,b) => a.localeCompare(b,'es'));
+      select.replaceChildren(new Option('Todos los colegios', ''));
+      schools.forEach(school => select.add(new Option(school, school)));
+      select.value = schools.includes(previous) ? previous : '';
+    }
+    function aplicarFiltros() {
+      const school = document.getElementById('schoolFilter').value;
+      const search = document.getElementById('searchInput').value.trim().toLocaleLowerCase('es');
+      const selected = versionScores().filter(item => (!school || item.colegio.toUpperCase() === school) && (!search || item.jugador.toLocaleLowerCase('es').includes(search)));
+      const list = selected.map((item,index) => ({...item,ranking:index + 1}));
+      document.getElementById('tableCaption').textContent = list.length + ' partida(s) · ' + (document.getElementById('versionFilter').value === 'v2' ? 'Nueva versión v2' : 'Versión clásica') + ' · Deslizá la tabla para ver más detalles.';
+      renderizarPodio(list);
+      renderizarTabla(list);
+      actualizarEstadisticas(list);
+    }
+    function renderizarPodio(list) {
+      const container = document.getElementById('podiumContainer');
+      container.hidden = !list.length;
+      container.innerHTML = list.slice(0,3).map((item,index) => '<article class="podium-place podium-' + (index+1) + '"><div class="podium-medal" aria-label="Puesto ' + (index+1) + '">' + ['🥇','🥈','🥉'][index] + '</div><div class="podium-name">' + escapeHtml(item.jugador) + '</div><div class="podium-school">' + escapeHtml(item.colegio) + '</div><div class="podium-score">' + item.puntaje.toLocaleString('es-AR') + '</div><div class="podium-sub">' + escapeHtml(item.resultado) + (item.local ? ' · Registro local' : '') + '</div></article>').join('');
+    }
+    function renderizarTabla(list) {
+      const body = document.getElementById('tableBody');
+      if (!list.length) {
+        body.innerHTML = '<tr><td colspan="7"><div class="empty-state">Todavía no hay partidas para esta selección. Probá otra versión o colegio, o jugá tu primera partida.</div></td></tr>';
+        return;
+      }
+      body.innerHTML = list.map(item => '<tr><td class="col-rank">' + item.ranking + '</td><td class="col-player">' + escapeHtml(item.jugador) + (item.local ? '<span class="local-tag">Local · sin confirmar en la hoja</span>' : '') + '</td><td class="col-school"><span class="school-tag">' + escapeHtml(item.colegio) + '</span></td><td class="col-score">' + item.puntaje.toLocaleString('es-AR') + '</td><td><span class="' + (/victoria/i.test(item.resultado) ? 'badge-victory' : 'badge-gameover') + '">' + escapeHtml(item.resultado) + '</span></td><td>' + item.meses + '</td><td>' + escapeHtml(formatFecha(item.fecha)) + '</td></tr>').join('');
+    }
+    function actualizarEstadisticas(list) {
+      document.getElementById('statMaxScore').textContent = list.reduce((max,item) => Math.max(max,item.puntaje),0).toLocaleString('es-AR');
+      document.getElementById('statTotalPlayers').textContent = new Set(list.map(item => item.jugador.toLocaleLowerCase('es') + '\u0000' + item.colegio.toUpperCase())).size.toLocaleString('es-AR');
+      document.getElementById('statTotalSchools').textContent = new Set(list.map(item => item.colegio.toUpperCase()).filter(value => value !== 'S/D')).size.toLocaleString('es-AR');
+      document.getElementById('statCoricanchas').textContent = list.filter(item => /victoria/i.test(item.resultado)).length.toLocaleString('es-AR');
+    }
+    function abrirModalConfig(suggested) {
+      document.getElementById('scriptUrlInput').value = typeof suggested === 'string' ? suggested : getScriptUrl();
+      document.getElementById('configError').textContent = '';
+      document.getElementById('scriptUrlInput').removeAttribute('aria-invalid');
+      const modal = document.getElementById('configModal');
+      if (!modal.open) modal.showModal();
+    }
+    function cerrarModalConfig() { document.getElementById('configModal').close(); }
+    function guardarConfigUrl() {
+      const input = document.getElementById('scriptUrlInput');
+      const value = input.value.trim();
+      const error = document.getElementById('configError');
+      if (value && !validScriptUrl(value)) {
+        error.textContent = 'Usá https://script.google.com/macros/s/IDENTIFICADOR/exec, sin parámetros ni otro dominio.';
+        input.setAttribute('aria-invalid','true');
+        input.focus();
+        return;
+      }
+      input.removeAttribute('aria-invalid');
+      currentScriptUrl = value || DEFAULT_SCRIPT_URL;
+      remoteSnapshot = [];
+      lastRemoteAt = null;
+      try {
+        if (value) localStorage.setItem('inca_google_script_url',value);
+        else localStorage.removeItem('inca_google_script_url');
+        cerrarModalConfig();
+      } catch (_) { error.textContent = 'La conexión se aplicó para esta sesión. Este navegador no permite guardar la preferencia.'; }
+      cargarPuntajes(true);
+    }
+    function escapeHtml(value) { return String(value).replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[character])); }
+    function formatFecha(value) {
+      if (!value) return '—';
+      const date = new Date(value);
+      return Number.isFinite(date.getTime()) ? date.toLocaleDateString('es-AR', {day:'2-digit',month:'2-digit',year:'numeric'}) + ' ' + date.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}) : '—';
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = readStored('inca_google_script_url');
+      if (validScriptUrl(saved)) currentScriptUrl = saved;
+      const params = new URLSearchParams(window.location.search);
+      const proposal = params.get('url') || params.get('api');
+      if (proposal) {
+        const notice = document.getElementById('connectionNotice');
+        notice.hidden = false;
+        notice.textContent = validScriptUrl(proposal) ? 'El enlace propone otra hoja de puntajes. Revisá la dirección y elegí Guardar y conectar para usarla.' : 'La dirección incluida en el enlace no es una aplicación web válida de Google Apps Script. Se mantiene tu conexión habitual.';
+        if (validScriptUrl(proposal)) abrirModalConfig(proposal);
+      }
+      cargarPuntajes();
+      pollingInterval = setInterval(() => { if (!document.hidden && !document.getElementById('configModal').open) cargarPuntajes(); },15000);
+    });
+    window.addEventListener('storage',event => { if (event.key === 'inca_local_scores' || event.key === 'inca_google_script_url') { const saved = readStored('inca_google_script_url'); const next = validScriptUrl(saved) ? saved : DEFAULT_SCRIPT_URL; if (next !== currentScriptUrl) { currentScriptUrl = next; remoteSnapshot = []; lastRemoteAt = null; } cargarPuntajes(true); } });
+    window.addEventListener('pagehide',() => { clearInterval(pollingInterval); if (activeRequest) activeRequest.abort(); });
+    window.addEventListener('pageshow',event => { if (event.persisted) { cargarPuntajes(true); pollingInterval = setInterval(() => { if (!document.hidden && !document.getElementById('configModal').open) cargarPuntajes(); },15000); } });
+  </script>
 </body>
-
 </html>

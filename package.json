@@ -1,0 +1,7 @@
+{
+  "name": "camino-a-coricancha",
+  "version": "2.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {"start": "node server.cjs", "test": "node --test engine.test.js"}
+}
